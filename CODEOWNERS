@@ -1,0 +1,5 @@
+# Code owners * clause must be set up to a stripes-only 
+# set of people in order to allow BBPOS collaboration.
+# An approval from a stripe must be required for every PR into Stripe repos.
+
+* @stripe/terminal
