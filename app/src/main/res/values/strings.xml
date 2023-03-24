@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">AOD_SampleApp</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="default_amount">$0.00</string>
+    <string name="request_payment">Request payment</string>
+    <string name="terminal_sample_app">Terminal sample app</string>
+    <string name="new_payment">New payment</string>
+    <string name="key_1">1</string>
+    <string name="key_2">2</string>
+    <string name="key_3">3</string>
+    <string name="key_4">4</string>
+    <string name="key_5">5</string>
+    <string name="key_6">6</string>
+    <string name="key_7">7</string>
+    <string name="key_8">8</string>
+    <string name="key_9">9</string>
+    <string name="key_clear">C</string>
+    <string name="key_0">0</string>
+
+    <string name="please_select_reader">Please select a reader first!</string>
+    <string name="payment_intent_create_fail">PaymentIntent creation failed</string>
+
+    <string name="discover_readers">Discover Readers</string>
+    <string name="discover_reader_title">Reader List</string>
+    <string name="extended_auth">Extended Auth</string>
+    <string name="incremental_auth">Incremental Auth</string>
+    <string name="checkout">Checkout</string>
+    <string name="amount_entered">Amount entered</string>
+    <string name="status_reader_connected">Reader connected!</string>
+    <string name="status_reader_offline">Reader offline!</string>
+    <string name="unknown_reader">Unknown Reader</string>
+    <string name="connected">Connected</string>
+
+    <string name="send_receipt_tip">How would you like to receive a receipt?</string>
+    <string name="email">Email</string>
+    <string name="sms">SMS</string>
+    <string name="print">Print</string>
+    <string name="no_receipt">No receipt</string>
+    <string name="send">Send</string>
+    <string name="invalid_email">"Invalid email"</string>
+</resources>

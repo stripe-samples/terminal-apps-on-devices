@@ -1,0 +1,29 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AOD_SampleApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/color_121212</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/color_C0C8D2</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <!-- Customize your theme here. -->
+    </style>
+    
+    <style name="KeyboardDigitStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:lineSpacingExtra">9sp</item>
+    </style>
+
+    <style name="AmountStyle">
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textSize">@dimen/sp_40</item>
+        <item name="android:lineSpacingExtra">0sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--  AoD  -->
+    <color name="alpha_white">#80FFFFFF</color>
+    <color name="color_121212">#121212</color>
+    <color name="color_1F1F1F">#1F1F1F</color>
+    <color name="color_801F1F1F">#801F1F1F</color>
+    <color name="color_C0C8D2">#C0C8D2</color>
+    <color name="color_6A7383">#6A7383</color>
+    <color name="color_F6F8FA">#F6F8FA</color>
+    <color name="color_36373A">#36373A</color>
+    <color name="color_E0E6EB">#E0E6EB</color>
+    <color name="color_0570DE">#0570DE</color>
+    <color name="color_03438E">#03438E</color>
+    <color name="color_635BFF">#635BFF</color>
+    <color name="color_453ECC">#453ECC</color>
+    <color name="color_778292">#778292</color>
+    <color name="color_B3635BFF">#B3635BFF</color>
+    <color name="color_EAEDEF">#EAEDEF</color>
+    <color name="color_DCDEE1">#DCDEE1</color>
+    <color name="color_70EAEDEF">#70EAEDEF</color>
+<!--    <color name="color_EAEDEF">#EAEDEF</color>-->
+<!--    <color name="color_EAEDEF">#EAEDEF</color>-->
+<!--    <color name="color_EAEDEF">#EAEDEF</color>-->
+</resources>

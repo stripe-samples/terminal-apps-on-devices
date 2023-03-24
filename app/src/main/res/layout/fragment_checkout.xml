@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_back"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/back" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_amount_title"
+        android:layout_width="312dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="104dp"
+        android:text="@string/enter_amount"
+        android:textSize="@dimen/sp_22"
+        android:textColor="?attr/colorSecondary"
+        android:lineSpacingExtra="3sp"
+        android:translationY="-1.69sp"
+        android:gravity="center_horizontal|top"/>
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="312dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="146dp"
+        android:text="\$0.00"
+        style="@style/AmountStyle"
+        android:gravity="center_horizontal|center_vertical" />
+
+    <RelativeLayout
+        android:id="@+id/keypad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="230dp"
+        android:gravity="center">
+        <include
+            layout="@layout/item_check" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:text="@string/checkout"
+        android:textSize="@dimen/sp_17"
+        android:textColor="@color/selector_btn_text"
+        android:lineSpacingExtra="4sp"
+        android:gravity="center_horizontal|center_vertical"
+        android:background="@drawable/selector_btn"/>
+</RelativeLayout>
