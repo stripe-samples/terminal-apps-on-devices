@@ -48,7 +48,7 @@ inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
         R.anim.slide_right_out)
     .apply {
         action()
-    }.commit()
+    }.commitAllowingStateLoss()
 }
 
 /**

@@ -21,7 +21,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/total"
+        android:id="@+id/total_amount"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="98dp"
@@ -113,7 +113,7 @@
 
 
     <TextView
-        android:id="@+id/receipt_no_tip"
+        android:id="@+id/receipt_skip"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"

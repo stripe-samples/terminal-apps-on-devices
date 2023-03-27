@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-android-extensions'
 }
 
 android {
@@ -25,9 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -36,7 +35,8 @@ ext {
     kotlin_coroutines_version = '1.6.4'
     okhttp_version = '4.10.0'
     retrofit_version = '2.9.0'
-    stripeTerminalVersion = "2.17.1"
+    stripeTerminalVersion = "2.18.1"
+    fragment_version = "1.5.5"
 }
 
 dependencies {
@@ -54,6 +54,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$androidx_lifecycle_version"
 
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
     // OK HTTP
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
 
@@ -62,7 +64,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     // Stripe Terminal library
-    implementation "com.stripe:stripeterminal:$stripeTerminalVersion"
-    implementation "com.stripe:stripeterminal-core:2.18.0"
-    implementation "com.stripe:stripeterminal-handoffclient:2.18.0"
+    implementation "com.stripe:stripeterminal-core:$stripeTerminalVersion"
+    implementation "com.stripe:stripeterminal-handoffclient:$stripeTerminalVersion"
 }

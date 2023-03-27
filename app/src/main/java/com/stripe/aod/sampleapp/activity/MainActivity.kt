@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.provider.Settings
 import android.view.ContextThemeWrapper
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,7 +23,6 @@ import com.stripe.aod.sampleapp.utils.*
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
-
 
 class MainActivity : AppCompatActivity(){
 
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     /**
-     * Initialize the [Terminal] and go to the [TerminalFragment]
+     * Initialize the [Terminal]
      */
     private fun initialize() {
         // Initialize the Terminal as soon as possible
@@ -140,5 +140,10 @@ class MainActivity : AppCompatActivity(){
         }
 
         return gpsEnabled
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+
     }
 }

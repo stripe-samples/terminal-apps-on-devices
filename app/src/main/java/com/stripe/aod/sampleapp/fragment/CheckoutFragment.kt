@@ -4,16 +4,23 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.activity.MainActivity
+import com.stripe.aod.sampleapp.databinding.FragmentCheckoutBinding
 import com.stripe.aod.sampleapp.model.PaymentIntentCreationResponse
 import com.stripe.aod.sampleapp.network.ApiClient
 import com.stripe.aod.sampleapp.utils.backToPrevious
+import com.stripe.aod.sampleapp.utils.clearBackStack
 import com.stripe.aod.sampleapp.utils.navigateToTarget
+import com.stripe.aod.sampleapp.utils.replaceFragmentInActivity
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
@@ -22,17 +29,12 @@ import com.stripe.stripeterminal.external.models.CollectConfiguration
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.PaymentMethod
 import com.stripe.stripeterminal.external.models.TerminalException
-import kotlinx.android.synthetic.main.fragment_checkout.*
-import kotlinx.android.synthetic.main.item_check.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListener {
-	private var collectTask: Cancelable? = null
-	private var paymentIntent: PaymentIntent? = null
-
 	companion object {
 		const val TAG = "com.stripe.aod.sampleapp.fragment.CheckoutFragment"
 
@@ -67,25 +69,45 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 		}
 	}
 
+	private var collectTask: Cancelable? = null
+	private var paymentIntent: PaymentIntent? = null
+	private var _viewBinding : FragmentCheckoutBinding? = null
+	private val viewBinding get() = _viewBinding!!
+
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		_viewBinding = FragmentCheckoutBinding.inflate(inflater, container, false)
+		return viewBinding.root
+	}
+
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initView()
 		//hand back press action
-		requireActivity().onBackPressedDispatcher.addCallback(activity as MainActivity,object: OnBackPressedCallback(true){
+		requireActivity().onBackPressedDispatcher.addCallback(activity as MainActivity, object: OnBackPressedCallback(true){
 			override fun handleOnBackPressed() {
 				activity?.backToPrevious()
 			}
 		})
 	}
 
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_viewBinding = null
+	}
+
 	private fun initView() {
-		rl_back.setOnClickListener(this)
-		tv_submit.setOnClickListener(this)
+		viewBinding.rlBack.setOnClickListener(this)
+		viewBinding.tvSubmit.setOnClickListener(this)
 
 		val fragment = activity?.supportFragmentManager?.findFragmentByTag(InputFragment.TAG)
 		if (fragment != null) {
-			tv_amount?.text = fragment.tv_amount?.text
-			tv_description?.text = fragment.tv_amount?.text
+			val view: TextView? = fragment.view?.findViewById(R.id.tv_amount)
+			viewBinding.tvAmount.text = view?.text
+			viewBinding.rlItem.tvDescription.text = view?.text
 		}
 	}
 
@@ -94,16 +116,15 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 		if (id == R.id.rl_back) {
 			activity?.backToPrevious()
 		} else if (id == R.id.tv_submit) {
-			tv_submit.isEnabled = false
+			viewBinding.tvSubmit.isEnabled = false
 			try {
 				arguments?.let {
-
 					ApiClient.createPaymentIntent(
 						it.getLong(AMOUNT),
 						it.getString(CURRENCY)?.lowercase(Locale.ENGLISH) ?: "usd",
 						it.getBoolean(EXTENDED_AUTH),
 						it.getBoolean(INCREMENTAL_AUTH),
-						object : retrofit2.Callback<PaymentIntentCreationResponse> {
+						object : Callback<PaymentIntentCreationResponse> {
 							override fun onResponse(
 								call: Call<PaymentIntentCreationResponse>,
 								response: Response<PaymentIntentCreationResponse>
@@ -119,6 +140,11 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 										resources.getString(R.string.payment_intent_create_fail),
 										Toast.LENGTH_LONG
 									).show()
+
+									Handler(Looper.getMainLooper()).post {
+										activity?.clearBackStack()
+										activity?.replaceFragmentInActivity(HomeFragment(), R.id.container)
+									}
 								}
 							}
 
@@ -131,6 +157,11 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 									resources.getString(R.string.payment_intent_create_fail),
 									Toast.LENGTH_LONG
 								).show()
+
+								Handler(Looper.getMainLooper()).post {
+									activity?.clearBackStack()
+									activity?.replaceFragmentInActivity(HomeFragment(), R.id.container)
+								}
 							}
 						}
 					)
@@ -144,7 +175,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 	private val processPaymentCallback by lazy {
 		object : PaymentIntentCallback {
 			override fun onSuccess(paymentIntent: PaymentIntent) {
-				Log.d(TAG, "processPaymentCallback onSuccess ")
+				Log.d(Config.TAG, "processPaymentCallback onSuccess ")
 
 				try {
 					ApiClient.capturePaymentIntent(paymentIntent.id, object: Callback<Void>{
@@ -152,13 +183,16 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 							Handler(Looper.getMainLooper()).post {
 								activity?.navigateToTarget(ReceiptFragment.TAG,
 									ReceiptFragment.requestPayment(
-										tv_amount.text.toString()
+										viewBinding.tvAmount.text.toString()
 									), true, true)
 							}
 						}
 
 						override fun onFailure(call: Call<Void>, t: Throwable) {
-
+							Handler(Looper.getMainLooper()).post {
+//								activity?.clearBackStack()
+								activity?.replaceFragmentInActivity(HomeFragment(), R.id.container)
+							}
 						}
 					} )
 				} catch (e: Exception) {
@@ -167,6 +201,12 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 			}
 
 			override fun onFailure(e: TerminalException) {
+				Log.d(Config.TAG, "processPaymentCallback onFailure ")
+
+				Handler(Looper.getMainLooper()).post {
+//					activity?.clearBackStack()
+					activity?.replaceFragmentInActivity(HomeFragment(), R.id.container)
+				}
 			}
 		}
 	}
@@ -174,7 +214,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 	private val cancelPaymentIntentCallback by lazy {
 		object : PaymentIntentCallback {
 			override fun onSuccess(paymentIntent: PaymentIntent) {
-				Log.d(TAG, "cancelPaymentIntentCallback onSuccess ")
+				Log.d(Config.TAG, "cancelPaymentIntentCallback onSuccess ")
 
 			}
 
@@ -186,7 +226,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 	private val collectPaymentMethodCallback by lazy {
 		object : PaymentIntentCallback {
 			override fun onSuccess(paymentIntent: PaymentIntent) {
-				Log.d(TAG, "collectPaymentMethodCallback onSuccess ")
+				Log.d(Config.TAG, "collectPaymentMethodCallback onSuccess ")
 				try {
 					Terminal.getInstance().processPayment(paymentIntent, processPaymentCallback)
 				} catch (e: Exception) {
@@ -202,7 +242,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout), View.OnClickListe
 	private val createPaymentIntentCallback by lazy {
 		object : PaymentIntentCallback {
 			override fun onSuccess(paymentIntent: PaymentIntent) {
-				Log.d(TAG, "createPaymentIntentCallback onSuccess ")
+				Log.d(Config.TAG, "createPaymentIntentCallback onSuccess ")
 
 				try {
 					val collectConfig = CollectConfiguration.Builder()

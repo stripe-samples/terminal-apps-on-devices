@@ -2,20 +2,18 @@ package com.stripe.aod.sampleapp.fragment
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.Config
+import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.activity.MainActivity
 import com.stripe.aod.sampleapp.adapter.ReaderAdapter
-import com.stripe.aod.sampleapp.listener.ReaderClickListener
-import com.stripe.aod.sampleapp.listener.ReaderConnectStatusListener
+import com.stripe.aod.sampleapp.databinding.FragmentDiscoverReaderBinding
 import com.stripe.aod.sampleapp.utils.backToPrevious
 import com.stripe.aod.sampleapp.viewmodel.DiscoveryViewModel
 import com.stripe.stripeterminal.Terminal
@@ -25,88 +23,97 @@ import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
 import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
-import kotlinx.android.synthetic.main.fragment_discover_reader.*
 import java.lang.ref.WeakReference
 
-class DiscoverReaderFragment: Fragment(R.layout.fragment_discover_reader), DiscoveryListener, ReaderConnectStatusListener {
-
+class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), DiscoveryListener{
     companion object {
         const val TAG = "com.stripe.aod.sampleapp.fragment.DiscoverReaderFragment"
     }
 
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var discoveryViewModel:DiscoveryViewModel
+    private val discoveryViewModel by viewModels<DiscoveryViewModel>()
     private lateinit var readerAdapter: ReaderAdapter
     private lateinit var config: DiscoveryConfiguration
     private lateinit var discoveryListener: DiscoveryListener
+    private var _viewBinding : FragmentDiscoverReaderBinding? = null
+    private val viewBinding get() = _viewBinding!!
 
     private val discoveryCallback: Callback = object : Callback {
         override fun onSuccess() {
             Log.d(Config.TAG, "discoveryCallback onSuccess")
-            swipeRefreshLayout.isRefreshing = false
+            viewBinding.swipeRefreshLayout.isRefreshing = false
         }
 
         override fun onFailure(e: TerminalException) {
             Log.d(Config.TAG, "discoveryCallback onFailure")
-            swipeRefreshLayout.isRefreshing = false
+            viewBinding.swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _viewBinding = FragmentDiscoverReaderBinding.inflate(inflater, container, false)
+        return viewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView(view)
+        initView()
         initData();
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _viewBinding = null
     }
 
     private fun initData() {
         discoveryListener = this;
-        val discoveryViewModelFactory: DiscoveryViewModelFactory = DiscoveryViewModelFactory()
-        discoveryViewModel = ViewModelProvider(this, discoveryViewModelFactory).get(DiscoveryViewModel::class.java)
 
         val activityRef = WeakReference(activity as MainActivity)
-        discoveryViewModel.readerConnectStatusListener = this
-        discoveryViewModel.readerClickListener = ReaderClickListener(activityRef, discoveryViewModel)
+        config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false, "tml_EuNHgQKLYK66aT")
+        viewBinding.swipeRecycler.layoutManager = LinearLayoutManager(activity)
+        readerAdapter = ReaderAdapter(activityRef)
+        viewBinding.swipeRecycler.adapter = readerAdapter
 
-        config = DiscoveryConfiguration(0, DiscoveryMethod.INTERNET, false, "tml_EuNHgQKLYK66aT")
-        if (discoveryViewModel.discoveryTask == null && Terminal.getInstance().connectedReader == null) {
-            discoveryViewModel.discoveryTask = Terminal.getInstance().discoverReaders(config, this, discoveryCallback)
-        }
-
-        discoveryViewModel.isConnecting.observe(activity as MainActivity) { aBoolean ->
-            if (aBoolean) {
-
+        viewBinding.swipeRefreshLayout.isRefreshing = true
+        if (discoveryViewModel.discoveryTask == null ) {
+            if (Terminal.getInstance().connectedReader == null) {
+                discoveryViewModel.discoveryTask =
+                    Terminal.getInstance().discoverReaders(config, this, discoveryCallback)
             } else {
+                Terminal.getInstance().disconnectReader(object: Callback{
+                    override fun onFailure(e: TerminalException) {
 
+                    }
+
+                    override fun onSuccess() {
+                        discoveryViewModel.discoveryTask =
+                            Terminal.getInstance().discoverReaders(config, this@DiscoverReaderFragment, discoveryCallback)
+                    }
+                })
             }
         }
-        discoveryViewModel.isConnecting.value = false
 
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        readerAdapter = ReaderAdapter(activityRef,ArrayList<Reader>(),discoveryViewModel)
-        recyclerView.adapter = readerAdapter
-
-        swipeRefreshLayout.isRefreshing = true
     }
 
-    private fun initView(view: View) {
-        recyclerView = view.findViewById(R.id.swipe_recycler)
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
-
+    private fun initView() {
         //hand back press action
-        requireActivity().onBackPressedDispatcher.addCallback(activity as MainActivity,object: OnBackPressedCallback(true){
+        requireActivity().onBackPressedDispatcher.addCallback(activity as MainActivity, object: OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 activity?.backToPrevious()
             }
         })
 
-        swipeRefreshLayout.setOnRefreshListener {
+        viewBinding.swipeRefreshLayout.setOnRefreshListener {
             if (discoveryViewModel.discoveryTask == null) {
                 discoveryViewModel.discoveryTask = Terminal.getInstance().discoverReaders(config,discoveryListener, discoveryCallback)
             } else {
                 discoveryViewModel.discoveryTask?.cancel(object: Callback{
                     override fun onFailure(e: TerminalException) {
-                        swipeRefreshLayout.isRefreshing = false
+                        viewBinding.swipeRefreshLayout.isRefreshing = false
                     }
 
                     override fun onSuccess() {
@@ -116,27 +123,25 @@ class DiscoverReaderFragment: Fragment(R.layout.fragment_discover_reader), Disco
             }
         }
 
-        rl_back.setOnClickListener {
+        viewBinding.rlBack.setOnClickListener {
             activity?.backToPrevious()
         }
     }
 
     override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
-        Log.d( Config.TAG, "onUpdateDiscoveredReaders readers size = " + (readers?.size?: 0))
-        swipeRefreshLayout.isRefreshing = false
-        activity?.runOnUiThread(Runnable {
+        Log.d( Config.TAG, "onUpdateDiscoveredReaders readers size = " + readers.size)
+        viewBinding.swipeRefreshLayout.isRefreshing = false
+        activity?.runOnUiThread {
             discoveryViewModel.readers.value = readers
             readerAdapter.updateReaders(readers)
-        })
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         //release discoveryTask
-        swipeRefreshLayout.isRefreshing = false;
-
-        if (discoveryViewModel.discoveryTask != null) {
-            discoveryViewModel.discoveryTask!!.cancel(object : Callback {
+        discoveryViewModel.discoveryTask?.let { discoveryTask ->
+            discoveryTask.cancel(object : Callback {
                 override fun onSuccess() {
                     Log.d(Config.TAG, "discoveryTask cancel onSuccess ")
                     discoveryViewModel.discoveryTask = null
@@ -144,24 +149,9 @@ class DiscoverReaderFragment: Fragment(R.layout.fragment_discover_reader), Disco
 
                 override fun onFailure(e: TerminalException) {
                     Log.d(Config.TAG, "discoveryTask cancel onFailure: " + e.errorMessage)
-                    swipeRefreshLayout.isRefreshing = false;
                     discoveryViewModel.discoveryTask = null
                 }
             })
         }
-    }
-
-    internal class DiscoveryViewModelFactory() : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return DiscoveryViewModel(DiscoveryMethod.INTERNET) as T
-        }
-    }
-
-    override fun onDisconnectReader() {
-        readerAdapter.onReaderStatusChange()
-    }
-
-    override fun onConnectReader() {
-        readerAdapter.onReaderStatusChange()
     }
 }

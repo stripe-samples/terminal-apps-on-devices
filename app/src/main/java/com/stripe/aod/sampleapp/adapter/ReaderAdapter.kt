@@ -8,30 +8,31 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.stripe.aod.sampleapp.Config
-import com.stripe.aod.sampleapp.activity.MainActivity
-import com.stripe.aod.sampleapp.MyApp
 import com.stripe.aod.sampleapp.R
-import com.stripe.aod.sampleapp.viewmodel.DiscoveryViewModel
+import com.stripe.aod.sampleapp.activity.MainActivity
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
 import java.lang.ref.WeakReference
 
-class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, private var readerList : List<Reader>, private val viewModel: DiscoveryViewModel) : RecyclerView.Adapter<ReaderAdapter.ReaderHolder>() {
 
-    inner class ReaderHolder(view : View) : RecyclerView.ViewHolder(view){
-        val readerTitle: TextView = view.findViewById<TextView>(R.id.reader_title)
-        val readerDesc: TextView = view.findViewById<TextView>(R.id.reader_desc)
-        val readerStatus: TextView = view.findViewById<TextView>(R.id.reader_status)
-        val readerIsOnline: ImageView = view.findViewById<ImageView>(R.id.reader_isOnline)
-        val cardView: CardView = view.findViewById<CardView>(R.id.reader_card)
+class ReaderAdapter(private val activityRef: WeakReference<MainActivity>) : RecyclerView.Adapter<ReaderAdapter.ReaderHolder>() {
+    class ReaderHolder(view : View) : RecyclerView.ViewHolder(view){
+        val readerTitle: TextView = view.findViewById(R.id.reader_title)
+        val readerDesc: TextView = view.findViewById(R.id.reader_desc)
+        val readerStatus: TextView = view.findViewById(R.id.reader_status)
+        val readerIsOnline: ImageView = view.findViewById(R.id.reader_isOnline)
+        val cardView: CardView = view.findViewById(R.id.reader_card)
     }
+
+    private val mDiffer: AsyncListDiffer<Reader> = AsyncListDiffer(this,diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReaderHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_reader,parent,false)
@@ -39,8 +40,8 @@ class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, privat
     }
 
     override fun onBindViewHolder(holder: ReaderHolder, position: Int) {
-        val reader = readerList.get(position)
-        holder.readerTitle.text = reader.serialNumber?: reader.id ?: MyApp.instance.resources.getString(R.string.unknown_reader)
+        val reader = mDiffer.currentList[position]
+        holder.readerTitle.text = reader.serialNumber?: reader.id ?: activityRef.get()?.resources?.getString(R.string.unknown_reader)
         holder.readerDesc.text =  reader.location?.displayName ?: ""
 
         //update reader online status
@@ -53,7 +54,7 @@ class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, privat
         val currentReader: Reader? = Terminal.getInstance().connectedReader
         if (reader.id == currentReader?.id) {
             holder.readerStatus.visibility = View.VISIBLE
-            holder.readerStatus.text = MyApp.instance.resources.getString(R.string.connected)
+            holder.readerStatus.text = activityRef.get()?.resources?.getString(R.string.connected)
         } else {
             holder.readerStatus.visibility = View.GONE
             holder.readerStatus.text = ""
@@ -65,23 +66,18 @@ class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, privat
     }
 
     override fun getItemCount(): Int {
-        return readerList.size
+        return mDiffer.currentList.size
     }
 
-    fun updateReaders(readers: List<Reader?>) {
-        readerList = (readers ?: ArrayList<Reader>()) as List<Reader>
-        notifyDataSetChanged()
-    }
-
-    fun onReaderStatusChange() {
-        notifyDataSetChanged()
+    fun updateReaders(readers: List<Reader>) {
+        mDiffer.submitList(readers)
     }
 
     private fun connectReader(reader: Reader) {
         if (Terminal.getInstance().connectedReader != null) {
             //same one , skip
             if (reader.id === Terminal.getInstance().connectedReader!!.id) {
-                Toast.makeText(MyApp.instance,MyApp.instance.resources.getString(R.string.status_reader_connected), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activityRef.get()?.applicationContext, activityRef.get()?.resources?.getString(R.string.status_reader_connected), Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -90,7 +86,9 @@ class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, privat
             Terminal.getInstance().disconnectReader(object : Callback {
                 override fun onSuccess() {
                     Log.d(Config.TAG, "Last Reader[ " + lastReader?.id + " ] disconnect success ")
-                    notifyDataSetChanged()
+                    activityRef.get()?.runOnUiThread {
+                        notifyItemChanged(mDiffer.currentList.indexOf(lastReader))
+                    }
                 }
 
                 override fun onFailure(e: TerminalException) {
@@ -100,7 +98,7 @@ class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, privat
         }
 
         if (reader.networkStatus != Reader.NetworkStatus.ONLINE) {
-            Toast.makeText(MyApp.instance,MyApp.instance.resources.getString(R.string.status_reader_offline), Toast.LENGTH_SHORT).show()
+            Toast.makeText(activityRef.get()?.applicationContext, activityRef.get()?.resources?.getString(R.string.status_reader_offline), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -109,37 +107,29 @@ class ReaderAdapter(private val activityRef: WeakReference<MainActivity>, privat
         val readerCallback: ReaderCallback = object : ReaderCallback {
             override fun onSuccess(reader: Reader) {
                 activityRef.get()?.runOnUiThread {
-                    viewModel.isConnecting.value = false
-                    viewModel.isUpdating.value = false
-                    notifyDataSetChanged()
+                    notifyItemChanged(mDiffer.currentList.indexOf(reader))
                 }
             }
 
             override fun onFailure(e: TerminalException) {
-                activityRef.get()?.runOnUiThread {
-                    viewModel.isConnecting.value = false
-                    viewModel.isUpdating.value = false
-                }
             }
         }
 
-        viewModel.isConnecting.value = true
-
-        when (viewModel.discoveryMethod) {
-            DiscoveryMethod.INTERNET -> {
-                Terminal.getInstance().connectInternetReader(
-                    reader,
-                    ConnectionConfiguration.InternetConnectionConfiguration(),
-                    readerCallback,
-                )
+        Terminal.getInstance().connectHandoffReader(
+            reader,
+            ConnectionConfiguration.HandoffConnectionConfiguration(),
+            null,
+            readerCallback)
+    }
+    companion object {
+        val diffCallback: DiffUtil.ItemCallback<Reader> = object : DiffUtil.ItemCallback<Reader>() {
+            override fun areItemsTheSame(oldItem: Reader, newItem: Reader): Boolean {
+                return oldItem.id == (newItem.id)
             }
-            DiscoveryMethod.HANDOFF -> Terminal.getInstance().connectHandoffReader(
-                reader,
-                ConnectionConfiguration.HandoffConnectionConfiguration(),
-                null,
-                readerCallback
-            )
-            else -> Log.w(javaClass.simpleName, "Trying to connect unsupported reader")
+
+            override fun areContentsTheSame(oldItem: Reader, newItem: Reader): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }

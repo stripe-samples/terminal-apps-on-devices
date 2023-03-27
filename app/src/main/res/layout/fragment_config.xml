@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_back"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60">
 
         <ImageView

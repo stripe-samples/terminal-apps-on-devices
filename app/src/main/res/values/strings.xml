@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AOD_SampleApp</string>
+    <string name="app_name">Apps on Devices Sample App</string>
     <string name="enter_amount">Enter amount</string>
     <string name="default_amount">$0.00</string>
     <string name="request_payment">Request payment</string>

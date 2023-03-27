@@ -8,6 +8,7 @@
     <include layout="@layout/widget_horizontal_divider" />
 
     <LinearLayout
+        android:id="@+id/keypad_row1"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
@@ -69,6 +70,7 @@
     <include layout="@layout/widget_horizontal_divider" />
 
     <LinearLayout
+        android:id="@+id/keypad_row2"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
@@ -129,6 +131,7 @@
     <include layout="@layout/widget_horizontal_divider" />
 
     <LinearLayout
+        android:id="@+id/keypad_row3"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
@@ -189,6 +192,7 @@
     <include layout="@layout/widget_horizontal_divider" />
 
     <LinearLayout
+        android:id="@+id/keypad_row4"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
