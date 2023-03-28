@@ -7,13 +7,18 @@ android {
     namespace 'com.stripe.aod.sampleapp'
     compileSdk 33
 
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+    def backEndUrl = properties.getProperty('BACKEND_URL')
+
     defaultConfig {
         applicationId "com.stripe.aod.sampleapp"
         minSdk 28
         targetSdk 33
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "BACKEND_URL", "\"${project.getProperty("BACKEND_URL").replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
+        buildConfigField "String", "BACKEND_URL", "\"${backEndUrl.replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

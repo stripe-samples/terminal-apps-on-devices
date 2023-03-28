@@ -19,6 +19,10 @@
 
     <string name="please_select_reader">Please select a reader first!</string>
     <string name="payment_intent_create_fail">PaymentIntent creation failed</string>
+    <string name="payment_intent_retrieve_fail">PaymentIntent retrieve failed</string>
+    <string name="payment_intent_collect_fail">PaymentIntent collect failed</string>
+    <string name="payment_intent_process_fail">PaymentIntent process failed</string>
+    <string name="payment_intent_capture_fail">PaymentIntent capture failed</string>
 
     <string name="discover_readers">Discover Readers</string>
     <string name="discover_reader_title">Reader List</string>

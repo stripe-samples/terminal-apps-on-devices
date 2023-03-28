@@ -1,9 +1,7 @@
 package com.stripe.aod.sampleapp.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentReceiptBinding
@@ -30,23 +28,19 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
     private var _viewBinding : FragmentReceiptBinding? = null
     private val viewBinding get() = _viewBinding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _viewBinding = FragmentReceiptBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _viewBinding = FragmentReceiptBinding.bind(view)
 
         viewBinding.rlBack.setOnClickListener {
             activity?.backToPrevious()
         }
         viewBinding.receiptEmail.setOnClickListener {
-            activity?.navigateToTarget(EmailFragment.TAG, EmailFragment(), true, true)
+            activity?.navigateToTarget(EmailFragment.TAG, EmailFragment(),
+                replace = true,
+                addToBackStack = true
+            )
         }
         viewBinding.receiptSms.setOnClickListener {
 

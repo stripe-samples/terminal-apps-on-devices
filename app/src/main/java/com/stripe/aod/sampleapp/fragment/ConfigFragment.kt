@@ -1,9 +1,7 @@
 package com.stripe.aod.sampleapp.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.stripe.aod.sampleapp.R
@@ -20,23 +18,17 @@ class ConfigFragment : Fragment(R.layout.fragment_config) {
     private var _viewBinding : FragmentConfigBinding? = null
     private val viewBinding get() = _viewBinding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _viewBinding = FragmentConfigBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //get viewBinding instance
+        _viewBinding = FragmentConfigBinding.bind(view)
+
         viewBinding.discoverButton.setOnClickListener {
             activity?.navigateToTarget(
                 DiscoverReaderFragment.TAG,
                 DiscoverReaderFragment(),
-                true,
-                true
+                replace = true,
+                addToBackStack = true
             )
         }
 

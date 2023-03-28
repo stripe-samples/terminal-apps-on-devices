@@ -1,6 +1,9 @@
 package com.stripe.aod.sampleapp.utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.stripe.aod.sampleapp.R
+import java.text.DecimalFormat
 
 
 /**
@@ -48,7 +52,7 @@ inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
         R.anim.slide_right_out)
     .apply {
         action()
-    }.commitAllowingStateLoss()
+    }.commit()
 }
 
 /**
@@ -81,7 +85,7 @@ fun FragmentActivity.navigateToTarget(
                 addToBackStack(tag)
             }
         }
-        .commitAllowingStateLoss()
+        .commit()
 }
 
 /**
@@ -106,4 +110,21 @@ fun FragmentActivity.clearBackStack() {
     for (i in 0 until fm.backStackEntryCount) {
         fm.popBackStackImmediate()
     }
+}
+
+fun FragmentActivity.toast(message: String) {
+    Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+}
+
+fun Fragment.toast(message: String) {
+    Toast.makeText(activity,message,Toast.LENGTH_LONG).show()
+}
+
+fun Context.toast(@StringRes messageId: Int) {
+    Toast.makeText(this,getString(messageId),Toast.LENGTH_LONG).show()
+}
+
+fun Fragment.formatAmount(amt: String?): String? {
+    val decimalFormat = DecimalFormat("#,##0.00")
+    return decimalFormat.format(amt!!.toBigDecimal())
 }

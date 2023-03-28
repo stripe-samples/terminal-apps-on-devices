@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.Settings
 import android.view.ContextThemeWrapper
 import androidx.activity.result.contract.ActivityResultContracts
@@ -140,10 +139,5 @@ class MainActivity : AppCompatActivity(){
         }
 
         return gpsEnabled
-    }
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-
     }
 }

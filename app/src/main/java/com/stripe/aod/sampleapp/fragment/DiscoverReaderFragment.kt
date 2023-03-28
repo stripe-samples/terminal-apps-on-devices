@@ -2,9 +2,7 @@ package com.stripe.aod.sampleapp.fragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +21,8 @@ import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
 import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
-import java.lang.ref.WeakReference
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), DiscoveryListener{
     companion object {
@@ -49,19 +48,10 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), Disc
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _viewBinding = FragmentDiscoverReaderBinding.inflate(inflater, container, false)
-        return viewBinding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-        initData();
+        initView(view)
+        initData()
     }
 
     override fun onDestroyView() {
@@ -70,14 +60,12 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), Disc
     }
 
     private fun initData() {
-        discoveryListener = this;
+        discoveryListener = this
 
-        val activityRef = WeakReference(activity as MainActivity)
         config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false, "tml_EuNHgQKLYK66aT")
         viewBinding.swipeRecycler.layoutManager = LinearLayoutManager(activity)
-        readerAdapter = ReaderAdapter(activityRef)
+        readerAdapter = ReaderAdapter()
         viewBinding.swipeRecycler.adapter = readerAdapter
-
         viewBinding.swipeRefreshLayout.isRefreshing = true
         if (discoveryViewModel.discoveryTask == null ) {
             if (Terminal.getInstance().connectedReader == null) {
@@ -86,7 +74,7 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), Disc
             } else {
                 Terminal.getInstance().disconnectReader(object: Callback{
                     override fun onFailure(e: TerminalException) {
-
+                        Log.e(TAG, "onFailure: Disconnect reader fail")
                     }
 
                     override fun onSuccess() {
@@ -96,10 +84,12 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), Disc
                 })
             }
         }
-
     }
 
-    private fun initView() {
+    private fun initView(view: View) {
+        //get viewBinding instance
+        _viewBinding = FragmentDiscoverReaderBinding.bind(view)
+
         //hand back press action
         requireActivity().onBackPressedDispatcher.addCallback(activity as MainActivity, object: OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
@@ -131,7 +121,7 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader), Disc
     override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
         Log.d( Config.TAG, "onUpdateDiscoveredReaders readers size = " + readers.size)
         viewBinding.swipeRefreshLayout.isRefreshing = false
-        activity?.runOnUiThread {
+        MainScope().launch  {
             discoveryViewModel.readers.value = readers
             readerAdapter.updateReaders(readers)
         }

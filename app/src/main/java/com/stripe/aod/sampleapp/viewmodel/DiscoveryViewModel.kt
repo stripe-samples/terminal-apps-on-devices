@@ -6,6 +6,6 @@ import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.models.Reader
 
 class DiscoveryViewModel : ViewModel() {
-    val readers: MutableLiveData<List<Reader>> = MutableLiveData(listOf())
+    val readers: MutableLiveData<List<Reader>> = MutableLiveData(emptyList())
     var discoveryTask: Cancelable? = null
 }
