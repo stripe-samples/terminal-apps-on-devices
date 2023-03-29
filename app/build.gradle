@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.stripe.aod.sampleapp'
+    compileSdk 33
+
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+    def backEndUrl = properties.getProperty('BACKEND_URL')
+
+    defaultConfig {
+        applicationId "com.stripe.aod.sampleapp"
+        minSdk 28
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "BACKEND_URL", "\"${backEndUrl.replaceAll("^[\"\\s]*|[\"\\s]*\$", "")}\""
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+ext {
+    androidx_lifecycle_version = '2.5.1'
+    kotlin_coroutines_version = '1.6.4'
+    okhttp_version = '4.10.0'
+    retrofit_version = '2.9.0'
+    stripeTerminalVersion = "2.18.1"
+    fragment_version = "1.5.5"
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$androidx_lifecycle_version"
+
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
+    // OK HTTP
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // Stripe Terminal library
+    implementation "com.stripe:stripeterminal-core:$stripeTerminalVersion"
+    implementation "com.stripe:stripeterminal-handoffclient:$stripeTerminalVersion"
+}

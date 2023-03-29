@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--  AoD  -->
+    <color name="color_121212">#121212</color>
+    <color name="color_1F1F1F">#1F1F1F</color>
+    <color name="color_C0C8D2">#C0C8D2</color>
+    <color name="color_6A7383">#6A7383</color>
+</resources>
