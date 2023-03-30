@@ -1,4 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Apps on Devices Sample App</string>
+
+    <string name="terminal_sample_app">Terminal sample app</string>
+    <string name="new_payment">New payment</string>
+
+    <string name="please_select_reader">Please select a reader first!</string>
 
 </resources>

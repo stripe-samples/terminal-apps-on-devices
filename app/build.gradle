@@ -57,6 +57,9 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$androidx_lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime:$androidx_lifecycle_version"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
