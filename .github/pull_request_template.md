@@ -1,5 +1,5 @@
 <!-- What has been affected? Is this fixing a bug or a feature implementation? -->
-<!-- Why is this change necessary? Are there any associated JIRAs or links? -->
+<!-- Why is this change necessary? -->
 <!-- Note: please remove all HTML comments from the PR description before merging -->
 
 # How has this been tested?
