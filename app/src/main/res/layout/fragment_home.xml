@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_settings"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/settings"/>
+
+    <ImageView
+        android:id="@+id/iv_config"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/configs" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="113dp"
+        android:layout_height="46dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_sample_tip"
+        android:layout_marginTop="212dp"
+        android:src="@drawable/logo"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_sample_tip"
+        android:layout_width="312dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="273dp"
+        android:text="@string/terminal_sample_app"
+        android:textSize="@dimen/sp_17"
+        android:textColor="?attr/colorSecondary"
+        android:lineSpacingExtra="0sp"
+        android:gravity="center_horizontal|center_vertical"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/btn_new_payment"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="24dp"
+        android:text="@string/new_payment"
+        android:textSize="@dimen/sp_17"
+        android:textColor="@color/selector_btn_text"
+        android:lineSpacingExtra="4sp"
+        android:gravity="center_horizontal|center_vertical"
+        android:background="@drawable/selector_btn"
+        android:visibility="visible"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
