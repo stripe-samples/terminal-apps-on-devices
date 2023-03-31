@@ -10,21 +10,23 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.ContextThemeWrapper
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.fragment.HomeFragment
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
-import com.stripe.aod.sampleapp.network.TokenProvider
+import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.aod.sampleapp.utils.navigateToTarget
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel by viewModels<MainViewModel>()
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
         ::onPermissionResult,
@@ -103,12 +105,12 @@ class MainActivity : AppCompatActivity() {
             Terminal.initTerminal(
                 applicationContext,
                 LogLevel.VERBOSE,
-                TokenProvider(lifecycleScope),
+                viewModel.tokenProvider,
                 TerminalEventListener(),
             )
         } catch (e: TerminalException) {
             throw RuntimeException(
-                "Location services are required in order to initialize " + "the Terminal.",
+                "Location services are required in order to initialize the Terminal.",
                 e,
             )
         }
@@ -117,12 +119,10 @@ class MainActivity : AppCompatActivity() {
     private fun verifyGpsEnabled(): Boolean {
         val locationManager: LocationManager? =
             applicationContext.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-        var gpsEnabled = false
 
-        try {
-            gpsEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
-        } catch (_: Exception) {
-        }
+        val gpsEnabled = runCatching {
+            locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
+        }.getOrDefault(false)
 
         if (!gpsEnabled) {
             // notify user

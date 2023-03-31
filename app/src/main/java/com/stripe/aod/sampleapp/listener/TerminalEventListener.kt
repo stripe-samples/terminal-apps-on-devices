@@ -19,10 +19,10 @@ class TerminalEventListener : TerminalListener {
     }
 
     override fun onConnectionStatusChange(status: ConnectionStatus) {
-        Log.i(Config.TAG, status.toString())
+        Log.i(Config.TAG, "onConnectionStatusChange: $status")
     }
 
     override fun onPaymentStatusChange(status: PaymentStatus) {
-        Log.i(Config.TAG, status.toString())
+        Log.i(Config.TAG, "onPaymentStatusChange: $status")
     }
 }
