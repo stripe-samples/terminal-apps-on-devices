@@ -10,18 +10,18 @@
 
     <!--  AoD  -->
     <!-- Background colors -->
-    <color name="background">#FFFFFF</color>
+    <color name="background">#121212</color>
 
     <!-- Text colors -->
     <color name="text_default">#FFFFFF</color>
-    <color name="text_pressed">#FFFFFF</color>
-    <color name="text_disable">#1F1F1F</color>
-    <color name="logo_color">#1F1F1F</color>
-    <color name="logo_title">#36373A</color>
+    <color name="text_pressed">#F6F8FA</color>
+    <color name="text_disable">#80FFFFFF</color>
+    <color name="logo_color">#FFFFFF</color>
+    <color name="logo_title">#C0C8D2</color>
 
     <!-- Button colors -->
-    <color name="button_default">#635BFF</color>
-    <color name="button_pressed">#453ECC</color>
+    <color name="button_default">#0570DE</color>
+    <color name="button_pressed">#03438E</color>
     <color name="button_disable">#B3635BFF</color>
     <color name="menu_button">#0570DE</color>
 </resources>

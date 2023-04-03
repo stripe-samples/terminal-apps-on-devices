@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="27dp"
+    android:height="18dp"
+    android:viewportWidth="27"
+    android:viewportHeight="18">
+
+    <path
+        android:fillColor="@color/menu_button"
+        android:fillType="evenOdd"
+        android:pathData="M1.5 3C0.675 3 0 2.325 0 1.5C0 0.675 0.675 0 1.5 0H25.5C26.325 0 27 0.675 27 1.5C27 2.325 26.325 3 25.5 3H1.5ZM1.5 10.5H25.5C26.325 10.5 27 9.825 27 9C27 8.175 26.325 7.5 25.5 7.5H1.5C0.675 7.5 0 8.175 0 9C0 9.825 0.675 10.5 1.5 10.5ZM1.5 18H25.5C26.325 18 27 17.325 27 16.5C27 15.675 26.325 15 25.5 15H1.5C0.675 15 0 15.675 0 16.5C0 17.325 0.675 18 1.5 18Z" />
+</vector>
