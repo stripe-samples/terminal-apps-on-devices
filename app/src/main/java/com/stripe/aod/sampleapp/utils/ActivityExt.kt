@@ -32,3 +32,7 @@ fun FragmentActivity.navigateToTarget(
         }
         .commit()
 }
+
+fun FragmentActivity.backToPrevious() {
+    supportFragmentManager.popBackStackImmediate()
+}

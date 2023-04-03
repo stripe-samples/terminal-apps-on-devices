@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
+import com.stripe.aod.sampleapp.utils.navigateToTarget
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     companion object {
@@ -20,6 +21,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewBinding.menuSettings.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("stripe://settings/")))
+        }
+
+        viewBinding.menuConfig.setOnClickListener {
+            activity?.navigateToTarget(
+                ConfigFragment.TAG,
+                ConfigFragment(),
+                replace = true,
+                addToBackStack = true,
+            )
         }
     }
 }

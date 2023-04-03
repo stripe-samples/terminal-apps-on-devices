@@ -19,9 +19,18 @@
     <color name="logo_color">#1F1F1F</color>
     <color name="logo_title">#36373A</color>
 
+    <color name="text_discover_reader_light">#6A7383</color>
+    <color name="text_discover_reader_dark">#C0C8D2</color>
+
     <!-- Button colors -->
     <color name="button_default">#635BFF</color>
     <color name="button_pressed">#453ECC</color>
     <color name="button_disable">#B3635BFF</color>
     <color name="menu_button">#0570DE</color>
+
+    <color name="button_back_light">#778292</color>
+    <color name="button_back_dark">#E0E6EB</color>
+
+    <color name="button_right_arrow_light">#778292</color>
+    <color name="button_right_arrow_dark">#E0E6EB</color>
 </resources>

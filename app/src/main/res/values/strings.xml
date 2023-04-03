@@ -6,5 +6,5 @@
     <string name="new_payment">New payment</string>
 
     <string name="please_select_reader">Please select a reader first!</string>
-
+    <string name="discover_readers">Discover Readers</string>
 </resources>
