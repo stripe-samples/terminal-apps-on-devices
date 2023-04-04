@@ -16,11 +16,7 @@
     </style>
 
     <style name="button">
-        <item name="android:layout_width">320dp</item>
-        <item name="android:layout_height">48dp</item>
-        <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/selector_btn_text</item>
-        <item name="android:lineSpacingExtra">4sp</item>
         <item name="android:gravity">center_horizontal|center_vertical</item>
         <item name="android:background">@drawable/selector_btn</item>
     </style>

@@ -19,7 +19,7 @@ class ConfigFragment : Fragment(R.layout.fragment_config) {
         // get viewBinding instance
         val viewBinding = FragmentConfigBinding.bind(view)
 
-        viewBinding.configBack.setOnClickListener {
+        viewBinding.back.setOnClickListener {
             activity?.backToPrevious()
         }
 

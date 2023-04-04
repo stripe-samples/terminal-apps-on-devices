@@ -51,6 +51,9 @@
 
     <TextView
         android:id="@+id/new_payment"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:textSize="17sp"
         style="@style/button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
