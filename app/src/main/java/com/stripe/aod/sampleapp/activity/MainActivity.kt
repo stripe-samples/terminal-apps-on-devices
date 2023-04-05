@@ -16,10 +16,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.stripe.aod.sampleapp.R
-import com.stripe.aod.sampleapp.fragment.HomeFragment
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.model.MainViewModel
-import com.stripe.aod.sampleapp.utils.navigateToTarget
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
@@ -35,8 +33,6 @@ class MainActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanseBundle: Bundle?) {
         super.onCreate(savedInstanseBundle)
         setContentView(R.layout.activity_main)
-
-        navigateToTarget(HomeFragment.TAG, HomeFragment())
 
         requestPermissionsIfNecessary()
     }

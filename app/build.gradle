@@ -42,6 +42,7 @@ ext {
     retrofit_version = '2.9.0'
     stripeTerminalVersion = "2.18.1"
     fragment_version = "1.5.5"
+    nav_version = "2.5.3"
 }
 
 dependencies {
@@ -73,4 +74,8 @@ dependencies {
     // Stripe Terminal library
     implementation "com.stripe:stripeterminal-core:$stripeTerminalVersion"
     implementation "com.stripe:stripeterminal-handoffclient:$stripeTerminalVersion"
+
+    // navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 }

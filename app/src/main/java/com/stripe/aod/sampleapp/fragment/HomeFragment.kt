@@ -5,15 +5,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
-import com.stripe.aod.sampleapp.utils.navigateToTarget
+import com.stripe.aod.sampleapp.utils.navOptions
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    companion object {
-        const val TAG = "com.stripe.aod.sampleapp.fragment.HomeFragment"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -24,12 +21,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewBinding.menuConfig.setOnClickListener {
-            activity?.navigateToTarget(
-                ConfigFragment.TAG,
-                ConfigFragment(),
-                replace = true,
-                addToBackStack = true,
-            )
+            findNavController().navigate(R.id.action_homeFragment_to_configFragment, null, navOptions())
         }
     }
 }
