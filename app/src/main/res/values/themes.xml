@@ -16,4 +16,9 @@
 
     </style>
 
+    <style name="button">
+        <item name="android:textColor">@color/selector_btn_text</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:background">@drawable/selector_btn</item>
+    </style>
 </resources>
