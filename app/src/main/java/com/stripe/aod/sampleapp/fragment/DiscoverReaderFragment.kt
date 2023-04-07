@@ -54,6 +54,8 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
             viewBinding.swipeRefreshLayout.isRefreshing = isNeedRefresh
         }
 
+        discoveryViewModel.readers.observe(viewLifecycleOwner) { readerAdapter.updateReaders(it) }
+
         discoveryViewModel.readerUpdateCallBack = {
             discoveryViewModel.updateRefreshStatus(status = false)
             discoveryViewModel.readers.postValue(it)
@@ -63,8 +65,6 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
 
         // start to get Reader list base on given locationID
         discoveryViewModel.startDiscovery()
-
-        discoveryViewModel.readers.observe(viewLifecycleOwner) { readerAdapter.updateReaders(it) }
     }
 
     override fun onDestroy() {

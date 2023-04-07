@@ -21,9 +21,9 @@ import kotlinx.coroutines.Job
 
 class DiscoveryViewModel : ViewModel() {
     val readers: MutableLiveData<List<Reader>> = MutableLiveData(emptyList())
-    var discoveryTask: Cancelable? = null
     val isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
     var readerUpdateCallBack: ((List<Reader>) -> Unit)? = null
+    private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false, "tml_EuNHgQKLYK66aT") // just hardcode a locationId here for test
 
     private val discoveryListener: DiscoveryListener = object : DiscoveryListener {
@@ -78,7 +78,7 @@ class DiscoveryViewModel : ViewModel() {
         }
     }
 
-    fun discoveryReaders(): Cancelable {
+    private fun discoveryReaders(): Cancelable {
         return Terminal.getInstance().discoverReaders(config, discoveryListener, discoveryCallback)
     }
 

@@ -18,7 +18,7 @@ class ReaderAdapter(val lifecycleScope: LifecycleCoroutineScope, val discoveryVi
     private companion object {
         val diffCallback: DiffUtil.ItemCallback<Reader> = object : DiffUtil.ItemCallback<Reader>() {
             override fun areItemsTheSame(oldItem: Reader, newItem: Reader): Boolean {
-                return oldItem.id == (newItem.id)
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Reader, newItem: Reader): Boolean {
