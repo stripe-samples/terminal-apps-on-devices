@@ -1,38 +1,12 @@
 package com.stripe.aod.sampleapp.utils
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavOptions
 import com.stripe.aod.sampleapp.R
-
-fun FragmentActivity.navigateToTarget(
-    tag: String,
-    fragment: Fragment,
-    replace: Boolean = true,
-    addToBackStack: Boolean = false,
-) {
-    val frag = supportFragmentManager.findFragmentByTag(tag) ?: fragment
-    supportFragmentManager
-        .beginTransaction()
-        .setCustomAnimations(
-            R.anim.slide_right_in,
-            R.anim.slide_left_out,
-            R.anim.slide_left_in,
-            R.anim.slide_right_out,
-        )
-        .apply {
-            if (replace) {
-                replace(R.id.container, frag, tag)
-            } else {
-                add(R.id.container, frag, tag)
-            }
-
-            if (addToBackStack) {
-                addToBackStack(tag)
-            }
-        }
-        .commit()
-}
-
-fun FragmentActivity.backToPrevious() {
-    supportFragmentManager.popBackStackImmediate()
+fun navOptions(): NavOptions {
+    return NavOptions.Builder()
+        .setEnterAnim(R.anim.slide_right_in) 
+        .setExitAnim(R.anim.slide_left_out) 
+        .setPopEnterAnim(R.anim.slide_left_in) 
+        .setPopExitAnim(R.anim.slide_right_out)
+        .build()
 }
