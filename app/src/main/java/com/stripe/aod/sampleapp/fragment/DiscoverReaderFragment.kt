@@ -29,7 +29,7 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
         viewBinding = FragmentDiscoverReaderBinding.bind(view)
 
         viewBinding.swipeRecycler.layoutManager = LinearLayoutManager(activity)
-        readerAdapter = ReaderAdapter(lifecycleScope, discoveryViewModel)
+        readerAdapter = ReaderAdapter(discoveryViewModel)
         viewBinding.swipeRecycler.adapter = readerAdapter
 
         // hand back press action
@@ -50,21 +50,29 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
             discoveryViewModel.refreshReaderList()
         }
 
-        discoveryViewModel.isRefreshing.observe(viewLifecycleOwner) { isNeedRefresh ->
-            viewBinding.swipeRefreshLayout.isRefreshing = isNeedRefresh
+        lifecycleScope.launchWhenStarted {
+            discoveryViewModel.isRefreshing.collect { isNeedRefresh ->
+                viewBinding.swipeRefreshLayout.isRefreshing = isNeedRefresh
+            }
         }
 
-        discoveryViewModel.readers.observe(viewLifecycleOwner) { readerAdapter.updateReaders(it) }
-
-        discoveryViewModel.readerUpdateCallBack = {
-            discoveryViewModel.updateRefreshStatus(status = false)
-            discoveryViewModel.readers.postValue(it)
+        lifecycleScope.launchWhenStarted {
+            discoveryViewModel.readers.collect {
+                readerAdapter.updateReaders(it)
+            }
         }
 
-        discoveryViewModel.updateRefreshStatus(status = true)
+        lifecycleScope.launchWhenStarted {
+            discoveryViewModel.isNeedUpdateReaderStatus.collect { isReaderStatusUpdate ->
+                if (isReaderStatusUpdate) {
+                    readerAdapter.refreshUI()
+                    discoveryViewModel.updateReaderStatus(status = false)
+                }
+            }
+        }
 
         // start to get Reader list base on given locationID
-        discoveryViewModel.startDiscovery()
+        discoveryViewModel.refreshReaderList()
     }
 
     override fun onDestroy() {

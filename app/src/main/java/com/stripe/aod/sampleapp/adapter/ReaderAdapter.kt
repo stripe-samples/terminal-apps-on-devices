@@ -3,7 +3,6 @@ package com.stripe.aod.sampleapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,9 +11,8 @@ import com.stripe.aod.sampleapp.databinding.ItemReaderBinding
 import com.stripe.aod.sampleapp.model.DiscoveryViewModel
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.models.Reader
-import kotlinx.coroutines.launch
 
-class ReaderAdapter(val lifecycleScope: LifecycleCoroutineScope, val discoveryViewModel: DiscoveryViewModel) : RecyclerView.Adapter<ReaderAdapter.ReaderHolder>() {
+class ReaderAdapter(val discoveryViewModel: DiscoveryViewModel) : RecyclerView.Adapter<ReaderAdapter.ReaderHolder>() {
     private companion object {
         val diffCallback: DiffUtil.ItemCallback<Reader> = object : DiffUtil.ItemCallback<Reader>() {
             override fun areItemsTheSame(oldItem: Reader, newItem: Reader): Boolean {
@@ -47,6 +45,13 @@ class ReaderAdapter(val lifecycleScope: LifecycleCoroutineScope, val discoveryVi
         differ.submitList(readers)
     }
 
+    /**
+     *  Just not care about performance here since we'll should only have a handful of readers (most likely just one)
+     */
+    fun refreshUI() {
+        notifyDataSetChanged()
+    }
+
     inner class ReaderHolder(private val binding: ItemReaderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(reader: Reader) {
             binding.apply {
@@ -71,11 +76,7 @@ class ReaderAdapter(val lifecycleScope: LifecycleCoroutineScope, val discoveryVi
                 }
 
                 readerCard.setOnClickListener {
-                    discoveryViewModel.connectReader(root.context, reader) { reader ->
-                        lifecycleScope.launch {
-                            notifyItemChanged(differ.currentList.indexOf(reader))
-                        }
-                    }
+                    discoveryViewModel.connectReader(root.context, reader)
                 }
             }
         }

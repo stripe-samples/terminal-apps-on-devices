@@ -2,7 +2,6 @@ package com.stripe.aod.sampleapp.model
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.R
@@ -17,65 +16,56 @@ import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
 import com.stripe.stripeterminal.external.models.DiscoveryMethod
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.TerminalException
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class DiscoveryViewModel : ViewModel() {
-    val readers: MutableLiveData<List<Reader>> = MutableLiveData(emptyList())
-    val isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
-    var readerUpdateCallBack: ((List<Reader>) -> Unit)? = null
+    private val _readers: MutableStateFlow<List<Reader>> = MutableStateFlow(emptyList())
+    val readers: StateFlow<List<Reader>> get() = _readers
+
+    private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> get() = _isRefreshing
+
+    // keep a state to track Reader status(Connected/Disconnected)
+    private val _isNeedUpdateReaderStatus: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isNeedUpdateReaderStatus: StateFlow<Boolean> get() = _isNeedUpdateReaderStatus
+
     private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false, "tml_EuNHgQKLYK66aT") // just hardcode a locationId here for test
 
     private val discoveryListener: DiscoveryListener = object : DiscoveryListener {
         override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
-            readerUpdateCallBack?.invoke(readers)
+            updateRefreshStatus(status = false)
+            _readers.value = readers
         }
     }
 
     private val discoveryCallback: Callback = object : Callback {
         override fun onSuccess() {
             Log.d(Config.TAG, "discoveryCallback onSuccess")
-            updateRefreshStatus(status = false)
         }
 
         override fun onFailure(e: TerminalException) {
             Log.d(Config.TAG, "discoveryCallback onFailure")
-            updateRefreshStatus(status = false)
         }
     }
 
     private val discoveryCancelCallback: Callback = object : Callback {
         override fun onSuccess() {
             Log.d(Config.TAG, "discoveryCancelCallback onSuccess")
-            discoveryTask = discoveryReaders()
         }
 
         override fun onFailure(e: TerminalException) {
             Log.d(Config.TAG, "discoveryCancelCallback onFailure")
-            updateRefreshStatus(status = false)
         }
     }
 
     fun updateRefreshStatus(status: Boolean) {
-        isRefreshing.postValue(status)
+        _isRefreshing.value = status
     }
 
-    fun startDiscovery() {
-        if (discoveryTask == null) {
-            if (Terminal.getInstance().connectedReader == null) {
-                discoveryTask = discoveryReaders()
-            } else {
-                Terminal.getInstance().disconnectReader(object : Callback {
-                    override fun onFailure(e: TerminalException) {
-                        Log.e(Config.TAG, "onFailure: Disconnect reader fail")
-                    }
-
-                    override fun onSuccess() {
-                        discoveryTask = discoveryReaders()
-                    }
-                })
-            }
-        }
+    fun updateReaderStatus(status: Boolean) {
+        _isNeedUpdateReaderStatus.value = status
     }
 
     private fun discoveryReaders(): Cancelable {
@@ -83,11 +73,23 @@ class DiscoveryViewModel : ViewModel() {
     }
 
     fun refreshReaderList() {
-        if (discoveryTask == null) {
-            discoveryTask = discoveryReaders()
-        } else {
-            discoveryTask?.cancel(discoveryCancelCallback)
+        updateRefreshStatus(status = true)
+
+        discoveryTask?.cancel(discoveryCancelCallback)
+
+        if (Terminal.getInstance().connectedReader != null) {
+            Terminal.getInstance().disconnectReader(object : Callback {
+                override fun onFailure(e: TerminalException) {
+                    Log.e(Config.TAG, "Disconnect reader fail")
+                }
+
+                override fun onSuccess() {
+                    Log.e(Config.TAG, "Disconnect reader success")
+                }
+            })
         }
+
+        discoveryTask = discoveryReaders()
     }
 
     fun stopDiscovery(onSuccess: () -> Unit = { }) {
@@ -105,7 +107,7 @@ class DiscoveryViewModel : ViewModel() {
         }
     }
 
-    fun connectReader(context: Context, reader: Reader, readerStatusChangeCallback: (Reader) -> Job) {
+    fun connectReader(context: Context, reader: Reader) {
         val connectedReader = Terminal.getInstance().connectedReader
         if (connectedReader != null) {
             // same one , skip
@@ -119,7 +121,7 @@ class DiscoveryViewModel : ViewModel() {
             Terminal.getInstance().disconnectReader(object : Callback {
                 override fun onSuccess() {
                     Log.d(Config.TAG, "Last Reader [ ${lastReader.id} ] disconnect success ")
-                    readerStatusChangeCallback(lastReader)
+                    updateReaderStatus(status = true)
                 }
 
                 override fun onFailure(e: TerminalException) {
@@ -137,7 +139,7 @@ class DiscoveryViewModel : ViewModel() {
 
         val readerCallback: ReaderCallback = object : ReaderCallback {
             override fun onSuccess(reader: Reader) {
-                readerStatusChangeCallback(reader)
+                updateReaderStatus(status = true)
             }
 
             override fun onFailure(e: TerminalException) {
