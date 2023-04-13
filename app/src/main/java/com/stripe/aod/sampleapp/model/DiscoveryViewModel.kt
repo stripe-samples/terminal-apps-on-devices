@@ -147,7 +147,7 @@ class DiscoveryViewModel : ViewModel() {
             targetReader,
             ConnectionConfiguration.HandoffConnectionConfiguration(),
             null,
-            readerCallback,
+            readerCallback
         )
     }
 
@@ -159,16 +159,14 @@ class DiscoveryViewModel : ViewModel() {
         _readers.update { readerItem ->
             readerItem.map {
                 if (it.reader.id == reader.id) {
-                    ReaderListItem(
-                        reader,
-                        isConnected = isConnected,
-                    )
+                    ReaderListItem(reader, isConnected = isConnected)
                 } else {
                     it
                 }
             }
         }
     }
+
     override fun onCleared() {
         super.onCleared()
         stopDiscovery()

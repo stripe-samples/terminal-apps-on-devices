@@ -28,7 +28,11 @@ class ReaderAdapter(val discoveryViewModel: DiscoveryViewModel) : RecyclerView.A
     private val differ: AsyncListDiffer<ReaderListItem> = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReaderHolder {
-        val binding: ItemReaderBinding = ItemReaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemReaderBinding = ItemReaderBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return ReaderHolder(binding)
     }
 
@@ -45,11 +49,15 @@ class ReaderAdapter(val discoveryViewModel: DiscoveryViewModel) : RecyclerView.A
         differ.submitList(readers)
     }
 
-    inner class ReaderHolder(private val binding: ItemReaderBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ReaderHolder(private val binding: ItemReaderBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
         fun bind(readerListItem: ReaderListItem) {
             binding.apply {
                 val resources = root.context.resources
-                readerTitle.text = readerListItem.reader.serialNumber ?: readerListItem.reader.id ?: resources.getString(R.string.unknown_reader)
+                readerTitle.text = readerListItem.reader.serialNumber ?: readerListItem.reader.id ?: resources.getString(
+                    R.string.unknown_reader
+                )
                 readerDesc.text = readerListItem.reader.location?.displayName ?: ""
 
                 // update reader online status

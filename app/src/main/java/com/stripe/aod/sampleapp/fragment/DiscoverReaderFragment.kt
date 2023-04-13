@@ -33,7 +33,7 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
                 override fun handleOnBackPressed() {
                     findNavController().navigateUp()
                 }
-            },
+            }
         )
 
         viewBinding.back.setOnClickListener {

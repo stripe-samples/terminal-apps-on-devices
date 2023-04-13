@@ -21,7 +21,11 @@ class ConfigFragment : Fragment(R.layout.fragment_config) {
         }
 
         viewBinding.discoverReader.setOnClickListener {
-            findNavController().navigate(R.id.action_configFragment_to_discoverReaderFragment, null, navOptions())
+            findNavController().navigate(
+                R.id.action_configFragment_to_discoverReaderFragment,
+                null,
+                navOptions()
+            )
         }
 
         // hand back press action
@@ -31,7 +35,7 @@ class ConfigFragment : Fragment(R.layout.fragment_config) {
                 override fun handleOnBackPressed() {
                     findNavController().navigateUp()
                 }
-            },
+            }
         )
     }
 }
