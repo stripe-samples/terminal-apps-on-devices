@@ -28,7 +28,7 @@ fun Context.toast(@StringRes messageId: Int) {
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    crossinline block: suspend CoroutineScope.() -> Unit,
+    crossinline block: suspend CoroutineScope.() -> Unit
 ): Job {
     return viewLifecycleOwner.lifecycleScope.launch {
         viewLifecycleOwner.lifecycle.repeatOnLifecycle(minActiveState) {

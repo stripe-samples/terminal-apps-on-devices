@@ -27,6 +27,10 @@ class ReaderAdapter(val discoveryViewModel: DiscoveryViewModel) : RecyclerView.A
 
     private val differ: AsyncListDiffer<ReaderListItem> = AsyncListDiffer(this, diffCallback)
 
+    init {
+        setHasStableIds(true)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReaderHolder {
         val binding: ItemReaderBinding = ItemReaderBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -43,6 +47,10 @@ class ReaderAdapter(val discoveryViewModel: DiscoveryViewModel) : RecyclerView.A
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
     fun updateReaders(readers: List<ReaderListItem>) {

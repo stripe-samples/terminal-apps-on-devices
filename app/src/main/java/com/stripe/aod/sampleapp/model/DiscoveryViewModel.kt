@@ -25,10 +25,10 @@ import kotlinx.coroutines.flow.update
 class DiscoveryViewModel : ViewModel() {
 
     private val _readers: MutableStateFlow<List<ReaderListItem>> = MutableStateFlow(emptyList())
-    val readers: StateFlow<List<ReaderListItem>> get() = _readers.asStateFlow()
+    val readers: StateFlow<List<ReaderListItem>> = _readers.asStateFlow()
 
     private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isRefreshing: StateFlow<Boolean> get() = _isRefreshing.asStateFlow()
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false)
