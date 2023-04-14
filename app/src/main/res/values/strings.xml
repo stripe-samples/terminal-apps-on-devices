@@ -7,4 +7,10 @@
 
     <string name="please_select_reader">Please select a reader first!</string>
     <string name="discover_readers">Discover Readers</string>
+
+    <string name="send_receipt_tip">How would you like to receive a receipt?</string>
+    <string name="email">Email</string>
+    <string name="sms">SMS</string>
+    <string name="print">Print</string>
+    <string name="no_receipt">No receipt</string>
 </resources>

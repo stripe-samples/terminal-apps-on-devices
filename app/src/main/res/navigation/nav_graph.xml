@@ -20,4 +20,9 @@
             android:id="@+id/action_configFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/receiptFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.ReceiptFragment"
+        android:label="ReceiptFragment" >
+    </fragment>
 </navigation>
