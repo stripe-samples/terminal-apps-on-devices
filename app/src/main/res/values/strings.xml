@@ -13,4 +13,10 @@
     <string name="status_reader_offline">Reader offline!</string>
     <string name="unknown_reader">Unknown Reader</string>
     <string name="connected">Connected</string>
+
+    <string name="send_receipt_tip">How would you like to receive a receipt?</string>
+    <string name="email">Email</string>
+    <string name="sms">SMS</string>
+    <string name="print">Print</string>
+    <string name="no_receipt">No receipt</string>
 </resources>

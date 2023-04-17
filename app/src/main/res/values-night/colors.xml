@@ -16,12 +16,19 @@
     <color name="text_default">#FFFFFF</color>
     <color name="text_pressed">#F6F8FA</color>
     <color name="text_disable">#80FFFFFF</color>
+    <color name="text_secondary_default">#F6F8FA</color>
+    <color name="text_secondary_pressed">#F6F8FA</color>
+    <color name="text_secondary_disable">#80F6F8FA</color>
     <color name="logo_color">#FFFFFF</color>
     <color name="logo_title">#C0C8D2</color>
+    <color name="text_amount">#F6F8FA</color>
 
     <!-- Button colors -->
     <color name="button_default">#0570DE</color>
     <color name="button_pressed">#03438E</color>
-    <color name="button_disable">#B3635BFF</color>
+    <color name="button_disable">#03438E</color>
+    <color name="button_secondary_default">#1F1F1F</color>
+    <color name="button_secondary_pressed">#1F1F1F</color>
+    <color name="button_secondary_disable">#1F1F1F</color>
     <color name="menu_button">#0570DE</color>
 </resources>
