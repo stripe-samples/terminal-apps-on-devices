@@ -85,7 +85,7 @@ class ReaderAdapter(val discoveryViewModel: DiscoveryViewModel) : RecyclerView.A
                 }
 
                 readerCard.setOnClickListener {
-                    discoveryViewModel.connectReader(root.context, readerListItem.reader)
+                    discoveryViewModel.connectReader(readerListItem.reader)
                 }
             }
         }
