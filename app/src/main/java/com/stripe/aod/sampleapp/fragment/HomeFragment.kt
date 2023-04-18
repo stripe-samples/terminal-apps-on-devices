@@ -21,7 +21,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         viewBinding.menuConfig.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_configFragment, null, navOptions())
+            findNavController().navigate(
+                R.id.action_homeFragment_to_configFragment,
+                null,
+                navOptions()
+            )
         }
     }
 }

@@ -39,4 +39,8 @@
 
     <color name="button_right_arrow_light">#778292</color>
     <color name="button_right_arrow_dark">#E0E6EB</color>
+
+    <!-- Reader status colors -->
+    <color name="status_online">#10C210</color>
+    <color name="status_offline">#777474</color>
 </resources>

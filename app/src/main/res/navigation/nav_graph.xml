@@ -19,6 +19,17 @@
         <action
             android:id="@+id/action_configFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_configFragment_to_discoverReaderFragment"
+            app:destination="@id/discoverReaderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/discoverReaderFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.DiscoverReaderFragment"
+        android:label="DiscoverReaderFragment" >
+        <action
+            android:id="@+id/action_discoverReaderFragment_to_configFragment"
+            app:destination="@id/configFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"

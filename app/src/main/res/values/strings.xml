@@ -8,6 +8,12 @@
     <string name="please_select_reader">Please select a reader first!</string>
     <string name="discover_readers">Discover Readers</string>
 
+    <string name="discover_reader_title">Reader List</string>
+    <string name="status_reader_connected">Reader connected!</string>
+    <string name="status_reader_offline">Reader offline!</string>
+    <string name="unknown_reader">Unknown Reader</string>
+    <string name="connected">Connected</string>
+
     <string name="send_receipt_tip">How would you like to receive a receipt?</string>
     <string name="email">Email</string>
     <string name="sms">SMS</string>
