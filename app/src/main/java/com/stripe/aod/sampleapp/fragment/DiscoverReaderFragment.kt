@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stripe.aod.sampleapp.R
-import com.stripe.aod.sampleapp.activity.MainActivity
 import com.stripe.aod.sampleapp.adapter.ReaderAdapter
 import com.stripe.aod.sampleapp.databinding.FragmentDiscoverReaderBinding
 import com.stripe.aod.sampleapp.model.DiscoveryViewModel
@@ -28,7 +27,7 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
 
         // hand back press action
         requireActivity().onBackPressedDispatcher.addCallback(
-            activity as MainActivity,
+            viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     findNavController().navigateUp()
