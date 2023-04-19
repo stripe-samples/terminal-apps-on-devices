@@ -27,5 +27,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 navOptions()
             )
         }
+
+        viewBinding.newPayment.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeFragment_to_inputFragment,
+                null,
+                navOptions()
+            )
+        }
     }
 }

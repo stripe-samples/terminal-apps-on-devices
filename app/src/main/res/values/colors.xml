@@ -35,7 +35,7 @@
     <color name="button_secondary_disable">#B3EAEDEF</color>
     <color name="menu_button">#0570DE</color>
     <color name="button_back">#778292</color>
-    <color name="button_right_arrow">#778292</color>
+    <color name="button_right_arrow">#FFFFFF</color>
 
     <!--keyboard button-->
     <color name="button_keyboard_active">#635BFF</color>

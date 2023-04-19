@@ -41,7 +41,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/default_amount" />
 
-
     <include
         android:id="@+id/keypad"
         layout="@layout/widget_keyboard"
@@ -56,10 +55,10 @@
         android:id="@+id/submit"
         android:layout_width="320dp"
         android:layout_height="48dp"
+        style="@style/button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/selector_btn"
-        android:gravity="center"
-        android:lineSpacingExtra="4sp"
         android:text="@string/request_payment"
         android:textColor="@color/selector_btn_text"
         android:textSize="17sp"

@@ -15,7 +15,6 @@ import com.stripe.aod.sampleapp.model.InputViewModel
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 
 class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
-
     private lateinit var viewBinding: FragmentInputBinding
     private val inputViewModel by viewModels<InputViewModel>()
 
@@ -37,44 +36,28 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     private fun initView(view: View) {
         viewBinding = FragmentInputBinding.bind(view)
         viewBinding.back.setOnClickListener { findNavController().navigateUp() }
-        viewBinding.keypad.keyboard0.setOnClickListener { inputViewModel.displayAmount('0') }
         viewBinding.keypad.keyboard0.setOnTouchListener(this)
-        viewBinding.keypad.keyboard1.setOnClickListener { inputViewModel.displayAmount('1') }
         viewBinding.keypad.keyboard1.setOnTouchListener(this)
-        viewBinding.keypad.keyboard2.setOnClickListener { inputViewModel.displayAmount('2') }
         viewBinding.keypad.keyboard2.setOnTouchListener(this)
-        viewBinding.keypad.keyboard3.setOnClickListener { inputViewModel.displayAmount('3') }
         viewBinding.keypad.keyboard3.setOnTouchListener(this)
-        viewBinding.keypad.keyboard4.setOnClickListener { inputViewModel.displayAmount('4') }
         viewBinding.keypad.keyboard4.setOnTouchListener(this)
-        viewBinding.keypad.keyboard5.setOnClickListener { inputViewModel.displayAmount('5') }
         viewBinding.keypad.keyboard5.setOnTouchListener(this)
-        viewBinding.keypad.keyboard6.setOnClickListener { inputViewModel.displayAmount('6') }
         viewBinding.keypad.keyboard6.setOnTouchListener(this)
-        viewBinding.keypad.keyboard7.setOnClickListener { inputViewModel.displayAmount('7') }
         viewBinding.keypad.keyboard7.setOnTouchListener(this)
-        viewBinding.keypad.keyboard8.setOnClickListener { inputViewModel.displayAmount('8') }
         viewBinding.keypad.keyboard8.setOnTouchListener(this)
-        viewBinding.keypad.keyboard9.setOnClickListener { inputViewModel.displayAmount('9') }
         viewBinding.keypad.keyboard9.setOnTouchListener(this)
-        viewBinding.keypad.keyboardClear.setOnClickListener {
-            inputViewModel.displayAmount(action = InputViewModel.ACTION.CLEAR)
-        }
         viewBinding.keypad.keyboardClear.setOnTouchListener(this)
-        viewBinding.keypad.keyboardBackspace.setOnClickListener {
-            inputViewModel.displayAmount(action = InputViewModel.ACTION.DELETE)
-        }
         viewBinding.keypad.keyboardBackspace.setOnTouchListener(this)
 
         inputViewModel.displayAmount(action = InputViewModel.ACTION.CLEAR)
 
         launchAndRepeatWithViewLifecycle {
             inputViewModel.showFunKey.collect {
-                if (it) {
-                    showFuncKey()
-                } else {
-                    hideFuncKey()
-                }
+                val visible = if (it) View.VISIBLE else View.INVISIBLE
+
+                viewBinding.keypad.keyboardClear.visibility = visible
+                viewBinding.keypad.keyboardBackspace.visibility = visible
+                viewBinding.submit.isEnabled = it
             }
         }
 
@@ -85,49 +68,48 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         }
     }
 
-    private fun showFuncKey() {
-        viewBinding.keypad.keyboardClear.visibility = View.VISIBLE
-        viewBinding.keypad.keyboardBackspace.visibility = View.VISIBLE
-        viewBinding.submit.isEnabled = true
-    }
-
-    private fun hideFuncKey() {
-        viewBinding.keypad.keyboardClear.visibility = View.INVISIBLE
-        viewBinding.keypad.keyboardBackspace.visibility = View.INVISIBLE
-        viewBinding.submit.isEnabled = false
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+        var inputChar: Char? = null
         val scaleView = when (val id = view.id) {
             R.id.keyboard_0 -> {
+                inputChar = '0'
                 viewBinding.keypad.digit0
             }
             R.id.keyboard_1 -> {
+                inputChar = '1'
                 viewBinding.keypad.digit1
             }
             R.id.keyboard_2 -> {
+                inputChar = '2'
                 viewBinding.keypad.digit2
             }
             R.id.keyboard_3 -> {
+                inputChar = '3'
                 viewBinding.keypad.digit3
             }
             R.id.keyboard_4 -> {
+                inputChar = '4'
                 viewBinding.keypad.digit4
             }
             R.id.keyboard_5 -> {
+                inputChar = '5'
                 viewBinding.keypad.digit5
             }
             R.id.keyboard_6 -> {
+                inputChar = '6'
                 viewBinding.keypad.digit6
             }
             R.id.keyboard_7 -> {
+                inputChar = '7'
                 viewBinding.keypad.digit7
             }
             R.id.keyboard_8 -> {
+                inputChar = '8'
                 viewBinding.keypad.digit8
             }
             R.id.keyboard_9 -> {
+                inputChar = '9'
                 viewBinding.keypad.digit9
             }
             R.id.keyboard_clear -> {
@@ -149,9 +131,23 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
             MotionEvent.ACTION_UP -> {
                 scaleView.scaleX = 1f
                 scaleView.scaleY = 1f
+                handlerClickAction(scaleView, inputChar)
             }
-            else -> {}
         }
-        return false
+        return true
+    }
+
+    private fun handlerClickAction(view: View, inputChar: Char?) {
+        when (view) {
+            viewBinding.keypad.tvClear -> {
+                inputViewModel.displayAmount(action = InputViewModel.ACTION.CLEAR)
+            }
+            viewBinding.keypad.tvBackspace -> {
+                inputViewModel.displayAmount(action = InputViewModel.ACTION.DELETE)
+            }
+            else -> {
+                inputViewModel.displayAmount(inputChar)
+            }
+        }
     }
 }
