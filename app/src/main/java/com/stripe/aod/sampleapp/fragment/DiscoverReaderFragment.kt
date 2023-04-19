@@ -59,7 +59,11 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
         launchAndRepeatWithViewLifecycle {
             discoveryViewModel.userMessage.collect { messageResId ->
                 messageResId?.let {
-                    Snackbar.make(view, messageResId, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        viewBinding.coordinatorLayout,
+                        messageResId,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     discoveryViewModel.clearMessage()
                 }
             }
