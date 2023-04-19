@@ -35,5 +35,12 @@
         android:id="@+id/receiptFragment"
         android:name="com.stripe.aod.sampleapp.fragment.ReceiptFragment"
         android:label="ReceiptFragment" >
+        <action
+            android:id="@+id/action_receiptFragment_to_emailFragment"
+            app:destination="@id/emailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/emailFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.EmailFragment"
+        android:label="EmailFragment" />
 </navigation>

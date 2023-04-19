@@ -45,6 +45,5 @@
         android:lineSpacingExtra="4sp"
         android:text="@string/send"
         android:textColor="@color/selector_btn_text"
-        android:textSize="17sp"
-        android:visibility="gone"/>
+        android:textSize="17sp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

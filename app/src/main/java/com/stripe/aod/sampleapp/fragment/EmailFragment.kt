@@ -38,7 +38,6 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
 
             override fun afterTextChanged(input: Editable?) {
                 viewBinding.emailSend.run {
-                    visibility = if (input.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
                     isEnabled = !input.isNullOrEmpty()
                 }
             }
