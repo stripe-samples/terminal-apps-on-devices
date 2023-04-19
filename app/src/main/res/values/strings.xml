@@ -14,6 +14,22 @@
     <string name="unknown_reader">Unknown Reader</string>
     <string name="connected">Connected</string>
 
+    <string name="key_1">1</string>
+    <string name="key_2">2</string>
+    <string name="key_3">3</string>
+    <string name="key_4">4</string>
+    <string name="key_5">5</string>
+    <string name="key_6">6</string>
+    <string name="key_7">7</string>
+    <string name="key_8">8</string>
+    <string name="key_9">9</string>
+    <string name="key_clear">C</string>
+    <string name="key_0">0</string>
+
+    <string name="enter_amount">Enter amount</string>
+    <string name="default_amount">$0.00</string>
+    <string name="request_payment">Request payment</string>
+
     <string name="send_receipt_tip">How would you like to receive a receipt?</string>
     <string name="email">Email</string>
     <string name="sms">SMS</string>

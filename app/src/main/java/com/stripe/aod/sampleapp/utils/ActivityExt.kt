@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import com.stripe.aod.sampleapp.R
+import java.text.DecimalFormat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -24,6 +25,11 @@ fun navOptions(): NavOptions {
 
 fun Context.toast(@StringRes messageId: Int) {
     Toast.makeText(this, getString(messageId), Toast.LENGTH_LONG).show()
+}
+
+fun formatAmount(amt: String?): String? {
+    val decimalFormat = DecimalFormat("#,##0.00")
+    return decimalFormat.format(amt!!.toBigDecimal())
 }
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(

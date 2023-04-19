@@ -24,6 +24,7 @@
     <color name="text_discover_reader_light">#6A7383</color>
     <color name="text_discover_reader_dark">#C0C8D2</color>
     <color name="text_amount">#1F1F1F</color>
+    <color name="text_enter_amount">#6A7383</color>
 
     <!-- Button colors -->
     <color name="button_default">#635BFF</color>
@@ -33,12 +34,14 @@
     <color name="button_secondary_pressed">#DCDEE1</color>
     <color name="button_secondary_disable">#B3EAEDEF</color>
     <color name="menu_button">#0570DE</color>
+    <color name="button_back">#778292</color>
+    <color name="button_right_arrow">#778292</color>
 
-    <color name="button_back_light">#778292</color>
-    <color name="button_back_dark">#E0E6EB</color>
-
-    <color name="button_right_arrow_light">#778292</color>
-    <color name="button_right_arrow_dark">#E0E6EB</color>
+    <!--keyboard button-->
+    <color name="button_keyboard_active">#635BFF</color>
+    <color name="button_keyboard_inactive">#FFFFFF</color>
+    <color name="button_clear">#36373A</color>
+    <color name="text_keyboard">#36373A</color>
 
     <!-- Reader status colors -->
     <color name="status_online">#10C210</color>
