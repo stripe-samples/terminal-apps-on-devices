@@ -32,6 +32,7 @@
     <color name="button_secondary_pressed">#1F1F1F</color>
     <color name="button_secondary_disable">#1F1F1F</color>
     <color name="menu_button">#0570DE</color>
+
     <color name="button_back">#E0E6EB</color>
     <color name="button_right_arrow">#E0E6EB</color>
 
@@ -41,4 +42,7 @@
     <color name="button_clear">#ffffff</color>
     <color name="text_keyboard">#ffffff</color>
 
+    <!-- TextEdit color -->
+    <color name="edit_backgroud">#1F1F1F</color>
+    <color name="edit_border">#635BFF</color>
 </resources>
