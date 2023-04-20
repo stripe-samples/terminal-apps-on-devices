@@ -21,14 +21,6 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
             findNavController().navigateUp()
         }
 
-        viewBinding.emailSend.setOnClickListener {
-            if (!viewBinding.inputEdit.text!!.matches(emailRegex.toRegex())) {
-                viewBinding.inputLayout.error = "Invalid email address"
-            } else {
-                // TODO: goto update PaymentIntent's receipt_email
-            }
-        }
-
         viewBinding.inputEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(input: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -37,10 +29,13 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
             }
 
             override fun afterTextChanged(input: Editable?) {
-                viewBinding.emailSend.run {
-                    isEnabled = !input.isNullOrEmpty()
+                val match = input?.toString()?.matches(emailRegex.toRegex())
+                viewBinding.emailSend.isEnabled = match ?: false
+                viewBinding.inputLayout.error = if (input.isNullOrEmpty() || match == true) {
+                    ""
+                } else {
+                    getString(R.string.invalid_email)
                 }
-                viewBinding.inputLayout.error = input?.takeIf { it.isEmpty() }
             }
         })
     }
