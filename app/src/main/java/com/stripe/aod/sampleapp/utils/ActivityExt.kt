@@ -1,8 +1,5 @@
 package com.stripe.aod.sampleapp.utils
 
-import android.content.Context
-import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,10 +17,6 @@ fun navOptions(): NavOptions {
         .setPopEnterAnim(R.anim.slide_left_in)
         .setPopExitAnim(R.anim.slide_right_out)
         .build()
-}
-
-fun Context.toast(@StringRes messageId: Int) {
-    Toast.makeText(this, getString(messageId), Toast.LENGTH_LONG).show()
 }
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(

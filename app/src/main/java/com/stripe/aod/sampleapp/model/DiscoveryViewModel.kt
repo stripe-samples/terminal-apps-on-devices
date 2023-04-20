@@ -1,12 +1,11 @@
 package com.stripe.aod.sampleapp.model
 
-import android.content.Context
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.adapter.data.ReaderListItem
-import com.stripe.aod.sampleapp.utils.toast
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
@@ -29,6 +28,9 @@ class DiscoveryViewModel : ViewModel() {
 
     private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    private val _userMessage: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val userMessage: StateFlow<Int?> = _userMessage.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false)
@@ -64,6 +66,14 @@ class DiscoveryViewModel : ViewModel() {
 
     private fun updateRefreshStatus(status: Boolean) {
         _isRefreshing.value = status
+    }
+
+    private fun showMessage(@StringRes messageResId: Int) {
+        _userMessage.value = messageResId
+    }
+
+    fun clearMessage() {
+        _userMessage.value = null
     }
 
     private fun discoveryReaders(): Cancelable {
@@ -105,11 +115,11 @@ class DiscoveryViewModel : ViewModel() {
         }
     }
 
-    fun connectReader(context: Context, targetReader: Reader) {
+    fun connectReader(targetReader: Reader) {
         getCurrentReader()?.let { reader ->
             // same one , skip
             if (targetReader.id == reader.id) {
-                context.toast(R.string.status_reader_connected)
+                showMessage(R.string.status_reader_connected)
                 return
             }
 
@@ -128,7 +138,7 @@ class DiscoveryViewModel : ViewModel() {
         }
 
         if (targetReader.networkStatus != Reader.NetworkStatus.ONLINE) {
-            context.toast(R.string.status_reader_offline)
+            showMessage(R.string.status_reader_offline)
             return
         }
 
