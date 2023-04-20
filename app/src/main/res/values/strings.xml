@@ -19,4 +19,7 @@
     <string name="sms">SMS</string>
     <string name="print">Print</string>
     <string name="no_receipt">No receipt</string>
+    <string name="input_your_email">Input your email</string>
+    <string name="send">Send</string>
+    <string name="invalid_email">"Invalid email"</string>
 </resources>

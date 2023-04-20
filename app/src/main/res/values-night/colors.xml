@@ -31,4 +31,8 @@
     <color name="button_secondary_pressed">#1F1F1F</color>
     <color name="button_secondary_disable">#1F1F1F</color>
     <color name="menu_button">#0570DE</color>
+
+    <!-- TextEdit color -->
+    <color name="edit_backgroud">#1F1F1F</color>
+    <color name="edit_border">#635BFF</color>
 </resources>
