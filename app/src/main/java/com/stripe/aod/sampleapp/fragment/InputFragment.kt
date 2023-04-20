@@ -52,11 +52,11 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         inputViewModel.displayAmount(action = InputViewModel.ACTION.CLEAR)
 
         launchAndRepeatWithViewLifecycle {
-            inputViewModel.showFunKey.collect {
-                val visible = if (it) View.VISIBLE else View.INVISIBLE
+            inputViewModel.showModifierKeys.collect {
+                val visibility = if (it) View.VISIBLE else View.INVISIBLE
 
-                viewBinding.keypad.keyboardClear.visibility = visible
-                viewBinding.keypad.keyboardBackspace.visibility = visible
+                viewBinding.keypad.keyboardClear.visibility = visibility
+                viewBinding.keypad.keyboardBackspace.visibility = visibility
                 viewBinding.submit.isEnabled = it
             }
         }

@@ -43,6 +43,6 @@
     <color name="text_keyboard">#ffffff</color>
 
     <!-- TextEdit color -->
-    <color name="edit_backgroud">#1F1F1F</color>
+    <color name="edit_background">#1F1F1F</color>
     <color name="edit_border">#635BFF</color>
 </resources>

@@ -45,11 +45,12 @@
     <fragment
         android:id="@+id/inputFragment"
         android:name="com.stripe.aod.sampleapp.fragment.InputFragment"
-        android:label="InputFragment" >
+        android:label="InputFragment">
         <action
             android:id="@+id/action_inputFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
         android:id="@+id/emailFragment"
         android:name="com.stripe.aod.sampleapp.fragment.EmailFragment"
         android:label="EmailFragment" />

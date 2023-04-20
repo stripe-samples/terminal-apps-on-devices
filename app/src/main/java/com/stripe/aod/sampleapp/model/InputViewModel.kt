@@ -17,8 +17,8 @@ class InputViewModel : ViewModel() {
     private val _amt: MutableStateFlow<String> = MutableStateFlow("")
     val amt: StateFlow<String> = _amt.asStateFlow()
 
-    private val _showFunKey: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val showFunKey: StateFlow<Boolean> = _showFunKey.asStateFlow()
+    private val _showModifierKeys: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val showModifierKeys: StateFlow<Boolean> = _showModifierKeys.asStateFlow()
 
     private var amount = ""
 
@@ -73,7 +73,7 @@ class InputViewModel : ViewModel() {
         }
 
         _amt.value = "${'$'}${formatAmount(value)}"
-        _showFunKey.value = !("0.00" == value || _amt.value.isEmpty())
+        _showModifierKeys.value = !("0.00" == value || _amt.value.isEmpty())
     }
 
     override fun onCleared() {
