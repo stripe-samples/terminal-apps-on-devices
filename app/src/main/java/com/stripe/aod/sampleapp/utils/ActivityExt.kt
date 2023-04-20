@@ -1,8 +1,5 @@
 package com.stripe.aod.sampleapp.utils
 
-import android.content.Context
-import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,14 +20,6 @@ fun navOptions(): NavOptions {
         .build()
 }
 
-fun Context.toast(@StringRes messageId: Int) {
-    Toast.makeText(this, getString(messageId), Toast.LENGTH_LONG).show()
-}
-
-fun formatAmount(amt: String?): String? {
-    val decimalFormat = DecimalFormat("#,##0.00")
-    return decimalFormat.format(amt!!.toBigDecimal())
-}
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,

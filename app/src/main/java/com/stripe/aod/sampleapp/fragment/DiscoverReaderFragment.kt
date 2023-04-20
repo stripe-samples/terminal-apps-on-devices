@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.adapter.ReaderAdapter
 import com.stripe.aod.sampleapp.databinding.FragmentDiscoverReaderBinding
@@ -52,6 +53,19 @@ class DiscoverReaderFragment : Fragment(R.layout.fragment_discover_reader) {
         launchAndRepeatWithViewLifecycle {
             discoveryViewModel.readers.collect {
                 readerAdapter.updateReaders(it)
+            }
+        }
+
+        launchAndRepeatWithViewLifecycle {
+            discoveryViewModel.userMessage.collect { messageResId ->
+                messageResId?.let {
+                    Snackbar.make(
+                        viewBinding.coordinatorLayout,
+                        messageResId,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    discoveryViewModel.clearMessage()
+                }
             }
         }
 
