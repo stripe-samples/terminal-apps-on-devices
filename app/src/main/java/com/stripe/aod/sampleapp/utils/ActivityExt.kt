@@ -20,6 +20,10 @@ fun navOptions(): NavOptions {
         .build()
 }
 
+fun formatAmount(amt: String?): String? {
+    val decimalFormat = DecimalFormat("#,##0.00")
+    return decimalFormat.format(amt!!.toBigDecimal())
+}
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
