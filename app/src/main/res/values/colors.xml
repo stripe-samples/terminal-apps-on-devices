@@ -45,6 +45,7 @@
     <color name="status_offline">#777474</color>
 
     <!-- TextEdit color -->
+    <color name="edit_text">#1F1F1F</color>
     <color name="edit_backgroud">#FFFFFF</color>
     <color name="edit_border">#635BFF</color>
 </resources>

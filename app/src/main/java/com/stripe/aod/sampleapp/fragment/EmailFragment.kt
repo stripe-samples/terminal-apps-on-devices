@@ -22,14 +22,14 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
         }
 
         viewBinding.emailSend.setOnClickListener {
-            if (!viewBinding.emailInput.text.matches(emailRegex.toRegex())) {
-                // TODO: SnackBar to prompt
+            if (!viewBinding.inputEdit.text!!.matches(emailRegex.toRegex())) {
+                viewBinding.inputLayout.error = "Invalid email address"
             } else {
                 // TODO: goto update PaymentIntent's receipt_email
             }
         }
 
-        viewBinding.emailInput.addTextChangedListener(object : TextWatcher {
+        viewBinding.inputEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(input: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -40,6 +40,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                 viewBinding.emailSend.run {
                     isEnabled = !input.isNullOrEmpty()
                 }
+                viewBinding.inputLayout.error = input?.takeIf { it.isEmpty() }
             }
         })
     }
