@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentInputBinding
 import com.stripe.aod.sampleapp.model.InputViewModel
+import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 
 class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
@@ -36,34 +37,40 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     private fun initView(view: View) {
         viewBinding = FragmentInputBinding.bind(view)
         viewBinding.back.setOnClickListener { findNavController().navigateUp() }
-        viewBinding.keypad.keyboard0.setOnTouchListener(this)
-        viewBinding.keypad.keyboard1.setOnTouchListener(this)
-        viewBinding.keypad.keyboard2.setOnTouchListener(this)
-        viewBinding.keypad.keyboard3.setOnTouchListener(this)
-        viewBinding.keypad.keyboard4.setOnTouchListener(this)
-        viewBinding.keypad.keyboard5.setOnTouchListener(this)
-        viewBinding.keypad.keyboard6.setOnTouchListener(this)
-        viewBinding.keypad.keyboard7.setOnTouchListener(this)
-        viewBinding.keypad.keyboard8.setOnTouchListener(this)
-        viewBinding.keypad.keyboard9.setOnTouchListener(this)
-        viewBinding.keypad.keyboardClear.setOnTouchListener(this)
-        viewBinding.keypad.keyboardBackspace.setOnTouchListener(this)
+        viewBinding.keypad.key0.setOnTouchListener(this)
+        viewBinding.keypad.key1.setOnTouchListener(this)
+        viewBinding.keypad.key2.setOnTouchListener(this)
+        viewBinding.keypad.key3.setOnTouchListener(this)
+        viewBinding.keypad.key4.setOnTouchListener(this)
+        viewBinding.keypad.key5.setOnTouchListener(this)
+        viewBinding.keypad.key6.setOnTouchListener(this)
+        viewBinding.keypad.key7.setOnTouchListener(this)
+        viewBinding.keypad.key8.setOnTouchListener(this)
+        viewBinding.keypad.key9.setOnTouchListener(this)
+        viewBinding.keypad.keyClear.setOnTouchListener(this)
+        viewBinding.keypad.keyBackspace.setOnTouchListener(this)
 
-        inputViewModel.displayAmount(action = InputViewModel.ACTION.CLEAR)
+        inputViewModel.displayAmount(action = InputViewModel.ACTION.Clear)
 
         launchAndRepeatWithViewLifecycle {
             inputViewModel.showModifierKeys.collect {
                 val visibility = if (it) View.VISIBLE else View.INVISIBLE
 
-                viewBinding.keypad.keyboardClear.visibility = visibility
-                viewBinding.keypad.keyboardBackspace.visibility = visibility
+                viewBinding.keypad.keyClear.visibility = visibility
+                viewBinding.keypad.keyBackspace.visibility = visibility
                 viewBinding.submit.isEnabled = it
             }
         }
 
         launchAndRepeatWithViewLifecycle {
-            inputViewModel.amt.collect {
-                viewBinding.amount.text = it
+            inputViewModel.amount.collect {
+                viewBinding.amount.text = if (it.isEmpty()) {
+                    formatCentsToString(0)
+                } else {
+                    formatCentsToString(
+                        it.toInt()
+                    )
+                }
             }
         }
     }
@@ -72,51 +79,51 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
         var inputChar: Char? = null
         val scaleView = when (val id = view.id) {
-            R.id.keyboard_0 -> {
+            R.id.key_0 -> {
                 inputChar = '0'
                 viewBinding.keypad.digit0
             }
-            R.id.keyboard_1 -> {
+            R.id.key_1 -> {
                 inputChar = '1'
                 viewBinding.keypad.digit1
             }
-            R.id.keyboard_2 -> {
+            R.id.key_2 -> {
                 inputChar = '2'
                 viewBinding.keypad.digit2
             }
-            R.id.keyboard_3 -> {
+            R.id.key_3 -> {
                 inputChar = '3'
                 viewBinding.keypad.digit3
             }
-            R.id.keyboard_4 -> {
+            R.id.key_4 -> {
                 inputChar = '4'
                 viewBinding.keypad.digit4
             }
-            R.id.keyboard_5 -> {
+            R.id.key_5 -> {
                 inputChar = '5'
                 viewBinding.keypad.digit5
             }
-            R.id.keyboard_6 -> {
+            R.id.key_6 -> {
                 inputChar = '6'
                 viewBinding.keypad.digit6
             }
-            R.id.keyboard_7 -> {
+            R.id.key_7 -> {
                 inputChar = '7'
                 viewBinding.keypad.digit7
             }
-            R.id.keyboard_8 -> {
+            R.id.key_8 -> {
                 inputChar = '8'
                 viewBinding.keypad.digit8
             }
-            R.id.keyboard_9 -> {
+            R.id.key_9 -> {
                 inputChar = '9'
                 viewBinding.keypad.digit9
             }
-            R.id.keyboard_clear -> {
-                viewBinding.keypad.tvClear
+            R.id.key_clear -> {
+                viewBinding.keypad.clear
             }
-            R.id.keyboard_backspace -> {
-                viewBinding.keypad.tvBackspace
+            R.id.key_backspace -> {
+                viewBinding.keypad.backspace
             }
             else -> {
                 error("Unexpected view with id: $id")
@@ -139,11 +146,11 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
 
     private fun handlerClickAction(view: View, inputChar: Char?) {
         when (view) {
-            viewBinding.keypad.tvClear -> {
-                inputViewModel.displayAmount(action = InputViewModel.ACTION.CLEAR)
+            viewBinding.keypad.clear -> {
+                inputViewModel.displayAmount(action = InputViewModel.ACTION.Clear)
             }
-            viewBinding.keypad.tvBackspace -> {
-                inputViewModel.displayAmount(action = InputViewModel.ACTION.DELETE)
+            viewBinding.keypad.backspace -> {
+                inputViewModel.displayAmount(action = InputViewModel.ACTION.Delete)
             }
             else -> {
                 inputViewModel.displayAmount(inputChar)

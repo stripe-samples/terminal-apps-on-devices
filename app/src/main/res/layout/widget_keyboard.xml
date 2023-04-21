@@ -5,14 +5,14 @@
     android:layout_height="fill_parent">
 
     <FrameLayout
-        android:id="@+id/keyboard_1"
+        android:id="@+id/key_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_4"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_2"
+        app:layout_constraintBottom_toTopOf="@id/key_4"
+        app:layout_constraintEnd_toStartOf="@id/key_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1">
@@ -29,13 +29,13 @@
 
 
     <FrameLayout
-        android:id="@+id/keyboard_2"
+        android:id="@+id/key_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_5"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_3"
-        app:layout_constraintStart_toEndOf="@id/keyboard_1"
+        app:layout_constraintBottom_toTopOf="@id/key_5"
+        app:layout_constraintEnd_toStartOf="@id/key_3"
+        app:layout_constraintStart_toEndOf="@id/key_1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1">
 
@@ -50,15 +50,15 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_3"
+        android:id="@+id/key_3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_6"
+        app:layout_constraintBottom_toTopOf="@id/key_6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/keyboard_2"
+        app:layout_constraintStart_toEndOf="@id/key_2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1">
 
@@ -73,16 +73,16 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_4"
+        android:id="@+id/key_4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_7"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_5"
+        app:layout_constraintBottom_toTopOf="@id/key_7"
+        app:layout_constraintEnd_toStartOf="@id/key_5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_1"
+        app:layout_constraintTop_toBottomOf="@id/key_1"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -96,14 +96,14 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_5"
+        android:id="@+id/key_5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_8"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_6"
-        app:layout_constraintStart_toEndOf="@id/keyboard_4"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_2"
+        app:layout_constraintBottom_toTopOf="@id/key_8"
+        app:layout_constraintEnd_toStartOf="@id/key_6"
+        app:layout_constraintStart_toEndOf="@id/key_4"
+        app:layout_constraintTop_toBottomOf="@id/key_2"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -117,16 +117,16 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_6"
+        android:id="@+id/key_6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_9"
+        app:layout_constraintBottom_toTopOf="@id/key_9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/keyboard_5"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_3"
+        app:layout_constraintStart_toEndOf="@id/key_5"
+        app:layout_constraintTop_toBottomOf="@id/key_3"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -140,16 +140,16 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_7"
+        android:id="@+id/key_7"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_clear"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_8"
+        app:layout_constraintBottom_toTopOf="@id/key_clear"
+        app:layout_constraintEnd_toStartOf="@id/key_8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_4"
+        app:layout_constraintTop_toBottomOf="@id/key_4"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -163,14 +163,14 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_8"
+        android:id="@+id/key_8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_0"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_9"
-        app:layout_constraintStart_toEndOf="@id/keyboard_7"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_5"
+        app:layout_constraintBottom_toTopOf="@id/key_0"
+        app:layout_constraintEnd_toStartOf="@id/key_9"
+        app:layout_constraintStart_toEndOf="@id/key_7"
+        app:layout_constraintTop_toBottomOf="@id/key_5"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -184,16 +184,16 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_9"
+        android:id="@+id/key_9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
-        app:layout_constraintBottom_toTopOf="@id/keyboard_backspace"
+        app:layout_constraintBottom_toTopOf="@id/key_backspace"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/keyboard_8"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_6"
+        app:layout_constraintStart_toEndOf="@id/key_8"
+        app:layout_constraintTop_toBottomOf="@id/key_6"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -207,20 +207,20 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_clear"
+        android:id="@+id/key_clear"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/selector_keyboard"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_0"
+        app:layout_constraintEnd_toStartOf="@id/key_0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_7"
+        app:layout_constraintTop_toBottomOf="@id/key_7"
         app:layout_constraintVertical_weight="1">
 
         <TextView
-            android:id="@+id/tv_clear"
+            android:id="@+id/clear"
             style="@style/KeyboardDigitStyle"
             android:layout_width="13dp"
             android:layout_height="33dp"
@@ -230,14 +230,14 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_0"
+        android:id="@+id/key_0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_keyboard"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/keyboard_backspace"
-        app:layout_constraintStart_toEndOf="@id/keyboard_clear"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_8"
+        app:layout_constraintEnd_toStartOf="@id/key_backspace"
+        app:layout_constraintStart_toEndOf="@id/key_clear"
+        app:layout_constraintTop_toBottomOf="@id/key_8"
         app:layout_constraintVertical_weight="1">
 
         <TextView
@@ -251,7 +251,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/keyboard_backspace"
+        android:id="@+id/key_backspace"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -259,12 +259,12 @@
         android:background="@drawable/selector_keyboard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/keyboard_0"
-        app:layout_constraintTop_toBottomOf="@id/keyboard_9"
+        app:layout_constraintStart_toEndOf="@id/key_0"
+        app:layout_constraintTop_toBottomOf="@id/key_9"
         app:layout_constraintVertical_weight="1">
 
         <View
-            android:id="@+id/tv_backspace"
+            android:id="@+id/backspace"
             android:layout_width="24dp"
             android:layout_height="15dp"
             android:layout_gravity="center"

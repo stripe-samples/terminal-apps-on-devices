@@ -6,7 +6,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import com.stripe.aod.sampleapp.R
-import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -20,9 +21,8 @@ fun navOptions(): NavOptions {
         .build()
 }
 
-fun formatAmount(amt: String?): String? {
-    val decimalFormat = DecimalFormat("#,##0.00")
-    return decimalFormat.format(amt!!.toBigDecimal())
+fun formatCentsToString(amount: Int): String {
+    return NumberFormat.getCurrencyInstance(Locale.US).format(amount / 100.0)
 }
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
