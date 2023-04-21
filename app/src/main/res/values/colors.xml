@@ -24,6 +24,7 @@
     <color name="text_discover_reader_light">#6A7383</color>
     <color name="text_discover_reader_dark">#C0C8D2</color>
     <color name="text_amount">#1F1F1F</color>
+    <color name="text_enter_amount">#6A7383</color>
 
     <!-- Button colors -->
     <color name="button_default">#635BFF</color>
@@ -46,5 +47,8 @@
 
     <!-- TextEdit color -->
     <color name="edit_backgroud">#FFFFFF</color>
-    <color name="edit_border">#635BFF</color>
+    <color name="edit_border">#635BFF</color>\
+
+    <!--divider line -->
+    <color name="divider_line">#C0C8D2</color>
 </resources>
