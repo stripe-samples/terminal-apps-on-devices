@@ -50,7 +50,7 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         viewBinding.keypad.keyClear.setOnTouchListener(this)
         viewBinding.keypad.keyBackspace.setOnTouchListener(this)
 
-        inputViewModel.displayAmount(action = InputViewModel.ACTION.Clear)
+        inputViewModel.displayAmount(action = InputViewModel.Action.Clear)
 
         launchAndRepeatWithViewLifecycle {
             inputViewModel.showModifierKeys.collect {
@@ -147,10 +147,10 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     private fun handlerClickAction(view: View, inputChar: Char?) {
         when (view) {
             viewBinding.keypad.clear -> {
-                inputViewModel.displayAmount(action = InputViewModel.ACTION.Clear)
+                inputViewModel.displayAmount(action = InputViewModel.Action.Clear)
             }
             viewBinding.keypad.backspace -> {
-                inputViewModel.displayAmount(action = InputViewModel.ACTION.Delete)
+                inputViewModel.displayAmount(action = InputViewModel.Action.Delete)
             }
             else -> {
                 inputViewModel.displayAmount(inputChar)

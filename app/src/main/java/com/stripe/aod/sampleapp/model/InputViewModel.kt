@@ -5,9 +5,10 @@ import java.util.regex.Pattern
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class InputViewModel : ViewModel() {
-    enum class ACTION {
+    enum class Action {
         Add, Delete, Clear
     }
 
@@ -20,44 +21,47 @@ class InputViewModel : ViewModel() {
     val showModifierKeys: StateFlow<Boolean> = _showModifierKeys.asStateFlow()
 
     private fun addAmountCharacter(w: Char?): String {
-        if (w == null) return _amount.value
-        if (_amount.value.length >= 8) {
-            return _amount.value
+        _amount.update { currentAmount ->
+            if (w == null || currentAmount.length >= 8 ||
+                (w == '0' && pattern.matcher(currentAmount).matches())
+            ) {
+                currentAmount
+            } else {
+                currentAmount + w
+            }
         }
-        if (w == '0' && pattern.matcher(_amount.value).matches()) {
-            return _amount.value
-        }
-        _amount.value += w
         return _amount.value
     }
 
     private fun deleteAmountCharacter(): String {
-        if (_amount.value.isEmpty()) {
-            _amount.value = ""
-            return _amount.value
+        _amount.update { currentAmount ->
+            if (currentAmount.isEmpty()) {
+                currentAmount
+            } else {
+                currentAmount.substring(0, currentAmount.length - 1)
+            }
         }
-        _amount.value = _amount.value.substring(0, _amount.value.length - 1)
         return _amount.value
     }
 
     private fun clearAmount(): String {
-        _amount.value = ""
+        _amount.update { "" }
         return _amount.value
     }
 
-    fun displayAmount(amt: Char? = null, action: ACTION = ACTION.Add) {
+    fun displayAmount(amt: Char? = null, action: Action = Action.Add) {
         val amountValue = when (action) {
-            ACTION.Add -> {
+            Action.Add -> {
                 addAmountCharacter(amt)
             }
-            ACTION.Delete -> {
+            Action.Delete -> {
                 deleteAmountCharacter()
             }
-            ACTION.Clear -> {
+            Action.Clear -> {
                 clearAmount()
             }
         }
-        _amount.value = amountValue
-        _showModifierKeys.value = _amount.value.isNotBlank()
+        _amount.update { amountValue }
+        _showModifierKeys.update { _amount.value.isNotBlank() }
     }
 }
