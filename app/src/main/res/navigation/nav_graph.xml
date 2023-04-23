@@ -40,8 +40,8 @@
         android:label="CheckoutFragment" >
         <argument
             android:name="amount"
-            app:argType="long"
-            android:defaultValue="0L" />
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_inputFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_inputFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/emailFragment"

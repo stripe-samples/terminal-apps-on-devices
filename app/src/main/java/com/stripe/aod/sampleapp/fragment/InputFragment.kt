@@ -14,6 +14,7 @@ import com.stripe.aod.sampleapp.databinding.FragmentInputBinding
 import com.stripe.aod.sampleapp.model.InputViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
+import com.stripe.aod.sampleapp.utils.navOptions
 
 class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     private lateinit var viewBinding: FragmentInputBinding
@@ -49,6 +50,7 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         viewBinding.keypad.key9.setOnTouchListener(this)
         viewBinding.keypad.keyClear.setOnTouchListener(this)
         viewBinding.keypad.keyBackspace.setOnTouchListener(this)
+        viewBinding.submit.setOnClickListener { requestNewPayment() }
 
         inputViewModel.displayAmount(action = InputViewModel.Action.Clear)
 
@@ -73,6 +75,15 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
                 }
             }
         }
+    }
+
+    private fun requestNewPayment() {
+        findNavController().navigate(
+            InputFragmentDirections.actionInputFragmentToCheckoutFragment(
+                inputViewModel.amount.value.toInt()
+            ),
+            navOptions()
+        )
     }
 
     @SuppressLint("ClickableViewAccessibility")
