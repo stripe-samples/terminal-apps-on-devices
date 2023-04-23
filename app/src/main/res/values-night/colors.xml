@@ -22,6 +22,7 @@
     <color name="logo_color">#FFFFFF</color>
     <color name="logo_title">#C0C8D2</color>
     <color name="text_amount">#F6F8FA</color>
+    <color name="text_enter_amount">#C0C8D2</color>
 
     <!-- Button colors -->
     <color name="button_default">#0570DE</color>
@@ -35,4 +36,7 @@
     <!-- TextEdit color -->
     <color name="edit_backgroud">#1F1F1F</color>
     <color name="edit_border">#635BFF</color>
+
+    <!--divider line -->
+    <color name="divider_line">#36373A</color>
 </resources>
