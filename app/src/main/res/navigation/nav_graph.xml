@@ -35,6 +35,15 @@
             app:destination="@id/configFragment" />
     </fragment>
     <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.CheckoutFragment"
+        android:label="CheckoutFragment" >
+        <argument
+            android:name="amount"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+    <fragment
         android:id="@+id/receiptFragment"
         android:name="com.stripe.aod.sampleapp.fragment.ReceiptFragment"
         android:label="ReceiptFragment" >
