@@ -31,4 +31,12 @@
         <item name="boxCornerRadiusTopEnd">6dp</item>
         <item name="boxCornerRadiusTopStart">6dp</item>
     </style>
+
+    <style name="AmountStyle">
+        <item name="android:textColor">@color/text_amount</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+    </style>
 </resources>
