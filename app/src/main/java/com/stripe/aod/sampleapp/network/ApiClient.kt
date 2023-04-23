@@ -1,12 +1,18 @@
 package com.stripe.aod.sampleapp.network
 
 import com.stripe.aod.sampleapp.BuildConfig
+import com.stripe.aod.sampleapp.adapter.data.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
+import java.io.IOException
+import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
@@ -38,4 +44,19 @@ object ApiClient {
             throw ConnectionTokenException("Creating connection token failed", e)
         }
     }
+
+    fun createPaymentIntentFlow(createPaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse?>> = flow {
+        val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
+        val result = response ?: throw Exception("Failed to create payment intent")
+        emit(Result.success(result))
+    }.catch {
+        emit(Result.failure(it))
+    }.flowOn(Dispatchers.IO)
+
+    fun capturePaymentIntent(id: String): Flow<Boolean> = flow {
+        val response = service.capturePaymentIntent(id)
+        emit(response.isSuccessful)
+    }.catch {
+        emit(false)
+    }.flowOn(Dispatchers.IO)
 }

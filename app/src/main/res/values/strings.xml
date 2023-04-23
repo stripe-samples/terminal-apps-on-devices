@@ -20,6 +20,8 @@
     <string name="checkout">Checkout</string>
     <string name="amount_entered">Amount entered</string>
 
+    <string name="error_fail_to_create_payment_intent">Failed to create payment intent</string>
+
     <string name="send_receipt_tip">How would you like to receive a receipt?</string>
     <string name="email">Email</string>
     <string name="sms">SMS</string>

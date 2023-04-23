@@ -4,19 +4,35 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
+import com.stripe.aod.sampleapp.adapter.data.PaymentIntentParams
+import com.stripe.aod.sampleapp.adapter.data.toMap
 import com.stripe.aod.sampleapp.databinding.FragmentCheckoutBinding
+import com.stripe.aod.sampleapp.model.CheckoutViewModel
+import com.stripe.aod.sampleapp.utils.formatCentsToString
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // get viewBinding instance
         val viewBinding = FragmentCheckoutBinding.bind(view)
+        val checkoutViewModel by viewModels<CheckoutViewModel>()
+
+        var amount = 0
+        arguments?.let {
+            amount = CheckoutFragmentArgs.fromBundle(it).amount
+        }
+        viewBinding.amount.text = formatCentsToString(amount)
+        viewBinding.amountDescription.text = formatCentsToString(amount)
 
         viewBinding.back.setOnClickListener {
             findNavController().navigateUp()
         }
+
         // hand back press action
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -28,10 +44,25 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         )
 
         viewBinding.back.setOnClickListener { findNavController().navigateUp() }
-        viewBinding.submit.setOnClickListener { startPaymentIntent() }
-    }
-
-    private fun startPaymentIntent() {
-        // TODO: goto create new payment
+        viewBinding.submit.setOnClickListener {
+            checkoutViewModel.createPaymentIntent(
+                PaymentIntentParams(amount = amount, currency = "usd").toMap(),
+                successCallBack = { paymentIntentId ->
+                    Snackbar.make(viewBinding.root, paymentIntentId, Snackbar.LENGTH_SHORT).show()
+                    // TODO: goto receipt fragment
+                },
+                failCallback = {
+                    Snackbar.make(
+                        viewBinding.root,
+                        if (it.isNullOrEmpty()) {
+                            getString(R.string.error_fail_to_create_payment_intent)
+                        } else {
+                            it
+                        },
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            )
+        }
     }
 }

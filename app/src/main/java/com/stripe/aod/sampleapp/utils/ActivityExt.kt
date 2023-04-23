@@ -6,6 +6,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import com.stripe.aod.sampleapp.R
+import java.text.NumberFormat
+import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -17,6 +19,10 @@ fun navOptions(): NavOptions {
         .setPopEnterAnim(R.anim.slide_left_in)
         .setPopExitAnim(R.anim.slide_right_out)
         .build()
+}
+
+fun formatCentsToString(amount: Int): String {
+    return NumberFormat.getCurrencyInstance(Locale.US).format(amount / 100.0)
 }
 
 inline fun Fragment.launchAndRepeatWithViewLifecycle(
