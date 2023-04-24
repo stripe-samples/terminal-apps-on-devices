@@ -11,6 +11,7 @@ import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
 import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
+import kotlinx.coroutines.flow.filter
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,7 +31,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         launchAndRepeatWithViewLifecycle {
-            viewModel.userMessage.collect { message ->
+            viewModel.userMessage.filter {
+                it.isNotEmpty()
+            }.collect { message ->
                 Snackbar.make(viewBinding.newPayment, message, Snackbar.LENGTH_SHORT).show()
             }
         }
