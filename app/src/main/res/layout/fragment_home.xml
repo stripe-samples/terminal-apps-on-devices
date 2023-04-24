@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/menu_settings"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/settings"/>
+        <ImageView
+            android:id="@+id/menu_settings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/settings"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="113dp"
-        android:layout_height="46dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/sample_tip"
-        android:layout_marginTop="212dp"
-        android:src="@drawable/logo"/>
+        <ImageView
+            android:layout_width="113dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="212dp"
+            android:src="@drawable/logo"
+            app:layout_constraintBottom_toTopOf="@id/sample_tip"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/sample_tip"
-        android:layout_width="312dp"
-        android:layout_height="48dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="273dp"
-        android:text="@string/terminal_sample_app"
-        android:textSize="17sp"
-        android:textColor="@color/logo_title"
-        android:lineSpacingExtra="0sp"
-        android:gravity="center_horizontal|center_vertical" />
+        <TextView
+            android:id="@+id/sample_tip"
+            android:layout_width="312dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="273dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:lineSpacingExtra="0sp"
+            android:text="@string/terminal_sample_app"
+            android:textColor="@color/logo_title"
+            android:textSize="17sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/new_payment"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:textSize="17sp"
-        style="@style/button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="24dp"
-        android:text="@string/new_payment" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/new_payment"
+            style="@style/button"
+            android:layout_width="320dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/new_payment"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

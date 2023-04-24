@@ -29,6 +29,9 @@ class MainViewModel : ViewModel() {
     private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false)
 
+    private val _userMessage: MutableStateFlow<String> = MutableStateFlow("")
+    val userMessage: StateFlow<String> = _userMessage.asStateFlow()
+
     private lateinit var targetReader: Reader
 
     private val discoveryListener: DiscoveryListener = object : DiscoveryListener {
@@ -86,6 +89,7 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onFailure(e: TerminalException) {
+                _userMessage.update { e.errorMessage }
             }
         }
 

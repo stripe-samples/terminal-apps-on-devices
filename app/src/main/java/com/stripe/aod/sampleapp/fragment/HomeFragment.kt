@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
 import com.stripe.aod.sampleapp.model.MainViewModel
@@ -25,6 +26,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         launchAndRepeatWithViewLifecycle {
             viewModel.isReaderConnected.collect {
                 viewBinding.newPayment.isEnabled = it
+            }
+        }
+
+        launchAndRepeatWithViewLifecycle {
+            viewModel.userMessage.collect { message ->
+                Snackbar.make(viewBinding.newPayment, message, Snackbar.LENGTH_SHORT).show()
             }
         }
     }
