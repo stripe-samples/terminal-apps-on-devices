@@ -29,10 +29,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         viewBinding.amount.text = formatCentsToString(amount)
         viewBinding.amountDescription.text = formatCentsToString(amount)
 
-        viewBinding.back.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
         // hand back press action
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -51,13 +47,13 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     Snackbar.make(viewBinding.root, paymentIntentId, Snackbar.LENGTH_SHORT).show()
                     // TODO: goto receipt fragment
                 },
-                failCallback = {
+                failCallback = { message ->
                     Snackbar.make(
                         viewBinding.root,
-                        if (it.isNullOrEmpty()) {
+                        if (message.isNullOrEmpty()) {
                             getString(R.string.error_fail_to_create_payment_intent)
                         } else {
-                            it
+                            message
                         },
                         Snackbar.LENGTH_SHORT
                     ).show()
