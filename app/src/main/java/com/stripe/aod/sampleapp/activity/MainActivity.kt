@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions(),
-        ::onPermissionResult,
+        ::onPermissionResult
     )
 
     public override fun onCreate(savedInstanseBundle: Bundle?) {
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun isGranted(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
-            permission,
+            permission
         ) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         val deniedPermissions = listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_SCAN
         )
             .filterNot(::isGranted)
             .toTypedArray()
@@ -102,12 +102,14 @@ class MainActivity : AppCompatActivity() {
                 applicationContext,
                 LogLevel.VERBOSE,
                 viewModel.tokenProvider,
-                TerminalEventListener(),
+                TerminalEventListener(viewModel)
             )
+
+            viewModel.discoveryReaders()
         } catch (e: TerminalException) {
             throw RuntimeException(
                 "Location services are required in order to initialize the Terminal.",
-                e,
+                e
             )
         }
     }
@@ -125,8 +127,8 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(
                 ContextThemeWrapper(
                     this,
-                    com.google.android.material.R.style.Theme_MaterialComponents_DayNight_DarkActionBar,
-                ),
+                    com.google.android.material.R.style.Theme_MaterialComponents_DayNight_DarkActionBar
+                )
             )
                 .setMessage("Please enable location services")
                 .setCancelable(false)

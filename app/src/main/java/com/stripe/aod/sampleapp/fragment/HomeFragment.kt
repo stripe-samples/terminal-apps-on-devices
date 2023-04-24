@@ -5,10 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
-import com.stripe.aod.sampleapp.utils.navOptions
+import com.stripe.aod.sampleapp.model.MainViewModel
+import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -20,12 +21,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("stripe://settings/")))
         }
 
-        viewBinding.menuConfig.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_homeFragment_to_configFragment,
-                null,
-                navOptions()
-            )
+        val viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        launchAndRepeatWithViewLifecycle {
+            viewModel.isReaderConnected.collect {
+                viewBinding.newPayment.isEnabled = it
+            }
         }
     }
 }

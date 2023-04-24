@@ -16,16 +16,6 @@
         android:src="@drawable/settings"/>
 
     <ImageView
-        android:id="@+id/menu_config"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/configs" />
-
-    <ImageView
         android:layout_width="113dp"
         android:layout_height="46dp"
         app:layout_constraintLeft_toLeftOf="parent"
