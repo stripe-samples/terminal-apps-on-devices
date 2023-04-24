@@ -14,7 +14,6 @@ import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // get viewBinding instance
