@@ -1,7 +1,7 @@
 package com.stripe.aod.sampleapp.network
 
 import com.stripe.aod.sampleapp.BuildConfig
-import com.stripe.aod.sampleapp.adapter.data.PaymentIntentCreationResponse
+import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -45,9 +45,17 @@ object ApiClient {
         }
     }
 
-    fun createPaymentIntentFlow(createPaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse?>> = flow {
+    fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse?>> = flow {
         val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
         val result = response ?: throw Exception("Failed to create payment intent")
+        emit(Result.success(result))
+    }.catch {
+        emit(Result.failure(it))
+    }.flowOn(Dispatchers.IO)
+
+    fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse>> = flow {
+        val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
+        val result = response ?: throw Exception("Failed to update payment intent")
         emit(Result.success(result))
     }.catch {
         emit(Result.failure(it))

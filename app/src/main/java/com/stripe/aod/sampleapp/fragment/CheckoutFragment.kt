@@ -8,8 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
-import com.stripe.aod.sampleapp.adapter.data.PaymentIntentParams
-import com.stripe.aod.sampleapp.adapter.data.toMap
+import com.stripe.aod.sampleapp.data.CreatePaymentParams
 import com.stripe.aod.sampleapp.databinding.FragmentCheckoutBinding
 import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
@@ -42,7 +41,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         viewBinding.back.setOnClickListener { findNavController().navigateUp() }
         viewBinding.submit.setOnClickListener {
             checkoutViewModel.createPaymentIntent(
-                PaymentIntentParams(amount = amount, currency = "usd").toMap(),
+                CreatePaymentParams(amount = amount, currency = "usd"),
                 successCallBack = { paymentIntentId ->
                     Snackbar.make(viewBinding.root, paymentIntentId, Snackbar.LENGTH_SHORT).show()
                     // TODO: goto receipt fragment

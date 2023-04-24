@@ -1,4 +1,4 @@
-package com.stripe.aod.sampleapp.adapter.data
+package com.stripe.aod.sampleapp.data
 
 /**
  * PaymentIntentCreationResponse data model from example backend

@@ -1,13 +1,13 @@
-package com.stripe.aod.sampleapp.adapter.data
+package com.stripe.aod.sampleapp.data
 
-data class PaymentIntentParams(
+data class CreatePaymentParams(
     val amount: Int,
     val currency: String,
     val requestExtendedAuthorization: Boolean = true,
     val requestIncrementalAuthorizationSupport: Boolean = true
 )
 
-fun PaymentIntentParams.toMap(): Map<String, String> {
+fun CreatePaymentParams.toMap(): Map<String, String> {
     return mapOf(
         "amount" to amount.toString(),
         "currency" to currency,
