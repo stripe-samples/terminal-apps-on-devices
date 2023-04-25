@@ -44,6 +44,7 @@
 
     <!-- TextEdit color -->
     <color name="edit_background">#1F1F1F</color>
+    <color name="edit_text">#F6F8FA</color>
     <color name="edit_border">#635BFF</color>
 
     <!--divider line -->

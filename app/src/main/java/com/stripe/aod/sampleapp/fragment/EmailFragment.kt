@@ -1,9 +1,8 @@
 package com.stripe.aod.sampleapp.fragment
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.stripe.aod.sampleapp.R
@@ -21,26 +20,14 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
             findNavController().navigateUp()
         }
 
-        viewBinding.emailSend.setOnClickListener {
-            if (!viewBinding.emailInput.text.matches(emailRegex.toRegex())) {
-                // TODO: SnackBar to prompt
+        viewBinding.inputEdit.doAfterTextChanged {
+            val isValidEmail = it?.toString()?.matches(emailRegex.toRegex()) ?: false
+            viewBinding.emailSend.isEnabled = isValidEmail
+            viewBinding.inputLayout.error = if (it.isNullOrEmpty() || isValidEmail) {
+                ""
             } else {
-                // TODO: goto update PaymentIntent's receipt_email
+                getString(R.string.invalid_email)
             }
         }
-
-        viewBinding.emailInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(input: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(input: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(input: Editable?) {
-                viewBinding.emailSend.run {
-                    isEnabled = !input.isNullOrEmpty()
-                }
-            }
-        })
     }
 }

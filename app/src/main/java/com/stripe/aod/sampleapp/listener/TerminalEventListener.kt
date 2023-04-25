@@ -12,10 +12,15 @@ import com.stripe.stripeterminal.external.models.Reader
  * forward along any events to other parts of the app that register for updates.
  *
  */
-class TerminalEventListener : TerminalListener {
+class TerminalEventListener(private val connectReader: () -> Unit) : TerminalListener {
 
     override fun onUnexpectedReaderDisconnect(reader: Reader) {
-        Log.i(Config.TAG, "Reader serial number: ${reader.serialNumber}")
+        Log.i(
+            Config.TAG,
+            "onUnexpectedReaderDisconnect Reader serial number: ${reader.serialNumber}"
+        )
+        // Reconnect the device
+        connectReader()
     }
 
     override fun onConnectionStatusChange(status: ConnectionStatus) {
