@@ -20,10 +20,10 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         val viewBinding = FragmentCheckoutBinding.bind(view)
         val checkoutViewModel by viewModels<CheckoutViewModel>()
 
-        var amount = 0
-        arguments?.let {
-            amount = CheckoutFragmentArgs.fromBundle(it).amount
-        }
+        val amount = arguments?.let {
+            CheckoutFragmentArgs.fromBundle(it).amount
+        } ?: 0
+
         viewBinding.amount.text = formatCentsToString(amount)
         viewBinding.amountDescription.text = formatCentsToString(amount)
 

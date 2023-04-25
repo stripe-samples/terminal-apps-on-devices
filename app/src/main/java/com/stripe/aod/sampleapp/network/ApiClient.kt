@@ -5,11 +5,9 @@ import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -47,24 +45,25 @@ object ApiClient {
 
     fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse?>> = flow {
         val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
-        val result = response ?: throw Exception("Failed to create payment intent")
+        val result = response ?: error("Failed to create payment intent")
         emit(Result.success(result))
     }.catch {
         emit(Result.failure(it))
-    }.flowOn(Dispatchers.IO)
+    }
 
     fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse>> = flow {
         val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
-        val result = response ?: throw Exception("Failed to update payment intent")
+        val result = response ?: error("Failed to update payment intent")
         emit(Result.success(result))
     }.catch {
         emit(Result.failure(it))
-    }.flowOn(Dispatchers.IO)
+    }
 
-    fun capturePaymentIntent(id: String): Flow<Boolean> = flow {
+    fun capturePaymentIntent(id: String): Flow<Result<PaymentIntentCreationResponse>> = flow {
         val response = service.capturePaymentIntent(id)
-        emit(response.isSuccessful)
+        val result = response ?: error("Failed to capture payment intent")
+        emit(Result.success(result))
     }.catch {
-        emit(false)
-    }.flowOn(Dispatchers.IO)
+        emit(Result.failure(it))
+    }
 }

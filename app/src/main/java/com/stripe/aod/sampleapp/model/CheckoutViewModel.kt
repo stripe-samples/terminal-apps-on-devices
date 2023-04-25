@@ -14,12 +14,9 @@ import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
 import com.stripe.stripeterminal.external.models.CollectConfiguration
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.TerminalException
-import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -65,65 +62,64 @@ class CheckoutViewModel : ViewModel() {
         }
     }
 
-    private suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Boolean {
-        coroutineContext.cancelChildren()
-        val deferred = CompletableDeferred<Boolean>()
-        try {
-            withContext(Dispatchers.IO) {
+    private suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Boolean =
+        withContext(Dispatchers.IO) {
+            try {
                 val captureResult = createAndProcessPaymentIntent(createPaymentIntentParams)
-                if (!captureResult) throw Exception("Failed to create payment intent")
-                deferred.complete(true)
+                if (!captureResult) {
+                    error("Failed to create payment intent")
+                }
+                true
+            } catch (e: Exception) {
+                false
             }
-        } catch (e: Exception) {
-            deferred.completeExceptionally(e)
         }
-        return deferred.await()
-    }
 
-    private suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Boolean {
-        coroutineContext.cancelChildren()
-        val deferred = CompletableDeferred<Boolean>()
-        try {
-            withContext(Dispatchers.IO) {
+    private suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Boolean =
+        withContext(Dispatchers.IO) {
+            try {
                 val updateResult = updateAndProcessPaymentIntent(updatePaymentIntentParams)
-                if (!updateResult) throw Exception("Failed to update payment intent")
-                deferred.complete(true)
+                if (!updateResult) {
+                    error("Failed to update payment intent")
+                }
+                true
+            } catch (e: Exception) {
+                false
             }
-        } catch (e: Exception) {
-            deferred.completeExceptionally(e)
         }
-        return deferred.await()
-    }
 
     private suspend fun createAndProcessPaymentIntent(
         createPaymentIntentParams: Map<String, String>
-    ): Boolean {
-        return when (val response = ApiClient.createPaymentIntent(createPaymentIntentParams).firstOrNull()?.getOrNull()) {
-            is PaymentIntentCreationResponse -> {
-                val secret = response.secret
-                val paymentIntent = retrievePaymentIntent(secret)
-                paymentIntentID = paymentIntent.id
-                val paymentIntentAfterCollect = collectPaymentInfo(paymentIntent)
-                processPayment(paymentIntentAfterCollect)
-                true
-            }
-            else -> false
+    ): Boolean = when (
+        val response =
+            ApiClient.createPaymentIntent(createPaymentIntentParams).firstOrNull()?.getOrNull()
+    ) {
+        is PaymentIntentCreationResponse -> {
+            val secret = response.secret
+            val paymentIntent = retrievePaymentIntent(secret)
+            paymentIntentID = paymentIntent.id
+            val paymentIntentAfterCollect = collectPaymentInfo(paymentIntent)
+            processPayment(paymentIntentAfterCollect)
+            true
         }
+
+        else -> false
     }
 
     private suspend fun updateAndProcessPaymentIntent(
         createPaymentIntentParams: Map<String, String>
-    ): Boolean {
-        return when (val response = ApiClient.updatePaymentIntent(createPaymentIntentParams).firstOrNull()?.getOrNull()) {
-            is PaymentIntentCreationResponse -> {
-                val secret = response.secret
-                Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
-                val paymentIntent = retrievePaymentIntent(secret)
-                val captureResult = capturePaymentIntent(paymentIntent)
-                captureResult
-            }
-            else -> false
+    ): Boolean = when (
+        val response =
+            ApiClient.updatePaymentIntent(createPaymentIntentParams).firstOrNull()?.getOrNull()
+    ) {
+        is PaymentIntentCreationResponse -> {
+            val secret = response.secret
+            Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
+            val paymentIntent = retrievePaymentIntent(secret)
+            val captureResult = capturePaymentIntent(paymentIntent)
+            captureResult
         }
+        else -> false
     }
 
     private suspend fun retrievePaymentIntent(secret: String): PaymentIntent {

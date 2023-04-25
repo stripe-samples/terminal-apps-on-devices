@@ -25,9 +25,9 @@ interface BackendService {
 
     @FormUrlEncoded
     @POST("update_payment_intent")
-    suspend fun updatePaymentIntent(@FieldMap updatePaymentIntentParams: Map<String, String>): PaymentIntentCreationResponse
+    suspend fun updatePaymentIntent(@FieldMap updatePaymentIntentParams: Map<String, String>): PaymentIntentCreationResponse?
 
     @FormUrlEncoded
     @POST("capture_payment_intent")
-    suspend fun capturePaymentIntent(@Field("payment_intent_id") id: String): Response<Boolean>
+    suspend fun capturePaymentIntent(@Field("payment_intent_id") id: String): PaymentIntentCreationResponse?
 }
