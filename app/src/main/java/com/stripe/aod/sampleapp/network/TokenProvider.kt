@@ -12,13 +12,13 @@ import kotlinx.coroutines.launch
  */
 class TokenProvider(private val coroutineScope: CoroutineScope) : ConnectionTokenProvider {
     override fun fetchConnectionToken(callback: ConnectionTokenCallback) {
-        try {
-            coroutineScope.launch {
+        coroutineScope.launch {
+            try {
                 val token = ApiClient.createConnectionToken()
                 callback.onSuccess(token)
+            } catch (e: ConnectionTokenException) {
+                callback.onFailure(e)
             }
-        } catch (e: ConnectionTokenException) {
-            callback.onFailure(e)
         }
     }
 }
