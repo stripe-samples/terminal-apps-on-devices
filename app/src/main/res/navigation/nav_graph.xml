@@ -9,31 +9,10 @@
         android:name="com.stripe.aod.sampleapp.fragment.HomeFragment"
         android:label="HomeFragment" >
         <action
-            android:id="@+id/action_homeFragment_to_configFragment"
-            app:destination="@id/configFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_inputFragment"
             app:destination="@id/inputFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/configFragment"
-        android:name="com.stripe.aod.sampleapp.fragment.ConfigFragment"
-        android:label="ConfigFragment" >
-        <action
-            android:id="@+id/action_configFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_configFragment_to_discoverReaderFragment"
-            app:destination="@id/discoverReaderFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/discoverReaderFragment"
-        android:name="com.stripe.aod.sampleapp.fragment.DiscoverReaderFragment"
-        android:label="DiscoverReaderFragment" >
-        <action
-            android:id="@+id/action_discoverReaderFragment_to_configFragment"
-            app:destination="@id/configFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.stripe.aod.sampleapp.fragment.CheckoutFragment"
@@ -42,6 +21,9 @@
             android:name="amount"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_receiptFragment"
+            app:destination="@id/receiptFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
@@ -50,6 +32,13 @@
         <action
             android:id="@+id/action_receiptFragment_to_emailFragment"
             app:destination="@id/emailFragment" />
+        <argument
+            android:name="amount"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="paymentIntentID"
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/inputFragment"
@@ -65,5 +54,15 @@
     <fragment
         android:id="@+id/emailFragment"
         android:name="com.stripe.aod.sampleapp.fragment.EmailFragment"
-        android:label="EmailFragment" />
+        android:label="EmailFragment" >
+        <action
+            android:id="@+id/action_emailFragment_to_receiptFragment"
+            app:destination="@id/receiptFragment" />
+        <argument
+            android:name="paymentIntentID"
+            app:argType="string"/>
+        <argument
+            android:name="receiptEmail"
+            app:argType="string"/>
+    </fragment>
 </navigation>

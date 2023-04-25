@@ -30,6 +30,8 @@
     <string name="checkout">Checkout</string>
     <string name="amount_entered">Amount entered</string>
 
+    <string name="error_fail_to_send_email_receipt">Failed to send email receipt</string>
+
     <string name="send_receipt_tip">How would you like to receive a receipt?</string>
     <string name="email">Email</string>
     <string name="sms">SMS</string>
