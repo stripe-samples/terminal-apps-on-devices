@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
 import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
+import com.stripe.aod.sampleapp.utils.navOptions
 import kotlinx.coroutines.flow.filter
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -37,6 +39,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }.collect { message ->
                 Snackbar.make(viewBinding.newPayment, message, Snackbar.LENGTH_SHORT).show()
             }
+        }
+
+        viewBinding.newPayment.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeFragment_to_inputFragment,
+                null,
+                navOptions()
+            )
         }
     }
 }

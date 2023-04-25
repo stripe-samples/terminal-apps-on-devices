@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <FrameLayout
+        android:id="@+id/key_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_4"
+        app:layout_constraintEnd_toStartOf="@id/key_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_1"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_1"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/key_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_5"
+        app:layout_constraintEnd_toStartOf="@id/key_3"
+        app:layout_constraintStart_toEndOf="@id/key_1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_2"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_2"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/key_2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_3"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_3"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_7"
+        app:layout_constraintEnd_toStartOf="@id/key_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key_1"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_4"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_4"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_8"
+        app:layout_constraintEnd_toStartOf="@id/key_6"
+        app:layout_constraintStart_toEndOf="@id/key_4"
+        app:layout_constraintTop_toBottomOf="@id/key_2"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_5"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_5"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/key_5"
+        app:layout_constraintTop_toBottomOf="@id/key_3"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_6"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_6"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_clear"
+        app:layout_constraintEnd_toStartOf="@id/key_8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key_4"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_7"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_7"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_0"
+        app:layout_constraintEnd_toStartOf="@id/key_9"
+        app:layout_constraintStart_toEndOf="@id/key_7"
+        app:layout_constraintTop_toBottomOf="@id/key_5"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_8"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_8"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toTopOf="@id/key_backspace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/key_8"
+        app:layout_constraintTop_toBottomOf="@id/key_6"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_9"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_9"
+            android:textSize="20sp"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_clear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/key_0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key_7"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/clear"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_clear"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/key_backspace"
+        app:layout_constraintStart_toEndOf="@id/key_clear"
+        app:layout_constraintTop_toBottomOf="@id/key_8"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            android:id="@+id/digit_0"
+            style="@style/KeyboardDigitStyle"
+            android:layout_width="13dp"
+            android:layout_height="33dp"
+            android:lineSpacingExtra="9sp"
+            android:text="@string/key_0"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/key_backspace"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/selector_keyboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/key_0"
+        app:layout_constraintTop_toBottomOf="@id/key_9"
+        app:layout_constraintVertical_weight="1">
+
+        <View
+            android:id="@+id/backspace"
+            android:layout_width="24dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:background="@drawable/backspace" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
