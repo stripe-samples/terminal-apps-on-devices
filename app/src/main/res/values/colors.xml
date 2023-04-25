@@ -38,14 +38,12 @@
     <color name="button_back_light">#778292</color>
     <color name="button_back_dark">#E0E6EB</color>
 
-    <color name="button_right_arrow_light">#778292</color>
-    <color name="button_right_arrow_dark">#E0E6EB</color>
-
     <!-- Reader status colors -->
     <color name="status_online">#10C210</color>
     <color name="status_offline">#777474</color>
 
     <!-- TextEdit color -->
+    <color name="edit_text">#1F1F1F</color>
     <color name="edit_backgroud">#FFFFFF</color>
     <color name="edit_border">#635BFF</color>
 

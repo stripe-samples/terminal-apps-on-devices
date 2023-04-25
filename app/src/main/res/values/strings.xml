@@ -6,9 +6,7 @@
     <string name="new_payment">New payment</string>
 
     <string name="please_select_reader">Please select a reader first!</string>
-    <string name="discover_readers">Discover Readers</string>
 
-    <string name="discover_reader_title">Reader List</string>
     <string name="status_reader_connected">Reader connected!</string>
     <string name="status_reader_offline">Reader offline!</string>
     <string name="unknown_reader">Unknown Reader</string>
