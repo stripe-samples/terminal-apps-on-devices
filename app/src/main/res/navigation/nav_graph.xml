@@ -37,8 +37,7 @@
             android:defaultValue="0" />
         <argument
             android:name="paymentIntentID"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="string"/>
     </fragment>
     <fragment
         android:id="@+id/inputFragment"
