@@ -12,6 +12,7 @@ import com.stripe.aod.sampleapp.data.CreatePaymentParams
 import com.stripe.aod.sampleapp.databinding.FragmentCheckoutBinding
 import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
+import com.stripe.aod.sampleapp.utils.navOptions
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,9 +42,16 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         viewBinding.submit.setOnClickListener {
             checkoutViewModel.createPaymentIntent(
                 CreatePaymentParams(amount = amount, currency = "usd"),
-                successCallBack = { paymentIntentId ->
-                    Snackbar.make(viewBinding.root, paymentIntentId, Snackbar.LENGTH_SHORT).show()
+                successCallback = { paymentIntentId ->
                     // TODO: goto receipt fragment
+                    findNavController().navigate(
+                        CheckoutFragmentDirections
+                            .actionCheckoutFragmentToReceiptFragment(
+                                paymentIntentID = paymentIntentId,
+                                amount = amount
+                            ),
+                        navOptions()
+                    )
                 },
                 failCallback = { message ->
                     Snackbar.make(

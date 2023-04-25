@@ -26,14 +26,14 @@ class CheckoutViewModel : ViewModel() {
 
     fun createPaymentIntent(
         createPaymentParams: CreatePaymentParams,
-        successCallBack: (String) -> Unit,
+        successCallback: (String) -> Unit,
         failCallback: (String?) -> Unit
     ) {
         viewModelScope.launch {
             try {
                 val result = createPaymentIntent(createPaymentParams.toMap())
                 if (result) {
-                    paymentIntentID?.let { successCallBack(it) }
+                    paymentIntentID?.let { successCallback(it) }
                 } else {
                     failCallback("Failed to create payment intent")
                 }
@@ -45,14 +45,14 @@ class CheckoutViewModel : ViewModel() {
 
     fun updateEmailReceiptPaymentIntent(
         emailReceiptParams: EmailReceiptParams,
-        successCallBack: (String) -> Unit,
+        successCallback: (String) -> Unit,
         failCallback: (String?) -> Unit
     ) {
         viewModelScope.launch {
             try {
                 val result = updatePaymentIntent(emailReceiptParams.toMap())
                 if (result) {
-                    successCallBack("Update payment intent success")
+                    successCallback("Update payment intent success")
                 } else {
                     failCallback("Failed to update payment intent")
                 }
