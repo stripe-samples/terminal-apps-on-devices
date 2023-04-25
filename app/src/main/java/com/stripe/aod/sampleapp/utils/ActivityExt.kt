@@ -5,6 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.stripe.aod.sampleapp.R
 import java.text.NumberFormat
 import java.util.Locale
@@ -34,4 +35,14 @@ inline fun Fragment.launchAndRepeatWithViewLifecycle(
             block()
         }
     }
+}
+
+fun Fragment.backToHome() {
+    findNavController().navigate(
+        R.id.homeFragment,
+        null,
+        NavOptions.Builder()
+            .setPopUpTo(R.id.inputFragment, true)
+            .build()
+    )
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentReceiptBinding
+import com.stripe.aod.sampleapp.utils.backToHome
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.navOptions
 
@@ -34,7 +35,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         }
 
         viewBinding.receiptSkip.setOnClickListener {
-            findNavController().popBackStack()
+            backToHome()
         }
     }
 }

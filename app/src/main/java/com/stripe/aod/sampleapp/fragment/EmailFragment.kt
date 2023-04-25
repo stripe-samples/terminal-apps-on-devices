@@ -2,7 +2,6 @@ package com.stripe.aod.sampleapp.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.ViewCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +11,7 @@ import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.data.EmailReceiptParams
 import com.stripe.aod.sampleapp.databinding.FragmentEmailBinding
 import com.stripe.aod.sampleapp.model.CheckoutViewModel
+import com.stripe.aod.sampleapp.utils.backToHome
 
 class EmailFragment : Fragment(R.layout.fragment_email) {
     private val emailRegex = "^[A-Za-z\\d+_.-]+@[A-Za-z\\d.-]+\$"
@@ -47,7 +47,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                     receiptEmail = viewBinding.inputEdit.text.toString().trim()
                 ),
                 successCallback = {
-                    findNavController().popBackStack()
+                    backToHome()
                 },
                 failCallback = { message ->
                     Snackbar.make(
@@ -60,7 +60,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                         Snackbar.LENGTH_SHORT
                     ).show()
 
-                    findNavController().popBackStack()
+                    backToHome()
                 }
             )
         }
