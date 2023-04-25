@@ -34,19 +34,25 @@
     <color name="button_secondary_pressed">#DCDEE1</color>
     <color name="button_secondary_disable">#B3EAEDEF</color>
     <color name="menu_button">#0570DE</color>
+    <color name="button_back">#778292</color>
+    <color name="button_right_arrow">#FFFFFF</color>
 
-    <color name="button_back_light">#778292</color>
-    <color name="button_back_dark">#E0E6EB</color>
+    <!--keyboard button-->
+    <color name="button_keyboard_active">#635BFF</color>
+    <color name="button_keyboard_inactive">#FFFFFF</color>
+    <color name="button_clear">#36373A</color>
+    <color name="text_keyboard">#36373A</color>
 
     <!-- Reader status colors -->
     <color name="status_online">#10C210</color>
     <color name="status_offline">#777474</color>
 
     <!-- TextEdit color -->
+    <color name="edit_background">#FFFFFF</color>
     <color name="edit_text">#1F1F1F</color>
-    <color name="edit_backgroud">#FFFFFF</color>
-    <color name="edit_border">#635BFF</color>\
+    <color name="edit_border">#635BFF</color>
 
     <!--divider line -->
     <color name="divider_line">#C0C8D2</color>
+
 </resources>

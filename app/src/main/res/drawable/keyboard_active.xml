@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="104dp"
+    android:height="77dp"
+    android:viewportWidth="104"
+    android:viewportHeight="77"
+    >
+    <group>
+        <clip-path
+            android:pathData="M24 0H80C93.2548 0 104 10.7452 104 24V53C104 66.2548 93.2548 77 80 77H24C10.7452 77 0 66.2548 0 53V24C0 10.7452 10.7452 0 24 0Z"
+            />
+        <path
+            android:pathData="M0 0V77H104V0"
+            android:fillColor="@color/button_keyboard_active"
+            />
+    </group>
+</vector>

@@ -13,7 +13,7 @@
             />
         <path
             android:pathData="M1.5 1.5V49.5H313.5V1.5"
-            android:fillColor="@color/edit_backgroud"
+            android:fillColor="@color/edit_background"
             />
     </group>
     <group>
