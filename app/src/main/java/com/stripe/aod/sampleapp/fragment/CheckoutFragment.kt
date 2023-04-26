@@ -15,11 +15,12 @@ import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.navOptions
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
+    private val checkoutViewModel by viewModels<CheckoutViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // get viewBinding instance
         val viewBinding = FragmentCheckoutBinding.bind(view)
-        val checkoutViewModel by viewModels<CheckoutViewModel>()
 
         val amount = arguments?.let {
             CheckoutFragmentArgs.fromBundle(it).amount
@@ -43,7 +44,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             checkoutViewModel.createPaymentIntent(
                 CreatePaymentParams(amount = amount, currency = "usd"),
                 successCallback = { paymentIntentId ->
-                    // TODO: goto receipt fragment
                     findNavController().navigate(
                         CheckoutFragmentDirections
                             .actionCheckoutFragmentToReceiptFragment(

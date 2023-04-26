@@ -17,7 +17,6 @@ import com.stripe.stripeterminal.external.models.TerminalException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -92,7 +91,7 @@ class CheckoutViewModel : ViewModel() {
         createPaymentIntentParams: Map<String, String>
     ): Boolean = when (
         val response =
-            ApiClient.createPaymentIntent(createPaymentIntentParams).firstOrNull()?.getOrNull()
+            ApiClient.createPaymentIntent(createPaymentIntentParams).getOrNull()
     ) {
         is PaymentIntentCreationResponse -> {
             val secret = response.secret
@@ -110,13 +109,13 @@ class CheckoutViewModel : ViewModel() {
         createPaymentIntentParams: Map<String, String>
     ): Boolean = when (
         val response =
-            ApiClient.updatePaymentIntent(createPaymentIntentParams).firstOrNull()?.getOrNull()
+            ApiClient.updatePaymentIntent(createPaymentIntentParams).getOrNull()
     ) {
         is PaymentIntentCreationResponse -> {
             val secret = response.secret
             Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
             val paymentIntent = retrievePaymentIntent(secret)
-            val captureResult = capturePaymentIntent(paymentIntent)
+            val captureResult = capturePaymentIntent(paymentIntent).isSuccess
             captureResult
         }
         else -> false
@@ -177,15 +176,9 @@ class CheckoutViewModel : ViewModel() {
         }
     }
 
-    private suspend fun capturePaymentIntent(paymentIntent: PaymentIntent): Boolean {
-        return suspendCoroutine { continuation ->
-            try {
-                ApiClient.capturePaymentIntent(paymentIntent.id)
-                Log.d(Config.TAG, "capturePaymentIntent onSuccess ")
-                continuation.resume(true)
-            } catch (e: Exception) {
-                continuation.resumeWith(Result.failure(e))
-            }
-        }
+    private suspend fun capturePaymentIntent(paymentIntent: PaymentIntent): Result<Boolean> {
+        return ApiClient.capturePaymentIntent(paymentIntent.id)
+            .runCatching { true }
+            .onFailure { return Result.failure(it) }
     }
 }
