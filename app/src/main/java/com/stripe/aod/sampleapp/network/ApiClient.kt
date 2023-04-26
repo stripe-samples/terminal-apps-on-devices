@@ -5,12 +5,10 @@ import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Field
 
 object ApiClient {
 
@@ -43,27 +41,13 @@ object ApiClient {
         }
     }
 
-    fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse?>> = flow {
-        val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
-        val result = response ?: error("Failed to create payment intent")
-        emit(Result.success(result))
-    }.catch {
-        emit(Result.failure(it))
-    }
-
-    fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Flow<Result<PaymentIntentCreationResponse>> = flow {
+    suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse> = runCatching {
         val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
-        val result = response ?: error("Failed to update payment intent")
-        emit(Result.success(result))
-    }.catch {
-        emit(Result.failure(it))
+        response ?: error("Failed to update PaymentIntent")
     }
 
-    fun capturePaymentIntent(id: String): Flow<Result<PaymentIntentCreationResponse>> = flow {
+    suspend fun capturePaymentIntent(@Field("payment_intent_id") id: String): Result<PaymentIntentCreationResponse> = runCatching {
         val response = service.capturePaymentIntent(id)
-        val result = response ?: error("Failed to capture payment intent")
-        emit(Result.success(result))
-    }.catch {
-        emit(Result.failure(it))
+        response ?: error("Failed to capture PaymentIntent")
     }
 }

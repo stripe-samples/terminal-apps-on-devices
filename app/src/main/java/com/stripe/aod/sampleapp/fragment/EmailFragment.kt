@@ -59,8 +59,6 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                         },
                         Snackbar.LENGTH_SHORT
                     ).show()
-
-                    backToHome()
                 }
             )
         }
