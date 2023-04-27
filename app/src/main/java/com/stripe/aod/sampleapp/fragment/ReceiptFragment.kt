@@ -26,9 +26,8 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         viewBinding.totalAmount.text = formatCentsToString(amount)
         viewBinding.receiptEmail.setOnClickListener {
             findNavController().navigate(
-                EmailFragmentDirections.actionEmailFragmentToReceiptFragment(
-                    paymentIntentId!!,
-                    amount
+                ReceiptFragmentDirections.actionReceiptFragmentToEmailFragment(
+                    paymentIntentId!!
                 ),
                 navOptions()
             )

@@ -1,5 +1,8 @@
 package com.stripe.aod.sampleapp.utils
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -45,4 +48,9 @@ fun Fragment.backToHome() {
             .setPopUpTo(R.id.inputFragment, true)
             .build()
     )
+}
+
+fun EditText.hideKeyboard() {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(windowToken, 0)
 }
