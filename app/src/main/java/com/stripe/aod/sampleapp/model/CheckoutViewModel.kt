@@ -16,35 +16,31 @@ import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.launch
 
 class CheckoutViewModel : ViewModel() {
-
-    fun updateEmailReceiptPaymentIntent(
+    fun updateReceiptEmailPaymentIntent(
         emailReceiptParams: EmailReceiptParams,
         successCallback: (String) -> Unit,
         failCallback: (String?) -> Unit
     ) {
         viewModelScope.launch {
-            val result = updateAndProcessPaymentIntent(emailReceiptParams.toMap())
-            if (result) {
-                successCallback("Update PaymentIntent success")
-            } else {
-                failCallback("Failed to update PaymentIntent")
-            }
+            updateAndProcessPaymentIntent(emailReceiptParams.toMap()).fold(
+                onSuccess = {
+                    successCallback("Update PaymentIntent success")
+                },
+                onFailure = {
+                    failCallback("Failed to update PaymentIntent")
+                }
+            )
         }
     }
 
     private suspend fun updateAndProcessPaymentIntent(
         createPaymentIntentParams: Map<String, String>
-    ): Boolean = ApiClient.updatePaymentIntent(createPaymentIntentParams).fold(
-        onSuccess = { response ->
-            val secret = response.secret
-            Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
-            val paymentIntent = retrievePaymentIntent(secret)
-            capturePaymentIntent(paymentIntent).isSuccess
-        },
-        onFailure = {
-            false
-        }
-    )
+    ): Result<Boolean> = ApiClient.updatePaymentIntent(createPaymentIntentParams).map { response ->
+        val secret = response.secret
+        Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
+        val paymentIntent = retrievePaymentIntent(secret)
+        capturePaymentIntent(paymentIntent).isSuccess
+    }
 
     private suspend fun retrievePaymentIntent(secret: String): PaymentIntent {
         return suspendCoroutine { continuation ->
