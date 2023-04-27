@@ -41,7 +41,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
         }
 
         viewBinding.emailSend.setOnClickListener {
-            viewMode.updateEmailReceiptPaymentIntent(
+            viewMode.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
                     paymentIntentId = paymentIntentId!!,
                     receiptEmail = viewBinding.inputEdit.text.toString().trim()
