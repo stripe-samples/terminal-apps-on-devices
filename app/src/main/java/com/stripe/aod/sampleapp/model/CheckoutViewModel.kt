@@ -17,38 +17,33 @@ import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.launch
 
 class CheckoutViewModel : ViewModel() {
-    private var paymentIntentID: String? = null
-
     fun createPaymentIntent(
         createPaymentParams: CreatePaymentParams,
         successCallback: (String) -> Unit,
         failCallback: (String?) -> Unit
     ) {
         viewModelScope.launch {
-            val result = createAndProcessPaymentIntent(createPaymentParams.toMap())
-            if (result) {
-                paymentIntentID?.let { successCallback(it) }
-            } else {
-                failCallback("Failed to create PaymentIntent")
-            }
+            createAndProcessPaymentIntent(createPaymentParams.toMap()).fold(
+                onSuccess = { paymentIntent ->
+                    successCallback(paymentIntent.id)
+                },
+                onFailure = {
+                    failCallback("Failed to create PaymentIntent")
+                }
+            )
         }
     }
 
     private suspend fun createAndProcessPaymentIntent(
         createPaymentIntentParams: Map<String, String>
-    ): Boolean = ApiClient.createPaymentIntent(createPaymentIntentParams).fold(
-        onSuccess = { response ->
+    ): Result<PaymentIntent> {
+        return ApiClient.createPaymentIntent(createPaymentIntentParams).map { response ->
             val secret = response?.secret
             val paymentIntent = retrievePaymentIntent(secret!!)
-            paymentIntentID = paymentIntent.id
             val paymentIntentAfterCollect = collectPaymentInfo(paymentIntent)
             processPayment(paymentIntentAfterCollect)
-            true
-        },
-        onFailure = {
-            false
         }
-    )
+    }
 
     private suspend fun retrievePaymentIntent(secret: String): PaymentIntent {
         return suspendCoroutine { continuation ->
