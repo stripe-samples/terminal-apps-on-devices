@@ -12,7 +12,9 @@ import com.stripe.aod.sampleapp.data.CreatePaymentParams
 import com.stripe.aod.sampleapp.databinding.FragmentCheckoutBinding
 import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
+import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 import com.stripe.aod.sampleapp.utils.navOptions
+import com.stripe.stripeterminal.external.models.PaymentIntentStatus
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     private val checkoutViewModel by viewModels<CheckoutViewModel>()
@@ -39,19 +41,32 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             }
         )
 
-        viewBinding.back.setOnClickListener { findNavController().navigateUp() }
-        viewBinding.submit.setOnClickListener {
-            checkoutViewModel.createPaymentIntent(
-                CreatePaymentParams(amount = amount, currency = "usd"),
-                successCallback = { paymentIntentId ->
-                    findNavController().navigate(
-                        CheckoutFragmentDirections
-                            .actionCheckoutFragmentToReceiptFragment(
-                                paymentIntentID = paymentIntentId,
+        launchAndRepeatWithViewLifecycle {
+            launchAndRepeatWithViewLifecycle {
+                checkoutViewModel.currentPaymentIntent.collect { paymentIntent ->
+                    paymentIntent?.takeIf {
+                        it.status == PaymentIntentStatus.REQUIRES_CAPTURE
+                    }?.let {
+                        findNavController().navigate(
+                            CheckoutFragmentDirections.actionCheckoutFragmentToReceiptFragment(
+                                paymentIntentID = it.id,
                                 amount = amount
                             ),
-                        navOptions()
-                    )
+                            navOptions()
+                        )
+                    }
+                }
+            }
+        }
+
+        viewBinding.back.setOnClickListener { findNavController().navigateUp() }
+        viewBinding.submit.setOnClickListener {
+            viewBinding.submit.isEnabled = false
+
+            checkoutViewModel.createPaymentIntent(
+                CreatePaymentParams(amount = amount, currency = "usd"),
+                successCallback = {
+                    viewBinding.submit.isEnabled = true
                 },
                 failCallback = { message ->
                     Snackbar.make(

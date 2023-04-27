@@ -14,9 +14,15 @@ import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.TerminalException
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CheckoutViewModel : ViewModel() {
+    private val _currentPaymentIntent = MutableStateFlow<PaymentIntent?>(null)
+    val currentPaymentIntent = _currentPaymentIntent.asStateFlow()
+
     fun createPaymentIntent(
         createPaymentParams: CreatePaymentParams,
         successCallback: (String) -> Unit,
@@ -25,6 +31,7 @@ class CheckoutViewModel : ViewModel() {
         viewModelScope.launch {
             createAndProcessPaymentIntent(createPaymentParams.toMap()).fold(
                 onSuccess = { paymentIntent ->
+                    _currentPaymentIntent.update { paymentIntent }
                     successCallback(paymentIntent.id)
                 },
                 onFailure = {
