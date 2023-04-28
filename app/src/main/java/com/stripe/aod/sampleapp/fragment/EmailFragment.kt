@@ -6,6 +6,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.data.EmailReceiptParams
@@ -17,6 +18,7 @@ import com.stripe.aod.sampleapp.utils.hideKeyboard
 class EmailFragment : Fragment(R.layout.fragment_email) {
     private val emailRegex = "^[A-Za-z\\d+_.-]+@[A-Za-z\\d.-]+\$"
     private val viewMode by viewModels<CheckoutViewModel>()
+    private val args: EmailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,10 +27,6 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
 
         viewBinding.back.setOnClickListener {
             findNavController().navigateUp()
-        }
-
-        val paymentIntentId = arguments?.let {
-            EmailFragmentArgs.fromBundle(it).paymentIntentID
         }
 
         viewBinding.inputEdit.doAfterTextChanged {
@@ -45,7 +43,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
             viewBinding.inputEdit.hideKeyboard()
             viewMode.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
-                    paymentIntentId = paymentIntentId!!,
+                    paymentIntentId = args.paymentIntentID,
                     receiptEmail = viewBinding.inputEdit.text.toString().trim()
                 ),
                 successCallback = {

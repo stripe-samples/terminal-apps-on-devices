@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.databinding.FragmentReceiptBinding
 import com.stripe.aod.sampleapp.utils.backToHome
@@ -11,23 +12,17 @@ import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.navOptions
 
 class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
+    private val args: ReceiptFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewBinding = FragmentReceiptBinding.bind(view)
 
-        val amount = arguments?.let {
-            ReceiptFragmentArgs.fromBundle(it).amount
-        } ?: 0
-
-        val paymentIntentId = arguments?.let {
-            ReceiptFragmentArgs.fromBundle(it).paymentIntentID
-        }
-
-        viewBinding.totalAmount.text = formatCentsToString(amount)
+        viewBinding.totalAmount.text = formatCentsToString(args.amount)
         viewBinding.receiptEmail.setOnClickListener {
             findNavController().navigate(
                 ReceiptFragmentDirections.actionReceiptFragmentToEmailFragment(
-                    paymentIntentId!!
+                    args.paymentIntentID
                 ),
                 navOptions()
             )
