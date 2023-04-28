@@ -1,12 +1,13 @@
 package com.stripe.aod.sampleapp.network
 
 import com.stripe.aod.sampleapp.BuildConfig
+import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
@@ -37,5 +38,10 @@ object ApiClient {
         } catch (e: IOException) {
             throw ConnectionTokenException("Creating connection token failed", e)
         }
+    }
+
+    suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse?> = runCatching {
+        val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
+        response ?: error("Failed to create PaymentIntent")
     }
 }
