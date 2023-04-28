@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Field
 
 object ApiClient {
 
@@ -43,5 +44,15 @@ object ApiClient {
     suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse?> = runCatching {
         val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
         response ?: error("Failed to create PaymentIntent")
+    }
+
+    suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse> = runCatching {
+        val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
+        response ?: error("Failed to update PaymentIntent")
+    }
+
+    suspend fun capturePaymentIntent(@Field("payment_intent_id") id: String): Result<PaymentIntentCreationResponse> = runCatching {
+        val response = service.capturePaymentIntent(id)
+        response ?: error("Failed to capture PaymentIntent")
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.data.CreatePaymentParams
+import com.stripe.aod.sampleapp.data.EmailReceiptParams
 import com.stripe.aod.sampleapp.data.toMap
 import com.stripe.aod.sampleapp.network.ApiClient
 import com.stripe.stripeterminal.Terminal
@@ -18,7 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 class CheckoutViewModel : ViewModel() {
     private val _currentPaymentIntent = MutableStateFlow<PaymentIntent?>(null)
     val currentPaymentIntent = _currentPaymentIntent.asStateFlow()
@@ -106,4 +106,33 @@ class CheckoutViewModel : ViewModel() {
             )
         }
     }
+
+    fun updateReceiptEmailPaymentIntent(
+        emailReceiptParams: EmailReceiptParams,
+        successCallback: (String) -> Unit,
+        failCallback: (String?) -> Unit
+    ) {
+        viewModelScope.launch {
+            updateAndProcessPaymentIntent(emailReceiptParams.toMap()).fold(
+                onSuccess = {
+                    successCallback("Update PaymentIntent success")
+                },
+                onFailure = {
+                    failCallback("Failed to update PaymentIntent")
+                }
+            )
+        }
+    }
+
+    private suspend fun updateAndProcessPaymentIntent(
+        createPaymentIntentParams: Map<String, String>
+    ): Result<Boolean> = ApiClient.updatePaymentIntent(createPaymentIntentParams).map { response ->
+        val secret = response.secret
+        Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
+        val paymentIntent = retrievePaymentIntent(secret)
+        capturePaymentIntent(paymentIntent).isSuccess
+    }
+
+    private suspend fun capturePaymentIntent(paymentIntent: PaymentIntent) =
+        ApiClient.capturePaymentIntent(paymentIntent.id)
 }

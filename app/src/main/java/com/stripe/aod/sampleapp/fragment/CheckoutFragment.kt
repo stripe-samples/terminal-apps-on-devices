@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.data.CreatePaymentParams
@@ -18,18 +19,15 @@ import com.stripe.stripeterminal.external.models.PaymentIntentStatus
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     private val checkoutViewModel by viewModels<CheckoutViewModel>()
+    private val args: CheckoutFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // get viewBinding instance
         val viewBinding = FragmentCheckoutBinding.bind(view)
 
-        val amount = arguments?.let {
-            CheckoutFragmentArgs.fromBundle(it).amount
-        } ?: 0
-
-        viewBinding.amount.text = formatCentsToString(amount)
-        viewBinding.amountDescription.text = formatCentsToString(amount)
+        viewBinding.amount.text = formatCentsToString(args.amount)
+        viewBinding.amountDescription.text = formatCentsToString(args.amount)
 
         // hand back press action
         requireActivity().onBackPressedDispatcher.addCallback(
@@ -42,19 +40,17 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         )
 
         launchAndRepeatWithViewLifecycle {
-            launchAndRepeatWithViewLifecycle {
-                checkoutViewModel.currentPaymentIntent.collect { paymentIntent ->
-                    paymentIntent?.takeIf {
-                        it.status == PaymentIntentStatus.REQUIRES_CAPTURE
-                    }?.let {
-                        findNavController().navigate(
-                            CheckoutFragmentDirections.actionCheckoutFragmentToReceiptFragment(
-                                paymentIntentID = it.id,
-                                amount = amount
-                            ),
-                            navOptions()
-                        )
-                    }
+            checkoutViewModel.currentPaymentIntent.collect { paymentIntent ->
+                paymentIntent?.takeIf {
+                    it.status == PaymentIntentStatus.REQUIRES_CAPTURE
+                }?.let {
+                    findNavController().navigate(
+                        CheckoutFragmentDirections.actionCheckoutFragmentToReceiptFragment(
+                            paymentIntentID = it.id,
+                            amount = args.amount
+                        ),
+                        navOptions()
+                    )
                 }
             }
         }
@@ -64,7 +60,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             viewBinding.submit.isEnabled = false
 
             checkoutViewModel.createPaymentIntent(
-                CreatePaymentParams(amount = amount, currency = "usd"),
+                CreatePaymentParams(amount = args.amount, currency = "usd"),
                 successCallback = {
                     viewBinding.submit.isEnabled = true
                 },
