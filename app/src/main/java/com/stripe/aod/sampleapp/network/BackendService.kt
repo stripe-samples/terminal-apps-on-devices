@@ -19,6 +19,10 @@ interface BackendService {
     suspend fun getConnectionToken(): ConnectionToken
 
     @FormUrlEncoded
+    @POST("create_payment_intent")
+    suspend fun createPaymentIntent(@FieldMap createPaymentIntentParams: Map<String, String>): PaymentIntentCreationResponse?
+
+    @FormUrlEncoded
     @POST("update_payment_intent")
     suspend fun updatePaymentIntent(@FieldMap updatePaymentIntentParams: Map<String, String>): PaymentIntentCreationResponse?
 

@@ -41,6 +41,11 @@ object ApiClient {
         }
     }
 
+    suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse?> = runCatching {
+        val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
+        response ?: error("Failed to create PaymentIntent")
+    }
+
     suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse> = runCatching {
         val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
         response ?: error("Failed to update PaymentIntent")

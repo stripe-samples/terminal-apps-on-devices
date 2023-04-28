@@ -12,7 +12,6 @@
             android:id="@+id/action_homeFragment_to_inputFragment"
             app:destination="@id/inputFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.stripe.aod.sampleapp.fragment.CheckoutFragment"
