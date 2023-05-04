@@ -4,11 +4,13 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.ContextThemeWrapper
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanseBundle: Bundle?) {
         super.onCreate(savedInstanseBundle)
+        window.statusBarColor = Color.TRANSPARENT
         setContentView(R.layout.activity_main)
 
         requestPermissionsIfNecessary()

@@ -61,9 +61,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
             checkoutViewModel.createPaymentIntent(
                 CreatePaymentParams(amount = args.amount, currency = "usd"),
-                successCallback = {
-                    viewBinding.submit.isEnabled = true
-                },
+                successCallback = {},
                 failCallback = { message ->
                     Snackbar.make(
                         viewBinding.root,
@@ -74,6 +72,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                         },
                         Snackbar.LENGTH_SHORT
                     ).show()
+                    viewBinding.submit.isEnabled = true
                 }
             )
         }

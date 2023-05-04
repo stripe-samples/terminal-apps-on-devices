@@ -31,7 +31,7 @@
             android:textColor="@color/edit_text"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:hint="@string/input_your_email"/>
+            android:hint="@string/email"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

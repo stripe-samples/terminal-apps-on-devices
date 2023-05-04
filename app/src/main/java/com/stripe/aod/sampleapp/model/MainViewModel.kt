@@ -39,6 +39,10 @@ class MainViewModel : ViewModel() {
             if (readers.isNotEmpty()) {
                 targetReader = readers[0]
                 connectReader()
+            } else {
+                _userMessage.update {
+                    "Register a reader using the device settings to start accepting payments"
+                }
             }
         }
     }

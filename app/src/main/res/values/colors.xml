@@ -13,18 +13,19 @@
     <color name="background">#FFFFFF</color>
 
     <!-- Text colors -->
+    <color name="text_primary">#1F1F1F</color>
+    <color name="text_secondary">#6A7383</color>
+    <color name="text_digit_default">#36373A</color>
+    <color name="text_digit_pressed">#FFFFFF</color>
     <color name="text_default">#FFFFFF</color>
     <color name="text_pressed">#FFFFFF</color>
-    <color name="text_disable">#1F1F1F</color>
+    <color name="text_disable">#B3FFFFFF</color>
     <color name="text_secondary_default">#1F1F1F</color>
     <color name="text_secondary_pressed">#1F1F1F</color>
     <color name="text_secondary_disable">#36373A</color>
-    <color name="logo_color">#1F1F1F</color>
-    <color name="logo_title">#36373A</color>
     <color name="text_discover_reader_light">#6A7383</color>
     <color name="text_discover_reader_dark">#C0C8D2</color>
     <color name="text_amount">#1F1F1F</color>
-    <color name="text_enter_amount">#6A7383</color>
 
     <!-- Button colors -->
     <color name="button_default">#635BFF</color>
