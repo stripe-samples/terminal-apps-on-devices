@@ -10,6 +10,7 @@ import com.stripe.aod.sampleapp.databinding.FragmentReceiptBinding
 import com.stripe.aod.sampleapp.utils.backToHome
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.navOptions
+import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
     private val args: ReceiptFragmentArgs by navArgs()
@@ -19,7 +20,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         val viewBinding = FragmentReceiptBinding.bind(view)
 
         viewBinding.totalAmount.text = formatCentsToString(args.amount)
-        viewBinding.receiptEmail.setOnClickListener {
+        viewBinding.receiptEmail.setThrottleClickListener {
             findNavController().navigate(
                 ReceiptFragmentDirections.actionReceiptFragmentToEmailFragment(
                     args.paymentIntentID
@@ -28,7 +29,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
             )
         }
 
-        viewBinding.receiptSkip.setOnClickListener {
+        viewBinding.receiptSkip.setThrottleClickListener {
             backToHome()
         }
     }

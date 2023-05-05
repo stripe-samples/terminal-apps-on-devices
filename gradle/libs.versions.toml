@@ -3,6 +3,7 @@ lifecycle-version = "2.6.1"
 navigation-version = "2.5.3"
 retrofit-version = "2.9.0"
 stripeterminal-version = "2.19.0"
+rxbinding-version = "4.0.0"
 
 [libraries]
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
@@ -28,5 +29,7 @@ retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter
 
 stripe-terminal-core = { group = "com.stripe", name = "stripeterminal-core", version.ref = "stripeterminal-version" }
 stripe-terminal-handoffclient = { group = "com.stripe", name = "stripeterminal-handoffclient", version.ref = "stripeterminal-version" }
+
+rxbinding = { group = "com.jakewharton.rxbinding4", name = "rxbinding", version.ref = "rxbinding-version"}
 
 [plugins]

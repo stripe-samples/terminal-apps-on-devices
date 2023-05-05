@@ -70,4 +70,7 @@ dependencies {
     // navigation
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
+
+    // RxBinding
+    implementation libs.rxbinding
 }

@@ -1,6 +1,7 @@
 package com.stripe.aod.sampleapp.utils
 
 import android.content.Context
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -9,9 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.jakewharton.rxbinding4.view.clicks
 import com.stripe.aod.sampleapp.R
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.text.NumberFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -53,4 +57,11 @@ fun Fragment.backToHome() {
 fun EditText.hideKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+fun View.setThrottleClickListener(intervalDuration: Long = 1000, block: (view: View) -> Unit) {
+    clicks()
+        .throttleLast(intervalDuration, TimeUnit.MILLISECONDS)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe { block.invoke(this) }
 }

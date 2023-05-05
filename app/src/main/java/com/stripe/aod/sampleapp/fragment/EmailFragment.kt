@@ -14,6 +14,7 @@ import com.stripe.aod.sampleapp.databinding.FragmentEmailBinding
 import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.backToHome
 import com.stripe.aod.sampleapp.utils.hideKeyboard
+import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class EmailFragment : Fragment(R.layout.fragment_email) {
     private val emailRegex = "^[A-Za-z\\d+_.-]+@[A-Za-z\\d.-]+\$"
@@ -25,7 +26,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
 
         val viewBinding = FragmentEmailBinding.bind(view)
 
-        viewBinding.back.setOnClickListener {
+        viewBinding.back.setThrottleClickListener {
             findNavController().navigateUp()
         }
 
@@ -39,7 +40,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
             }
         }
 
-        viewBinding.emailSend.setOnClickListener {
+        viewBinding.emailSend.setThrottleClickListener {
             viewBinding.inputEdit.hideKeyboard()
             viewMode.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
