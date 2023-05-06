@@ -3,10 +3,14 @@ package com.stripe.aod.sampleapp.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
+import com.stripe.aod.sampleapp.data.EmailReceiptParams
 import com.stripe.aod.sampleapp.databinding.FragmentReceiptBinding
+import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.backToHome
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.navOptions
@@ -14,6 +18,7 @@ import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
     private val args: ReceiptFragmentArgs by navArgs()
+    private val viewMode by viewModels<CheckoutViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +35,26 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         }
 
         viewBinding.receiptSkip.setThrottleClickListener {
-            backToHome()
+            viewMode.updateReceiptEmailPaymentIntent(
+                EmailReceiptParams(
+                    paymentIntentId = args.paymentIntentID,
+                    receiptEmail = ""
+                ),
+                successCallback = {
+                    backToHome()
+                },
+                failCallback = { message ->
+                    Snackbar.make(
+                        viewBinding.receiptSkip,
+                        if (message.isNullOrEmpty()) {
+                            getString(R.string.error_fail_to_capture_payment_intent)
+                        } else {
+                            message
+                        },
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            )
         }
     }
 }

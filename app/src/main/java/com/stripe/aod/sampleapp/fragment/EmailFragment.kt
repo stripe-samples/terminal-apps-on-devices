@@ -52,7 +52,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                 },
                 failCallback = { message ->
                     Snackbar.make(
-                        viewBinding.root,
+                        viewBinding.emailSend,
                         if (message.isNullOrEmpty()) {
                             getString(R.string.error_fail_to_send_email_receipt)
                         } else {

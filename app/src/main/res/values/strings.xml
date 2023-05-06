@@ -32,6 +32,7 @@
 
     <string name="error_fail_to_send_email_receipt">Failed to send receipt email</string>
     <string name="error_fail_to_create_payment_intent">Failed to create PaymentIntent</string>
+    <string name="error_fail_to_capture_payment_intent">Failed to capture PaymentIntent</string>
 
     <string name="send_receipt_tip">How would you like to receive a receipt?</string>
     <string name="email">Email</string>
