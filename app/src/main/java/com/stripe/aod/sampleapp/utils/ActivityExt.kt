@@ -99,7 +99,7 @@ fun handleGlobalException(
         applicationScope.launch(Dispatchers.Main) {
             delayAction(delayInMillis) {
                 val currentActivity = activityProvider()
-                if (currentActivity != null) {
+                currentActivity?.let {
                     val navController = (currentActivity as AppCompatActivity).findNavController()
                     navigateAction(navController)
                 }
