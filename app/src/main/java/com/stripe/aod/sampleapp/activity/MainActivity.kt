@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.ContextThemeWrapper
-import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -105,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                 applicationContext,
                 LogLevel.VERBOSE,
                 viewModel.tokenProvider,
-                TerminalEventListener(viewModel::connectReader)
+                TerminalEventListener(viewModel)
             )
 
             viewModel.discoveryReaders()

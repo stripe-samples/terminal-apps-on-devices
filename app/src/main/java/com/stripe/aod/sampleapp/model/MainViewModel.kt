@@ -10,11 +10,7 @@ import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.DiscoveryListener
 import com.stripe.stripeterminal.external.callable.ReaderCallback
-import com.stripe.stripeterminal.external.models.ConnectionConfiguration
-import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
-import com.stripe.stripeterminal.external.models.DiscoveryMethod
-import com.stripe.stripeterminal.external.models.Reader
-import com.stripe.stripeterminal.external.models.TerminalException
+import com.stripe.stripeterminal.external.models.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,8 +19,14 @@ import kotlinx.coroutines.flow.update
 class MainViewModel : ViewModel() {
     val tokenProvider = TokenProvider(viewModelScope)
 
-    private val _isReaderConnected: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val isReaderConnected: StateFlow<Boolean> = _isReaderConnected.asStateFlow()
+    private val _readerConnectStatus: MutableStateFlow<ConnectionStatus> = MutableStateFlow(
+        ConnectionStatus.NOT_CONNECTED
+    )
+    var readerConnectStatus: StateFlow<ConnectionStatus> = _readerConnectStatus.asStateFlow()
+    private val _readerPaymentStatus: MutableStateFlow<PaymentStatus> = MutableStateFlow(
+        PaymentStatus.NOT_READY
+    )
+    var readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false)
@@ -77,7 +79,6 @@ class MainViewModel : ViewModel() {
             Terminal.getInstance().disconnectReader(object : Callback {
                 override fun onSuccess() {
                     Log.d(Config.TAG, "Current Reader [ ${currentReader.id} ] disconnect success ")
-                    _isReaderConnected.update { false }
                 }
 
                 override fun onFailure(e: TerminalException) {
@@ -89,7 +90,7 @@ class MainViewModel : ViewModel() {
         Log.i(Config.TAG, "Connecting to new Reader [ ${targetReader.id} ] .... ")
         val readerCallback: ReaderCallback = object : ReaderCallback {
             override fun onSuccess(reader: Reader) {
-                _isReaderConnected.update { true }
+                Log.i(Config.TAG, "Reader [ ${targetReader.id} ] Connected ")
             }
 
             override fun onFailure(e: TerminalException) {
@@ -103,6 +104,14 @@ class MainViewModel : ViewModel() {
             null,
             readerCallback
         )
+    }
+
+    fun updateConnectStatus(status: ConnectionStatus) {
+        _readerConnectStatus.update { status }
+    }
+
+    fun updatePaymentStatus(status: PaymentStatus) {
+        _readerPaymentStatus.update { status }
     }
 
     private fun getCurrentReader(): Reader? {
