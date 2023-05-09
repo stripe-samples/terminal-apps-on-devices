@@ -31,7 +31,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         launchAndRepeatWithViewLifecycle {
             viewModel.readerConnectStatus.collect {
-                viewBinding.indicator.visibility = if (it != ConnectionStatus.CONNECTED) View.VISIBLE else View.INVISIBLE
+                viewBinding.indicator.visibility = if (it != ConnectionStatus.CONNECTED) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
             }
         }
 
