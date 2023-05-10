@@ -15,6 +15,7 @@ import com.stripe.aod.sampleapp.model.InputViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 import com.stripe.aod.sampleapp.utils.navOptions
+import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     private lateinit var viewBinding: FragmentInputBinding
@@ -37,7 +38,7 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     @SuppressLint("ClickableViewAccessibility")
     private fun initView(view: View) {
         viewBinding = FragmentInputBinding.bind(view)
-        viewBinding.back.setOnClickListener { findNavController().navigateUp() }
+        viewBinding.back.setThrottleClickListener { findNavController().navigateUp() }
         viewBinding.keypad.key0.setOnTouchListener(this)
         viewBinding.keypad.key1.setOnTouchListener(this)
         viewBinding.keypad.key2.setOnTouchListener(this)
@@ -50,7 +51,7 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         viewBinding.keypad.key9.setOnTouchListener(this)
         viewBinding.keypad.keyClear.setOnTouchListener(this)
         viewBinding.keypad.keyBackspace.setOnTouchListener(this)
-        viewBinding.submit.setOnClickListener { requestNewPayment() }
+        viewBinding.submit.setThrottleClickListener { requestNewPayment() }
 
         inputViewModel.displayAmount(action = InputViewModel.Action.Clear)
 

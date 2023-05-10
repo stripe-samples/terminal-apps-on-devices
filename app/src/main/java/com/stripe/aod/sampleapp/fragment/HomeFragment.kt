@@ -13,6 +13,7 @@ import com.stripe.aod.sampleapp.databinding.FragmentHomeBinding
 import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 import com.stripe.aod.sampleapp.utils.navOptions
+import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 import kotlinx.coroutines.flow.filter
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -23,7 +24,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val viewBinding = FragmentHomeBinding.bind(view)
 
-        viewBinding.menuSettings.setOnClickListener {
+        viewBinding.menuSettings.setThrottleClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse("stripe://settings/")))
         }
 
@@ -41,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        viewBinding.newPayment.setOnClickListener {
+        viewBinding.newPayment.setThrottleClickListener {
             findNavController().navigate(
                 R.id.action_homeFragment_to_inputFragment,
                 null,

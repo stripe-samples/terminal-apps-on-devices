@@ -14,10 +14,11 @@ import com.stripe.aod.sampleapp.databinding.FragmentEmailBinding
 import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.backToHome
 import com.stripe.aod.sampleapp.utils.hideKeyboard
+import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class EmailFragment : Fragment(R.layout.fragment_email) {
     private val emailRegex = "^[A-Za-z\\d+_.-]+@[A-Za-z\\d.-]+\$"
-    private val viewMode by viewModels<CheckoutViewModel>()
+    private val viewModel by viewModels<CheckoutViewModel>()
     private val args: EmailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -25,7 +26,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
 
         val viewBinding = FragmentEmailBinding.bind(view)
 
-        viewBinding.back.setOnClickListener {
+        viewBinding.back.setThrottleClickListener {
             findNavController().navigateUp()
         }
 
@@ -39,9 +40,9 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
             }
         }
 
-        viewBinding.emailSend.setOnClickListener {
+        viewBinding.emailSend.setThrottleClickListener {
             viewBinding.inputEdit.hideKeyboard()
-            viewMode.updateReceiptEmailPaymentIntent(
+            viewModel.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
                     paymentIntentId = args.paymentIntentID,
                     receiptEmail = viewBinding.inputEdit.text.toString().trim()
@@ -51,7 +52,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                 },
                 failCallback = { message ->
                     Snackbar.make(
-                        viewBinding.root,
+                        viewBinding.emailSend,
                         if (message.isNullOrEmpty()) {
                             getString(R.string.error_fail_to_send_email_receipt)
                         } else {
