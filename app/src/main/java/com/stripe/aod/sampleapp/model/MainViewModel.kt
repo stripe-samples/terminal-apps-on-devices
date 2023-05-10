@@ -38,8 +38,9 @@ class MainViewModel : ViewModel() {
 
     private val discoveryListener: DiscoveryListener = object : DiscoveryListener {
         override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
-            if (readers.isNotEmpty()) {
-                targetReader = readers[0]
+            val reader = readers.firstOrNull { it.networkStatus == Reader.NetworkStatus.ONLINE }
+            if (reader != null) {
+                targetReader = reader
                 connectReader()
             } else {
                 _userMessage.update {
@@ -55,7 +56,7 @@ class MainViewModel : ViewModel() {
         }
 
         override fun onFailure(e: TerminalException) {
-            Log.d(Config.TAG, "discoveryCallback onFailure")
+            Log.e(Config.TAG, "discoveryCallback onFailure", e)
         }
     }
 

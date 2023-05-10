@@ -115,14 +115,18 @@ class CheckoutViewModel : ViewModel() {
         failCallback: (String?) -> Unit
     ) {
         viewModelScope.launch {
-            updateAndProcessPaymentIntent(emailReceiptParams.toMap()).fold(
-                onSuccess = {
-                    successCallback("Update PaymentIntent success")
-                },
-                onFailure = {
-                    failCallback("Failed to update PaymentIntent")
-                }
-            )
+            try {
+                updateAndProcessPaymentIntent(emailReceiptParams.toMap()).fold(
+                    onSuccess = {
+                        successCallback("Update PaymentIntent success")
+                    },
+                    onFailure = {
+                        failCallback("Failed to update PaymentIntent")
+                    }
+                )
+            } catch (e: TerminalException) {
+                failCallback(e.message)
+            }
         }
     }
 
@@ -130,7 +134,6 @@ class CheckoutViewModel : ViewModel() {
         createPaymentIntentParams: Map<String, String>
     ): Result<Boolean> = ApiClient.updatePaymentIntent(createPaymentIntentParams).map { response ->
         val secret = response.secret
-        Log.d(Config.TAG, "updateAndProcessPaymentIntent secret : ${response.secret}")
         val paymentIntent = retrievePaymentIntent(secret)
         capturePaymentIntent(paymentIntent).isSuccess
     }

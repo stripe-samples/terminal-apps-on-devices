@@ -15,6 +15,7 @@ import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 import com.stripe.aod.sampleapp.utils.navOptions
+import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 import com.stripe.stripeterminal.external.models.PaymentIntentStatus
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
@@ -55,8 +56,8 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             }
         }
 
-        viewBinding.back.setOnClickListener { findNavController().navigateUp() }
-        viewBinding.submit.setOnClickListener {
+        viewBinding.back.setThrottleClickListener { findNavController().navigateUp() }
+        viewBinding.submit.setThrottleClickListener {
             viewBinding.submit.isEnabled = false
 
             checkoutViewModel.createPaymentIntent(
