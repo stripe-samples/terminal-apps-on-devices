@@ -18,7 +18,7 @@ import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
     private val args: ReceiptFragmentArgs by navArgs()
-    private val viewMode by viewModels<CheckoutViewModel>()
+    private val viewModel by viewModels<CheckoutViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         }
 
         viewBinding.receiptSkip.setThrottleClickListener {
-            viewMode.updateReceiptEmailPaymentIntent(
+            viewModel.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
                     paymentIntentId = args.paymentIntentID,
                     receiptEmail = ""

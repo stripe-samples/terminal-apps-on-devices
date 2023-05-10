@@ -18,7 +18,7 @@ import com.stripe.aod.sampleapp.utils.setThrottleClickListener
 
 class EmailFragment : Fragment(R.layout.fragment_email) {
     private val emailRegex = "^[A-Za-z\\d+_.-]+@[A-Za-z\\d.-]+\$"
-    private val viewMode by viewModels<CheckoutViewModel>()
+    private val viewModel by viewModels<CheckoutViewModel>()
     private val args: EmailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
 
         viewBinding.emailSend.setThrottleClickListener {
             viewBinding.inputEdit.hideKeyboard()
-            viewMode.updateReceiptEmailPaymentIntent(
+            viewModel.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
                     paymentIntentId = args.paymentIntentID,
                     receiptEmail = viewBinding.inputEdit.text.toString().trim()

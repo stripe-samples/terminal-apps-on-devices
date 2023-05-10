@@ -3,7 +3,6 @@ lifecycle-version = "2.6.1"
 navigation-version = "2.5.3"
 retrofit-version = "2.9.0"
 stripeterminal-version = "2.19.0"
-rxbinding-version = "4.0.0"
 
 [libraries]
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
