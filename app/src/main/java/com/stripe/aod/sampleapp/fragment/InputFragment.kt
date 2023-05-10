@@ -154,7 +154,11 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
                         resources.getColor(R.color.text_digit_pressed, context?.theme)
                     )
                 }
-                scaleView.animate().scaleX(1.5f).scaleY(1.5f).setDuration(200).start()
+                scaleView.animate()
+                    .scaleX(1.5f)
+                    .scaleY(1.5f)
+                    .setDuration(200)
+                    .start()
             }
             MotionEvent.ACTION_UP -> {
                 if (view.id !in listOf(R.id.key_backspace, R.id.key_clear)) {
@@ -166,7 +170,11 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
                         resources.getColor(R.color.text_digit_default, context?.theme)
                     )
                 }
-                scaleView.animate().scaleX(1.0f).scaleY(1.0f).setDuration(200).start()
+                scaleView.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(200)
+                    .start()
                 handlerClickAction(scaleView, inputChar)
             }
         }
