@@ -22,11 +22,11 @@ class MainViewModel : ViewModel() {
     private val _readerConnectStatus: MutableStateFlow<ConnectionStatus> = MutableStateFlow(
         ConnectionStatus.NOT_CONNECTED
     )
-    var readerConnectStatus: StateFlow<ConnectionStatus> = _readerConnectStatus.asStateFlow()
+    val readerConnectStatus: StateFlow<ConnectionStatus> = _readerConnectStatus.asStateFlow()
     private val _readerPaymentStatus: MutableStateFlow<PaymentStatus> = MutableStateFlow(
         PaymentStatus.NOT_READY
     )
-    var readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
+    val readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
     private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false)
