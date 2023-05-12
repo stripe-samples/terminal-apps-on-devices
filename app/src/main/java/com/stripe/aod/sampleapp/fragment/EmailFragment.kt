@@ -33,11 +33,6 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
         viewBinding.inputEdit.doAfterTextChanged {
             val isValidEmail = it?.toString()?.matches(emailRegex.toRegex()) ?: false
             viewBinding.emailSend.isEnabled = isValidEmail
-            viewBinding.inputLayout.error = if (it.isNullOrEmpty() || isValidEmail) {
-                ""
-            } else {
-                getString(R.string.invalid_email)
-            }
         }
 
         viewBinding.emailSend.setThrottleClickListener {

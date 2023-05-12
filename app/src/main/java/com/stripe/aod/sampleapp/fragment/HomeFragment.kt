@@ -14,6 +14,8 @@ import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 import com.stripe.aod.sampleapp.utils.navOptions
 import com.stripe.aod.sampleapp.utils.setThrottleClickListener
+import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.PaymentStatus
 import kotlinx.coroutines.flow.filter
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -29,8 +31,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         launchAndRepeatWithViewLifecycle {
-            viewModel.isReaderConnected.collect {
-                viewBinding.newPayment.isEnabled = it
+            viewModel.readerConnectStatus.collect {
+                viewBinding.indicator.visibility = if (it != ConnectionStatus.CONNECTED) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
+            }
+        }
+
+        launchAndRepeatWithViewLifecycle {
+            viewModel.readerPaymentStatus.collect {
+                viewBinding.newPayment.isEnabled = (it == PaymentStatus.READY)
             }
         }
 

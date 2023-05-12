@@ -13,16 +13,17 @@
     <color name="background">#121212</color>
 
     <!-- Text colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#C0C8D2</color>
+    <color name="text_digit_default">#FFFFFF</color>
+    <color name="text_digit_pressed">#FFFFFF</color>
     <color name="text_default">#FFFFFF</color>
     <color name="text_pressed">#F6F8FA</color>
     <color name="text_disable">#80FFFFFF</color>
     <color name="text_secondary_default">#F6F8FA</color>
     <color name="text_secondary_pressed">#F6F8FA</color>
     <color name="text_secondary_disable">#80F6F8FA</color>
-    <color name="logo_color">#FFFFFF</color>
-    <color name="logo_title">#C0C8D2</color>
     <color name="text_amount">#F6F8FA</color>
-    <color name="text_enter_amount">#C0C8D2</color>
 
     <!-- Button colors -->
     <color name="button_default">#0570DE</color>

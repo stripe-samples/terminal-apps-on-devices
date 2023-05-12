@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -144,12 +146,36 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
 
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                scaleView.scaleX = 1.5.toFloat()
-                scaleView.scaleY = 1.5.toFloat()
+                if (view.id !in listOf(R.id.key_backspace, R.id.key_clear)) {
+                    view.background = AppCompatResources.getDrawable(
+                        requireContext(),
+                        R.drawable.keyboard_active
+                    )
+                    (scaleView as TextView).setTextColor(
+                        resources.getColor(R.color.text_digit_pressed, context?.theme)
+                    )
+                }
+                scaleView.animate()
+                    .scaleX(1.5f)
+                    .scaleY(1.5f)
+                    .setDuration(200)
+                    .start()
             }
             MotionEvent.ACTION_UP -> {
-                scaleView.scaleX = 1f
-                scaleView.scaleY = 1f
+                if (view.id !in listOf(R.id.key_backspace, R.id.key_clear)) {
+                    view.background = AppCompatResources.getDrawable(
+                        requireContext(),
+                        R.drawable.keyboard_inactive
+                    )
+                    (scaleView as TextView).setTextColor(
+                        resources.getColor(R.color.text_digit_default, context?.theme)
+                    )
+                }
+                scaleView.animate()
+                    .scaleX(1.0f)
+                    .scaleY(1.0f)
+                    .setDuration(200)
+                    .start()
                 handlerClickAction(scaleView, inputChar)
             }
         }

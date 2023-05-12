@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 applicationContext,
                 LogLevel.VERBOSE,
                 viewModel.tokenProvider,
-                TerminalEventListener(viewModel::connectReader)
+                TerminalEventListener(viewModel)
             )
 
             viewModel.discoveryReaders()
