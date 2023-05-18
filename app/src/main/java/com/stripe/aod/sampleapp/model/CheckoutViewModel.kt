@@ -29,17 +29,21 @@ class CheckoutViewModel : ViewModel() {
         failCallback: (String?) -> Unit
     ) {
         viewModelScope.launch {
-            createAndProcessPaymentIntent(createPaymentParams.toMap()).fold(
-                onSuccess = { paymentIntent ->
-                    _currentPaymentIntent.update { paymentIntent }
-                    successCallback?.let {
-                        it(paymentIntent.id)
+            try {
+                createAndProcessPaymentIntent(createPaymentParams.toMap()).fold(
+                    onSuccess = { paymentIntent ->
+                        _currentPaymentIntent.update { paymentIntent }
+                        successCallback?.let {
+                            it(paymentIntent.id)
+                        }
+                    },
+                    onFailure = {
+                        failCallback("Failed to create PaymentIntent")
                     }
-                },
-                onFailure = {
-                    failCallback("Failed to create PaymentIntent")
-                }
-            )
+                )
+            } catch (e: TerminalException) {
+                failCallback(e.message)
+            }
         }
     }
 
