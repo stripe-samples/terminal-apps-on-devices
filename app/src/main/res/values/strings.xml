@@ -29,6 +29,8 @@
     <string name="request_payment">Request payment</string>
     <string name="checkout">Checkout</string>
     <string name="amount_entered">Amount entered</string>
+    <string name="settings">Settings</string>
+    <string name="stripe">Stripe</string>
 
     <string name="error_fail_to_send_email_receipt">Failed to send receipt email</string>
     <string name="error_fail_to_create_payment_intent">Failed to create PaymentIntent</string>
