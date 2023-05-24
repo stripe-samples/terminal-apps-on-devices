@@ -12,12 +12,13 @@
         android:padding="24dp"
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/back"/>
 
     <TextView
         android:id="@+id/amount_title"
-        android:layout_width="312dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
         android:gravity="center_horizontal"
         android:lineSpacingExtra="3sp"
@@ -31,8 +32,8 @@
     <TextView
         android:id="@+id/amount"
         style="@style/AmountStyle"
-        android:layout_width="312dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="146dp"
         android:lineSpacingExtra="0sp"
         android:textSize="40sp"
