@@ -30,7 +30,7 @@
     <color name="button_pressed">#03438E</color>
     <color name="button_disable">#03438E</color>
     <color name="button_secondary_default">#1F1F1F</color>
-    <color name="button_secondary_pressed">#1F1F1F</color>
+    <color name="button_secondary_pressed">#801F1F1F</color>
     <color name="button_secondary_disable">#1F1F1F</color>
     <color name="menu_button">#0570DE</color>
 
