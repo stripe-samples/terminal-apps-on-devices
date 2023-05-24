@@ -1,6 +1,5 @@
 package com.stripe.aod.sampleapp.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.SystemClock
 import android.view.View

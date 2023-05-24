@@ -11,17 +11,22 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.stripe.aod.sampleapp.R
+import com.stripe.aod.sampleapp.data.CreatePaymentParams
 import com.stripe.aod.sampleapp.databinding.FragmentInputBinding
+import com.stripe.aod.sampleapp.model.CheckoutViewModel
 import com.stripe.aod.sampleapp.model.InputViewModel
 import com.stripe.aod.sampleapp.utils.formatCentsToString
 import com.stripe.aod.sampleapp.utils.launchAndRepeatWithViewLifecycle
 import com.stripe.aod.sampleapp.utils.navOptions
 import com.stripe.aod.sampleapp.utils.setThrottleClickListener
+import com.stripe.stripeterminal.external.models.PaymentIntentStatus
 
 class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
     private lateinit var viewBinding: FragmentInputBinding
     private val inputViewModel by viewModels<InputViewModel>()
+    private val checkoutViewModel by viewModels<CheckoutViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -78,15 +83,41 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
                 }
             }
         }
+
+        launchAndRepeatWithViewLifecycle {
+            checkoutViewModel.currentPaymentIntent.collect { paymentIntent ->
+                paymentIntent?.takeIf {
+                    it.status == PaymentIntentStatus.REQUIRES_CAPTURE
+                }?.let {
+                    findNavController().navigate(
+                        InputFragmentDirections.actionInputFragmentToReceiptFragment(
+                            paymentIntentID = it.id,
+                            amount = it.amount.toInt()
+                        ),
+                        navOptions()
+                    )
+                }
+            }
+        }
     }
 
     private fun requestNewPayment() {
-        findNavController().navigate(
-            InputFragmentDirections.actionInputFragmentToCheckoutFragment(
-                inputViewModel.amount.value.toInt()
-            ),
-            navOptions()
-        )
+        viewBinding.submit.isEnabled = false
+
+        checkoutViewModel.createPaymentIntent(
+            CreatePaymentParams(amount = inputViewModel.amount.value.toInt(), currency = "usd")
+        ) { message ->
+            Snackbar.make(
+                viewBinding.root,
+                if (message.isNullOrEmpty()) {
+                    getString(R.string.error_fail_to_create_payment_intent)
+                } else {
+                    message
+                },
+                Snackbar.LENGTH_SHORT
+            ).show()
+            viewBinding.submit.isEnabled = true
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
