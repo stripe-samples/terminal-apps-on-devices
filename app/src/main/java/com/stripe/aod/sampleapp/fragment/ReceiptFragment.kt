@@ -25,6 +25,8 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         val viewBinding = FragmentReceiptBinding.bind(view)
 
         viewBinding.totalAmount.text = formatCentsToString(args.amount)
+        viewBinding.receiptPrint.isEnabled = false
+        viewBinding.receiptSms.isEnabled = false
         viewBinding.receiptEmail.setThrottleClickListener {
             findNavController().navigate(
                 ReceiptFragmentDirections.actionReceiptFragmentToEmailFragment(
@@ -35,6 +37,8 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         }
 
         viewBinding.receiptSkip.setThrottleClickListener {
+            viewBinding.receiptSkip.isEnabled = false
+
             viewModel.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
                     paymentIntentId = args.paymentIntentID,
@@ -44,6 +48,7 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
                     backToHome()
                 },
                 failCallback = { message ->
+                    viewBinding.receiptSkip.isEnabled = true
                     Snackbar.make(
                         viewBinding.receiptSkip,
                         if (message.isNullOrEmpty()) {

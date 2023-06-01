@@ -36,6 +36,7 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
         }
 
         viewBinding.emailSend.setThrottleClickListener {
+            viewBinding.emailSend.isEnabled = false
             viewBinding.inputEdit.hideKeyboard()
             viewModel.updateReceiptEmailPaymentIntent(
                 EmailReceiptParams(
@@ -46,6 +47,8 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                     backToHome()
                 },
                 failCallback = { message ->
+                    viewBinding.emailSend.isEnabled = true
+
                     Snackbar.make(
                         viewBinding.emailSend,
                         if (message.isNullOrEmpty()) {
