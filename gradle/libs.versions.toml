@@ -2,7 +2,7 @@
 lifecycle-version = "2.6.1"
 navigation-version = "2.5.3"
 retrofit-version = "2.9.0"
-stripeterminal-version = "2.19.0"
+stripeterminal-version = "2.21.0"
 
 [libraries]
 androidx-appcompat = "androidx.appcompat:appcompat:1.6.1"
@@ -17,9 +17,9 @@ androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-r
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-version" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-version" }
 
-android-material = "com.google.android.material:material:1.8.0"
+android-material = "com.google.android.material:material:1.9.0"
 
-kotlinx-coroutines-android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+kotlinx-coroutines-android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
 
 okhttp = "com.squareup.okhttp3:okhttp:4.11.0"
 
