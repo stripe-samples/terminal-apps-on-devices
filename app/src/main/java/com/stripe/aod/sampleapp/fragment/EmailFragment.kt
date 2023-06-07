@@ -43,18 +43,16 @@ class EmailFragment : Fragment(R.layout.fragment_email) {
                     paymentIntentId = args.paymentIntentID,
                     receiptEmail = viewBinding.inputEdit.text.toString().trim()
                 ),
-                successCallback = {
+                onSuccess = {
                     backToHome()
                 },
-                failCallback = { message ->
+                onFailure = { message ->
                     viewBinding.emailSend.isEnabled = true
 
                     Snackbar.make(
                         viewBinding.emailSend,
-                        if (message.isNullOrEmpty()) {
+                        message.value.ifEmpty {
                             getString(R.string.error_fail_to_send_email_receipt)
-                        } else {
-                            message
                         },
                         Snackbar.LENGTH_SHORT
                     ).show()

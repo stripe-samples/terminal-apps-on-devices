@@ -106,13 +106,11 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
 
         checkoutViewModel.createPaymentIntent(
             CreatePaymentParams(amount = inputViewModel.amount.value.toInt(), currency = "usd")
-        ) { message ->
+        ) { failureMessage ->
             Snackbar.make(
                 viewBinding.root,
-                if (message.isNullOrEmpty()) {
+                failureMessage.value.ifEmpty {
                     getString(R.string.error_fail_to_create_payment_intent)
-                } else {
-                    message
                 },
                 Snackbar.LENGTH_SHORT
             ).show()
