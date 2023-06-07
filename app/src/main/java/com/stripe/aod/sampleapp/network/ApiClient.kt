@@ -1,14 +1,16 @@
 package com.stripe.aod.sampleapp.network
 
+import android.util.Log
 import com.stripe.aod.sampleapp.BuildConfig
+import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
@@ -27,32 +29,40 @@ object ApiClient {
     private val service: BackendService = retrofit.create(BackendService::class.java)
 
     @Throws(ConnectionTokenException::class)
-    internal suspend fun createConnectionToken(): String {
-        try {
+    internal suspend fun createConnectionToken(
+        canRetry: Boolean
+    ): String {
+        return try {
             val result = service.getConnectionToken()
 
-            if (result.secret.isNotEmpty()) {
-                return result.secret
-            } else {
-                throw ConnectionTokenException("Creating connection token failed")
+            result.secret.ifEmpty {
+                throw ConnectionTokenException("Empty connection token.")
             }
         } catch (e: IOException) {
-            throw ConnectionTokenException("Creating connection token failed", e)
+            if (canRetry) {
+                Log.e(Config.TAG, "Error while creating connection token, retrying.", e)
+                createConnectionToken(canRetry = false)
+            } else {
+                throw ConnectionTokenException("Failed to create connection token.", e)
+            }
         }
     }
 
-    suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse?> = runCatching {
-        val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
-        response ?: error("Failed to create PaymentIntent")
-    }
+    suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse?> =
+        runCatching {
+            val response = service.createPaymentIntent(createPaymentIntentParams.toMap())
+            response ?: error("Failed to create PaymentIntent")
+        }
 
-    suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse> = runCatching {
-        val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
-        response ?: error("Failed to update PaymentIntent")
-    }
+    suspend fun updatePaymentIntent(updatePaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse> =
+        runCatching {
+            val response = service.updatePaymentIntent(updatePaymentIntentParams.toMap())
+            response ?: error("Failed to update PaymentIntent")
+        }
 
-    suspend fun capturePaymentIntent(@Field("payment_intent_id") id: String): Result<PaymentIntentCreationResponse> = runCatching {
-        val response = service.capturePaymentIntent(id)
-        response ?: error("Failed to capture PaymentIntent")
-    }
+    suspend fun capturePaymentIntent(@Field("payment_intent_id") id: String): Result<PaymentIntentCreationResponse> =
+        runCatching {
+            val response = service.capturePaymentIntent(id)
+            response ?: error("Failed to capture PaymentIntent")
+        }
 }

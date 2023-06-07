@@ -14,7 +14,7 @@ class TokenProvider(private val coroutineScope: CoroutineScope) : ConnectionToke
     override fun fetchConnectionToken(callback: ConnectionTokenCallback) {
         coroutineScope.launch {
             try {
-                val token = ApiClient.createConnectionToken()
+                val token = ApiClient.createConnectionToken(canRetry = true)
                 callback.onSuccess(token)
             } catch (e: ConnectionTokenException) {
                 callback.onFailure(e)
