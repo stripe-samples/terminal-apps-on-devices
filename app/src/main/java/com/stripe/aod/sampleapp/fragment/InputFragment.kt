@@ -105,7 +105,11 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         viewBinding.submit.isEnabled = false
 
         checkoutViewModel.createPaymentIntent(
-            CreatePaymentParams(amount = inputViewModel.amount.value.toInt(), currency = "usd")
+            CreatePaymentParams(
+                amount = inputViewModel.amount.value.toInt(),
+                currency = "usd",
+                description = "Apps on Devices sample app transaction",
+            )
         ) { failureMessage ->
             Snackbar.make(
                 viewBinding.root,
