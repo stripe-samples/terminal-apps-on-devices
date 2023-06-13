@@ -10,7 +10,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
 import java.io.IOException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 object ApiClient {
 
@@ -30,7 +32,7 @@ object ApiClient {
 
     @Throws(ConnectionTokenException::class)
     internal suspend fun createConnectionToken(
-        canRetry: Boolean
+        canRetry: Boolean,
     ): String {
         return try {
             val result = service.getConnectionToken()
@@ -38,12 +40,21 @@ object ApiClient {
             result.secret.ifEmpty {
                 throw ConnectionTokenException("Empty connection token.")
             }
-        } catch (e: IOException) {
-            if (canRetry) {
-                Log.e(Config.TAG, "Error while creating connection token, retrying.", e)
-                createConnectionToken(canRetry = false)
-            } else {
-                throw ConnectionTokenException("Failed to create connection token.", e)
+        } catch (e: Exception) {
+            when (e) {
+                is SocketTimeoutException,
+                is TimeoutException,
+                is IOException -> {
+                    if (canRetry) {
+                        Log.e(Config.TAG, "Error while creating connection token, retrying.", e)
+                        createConnectionToken(canRetry = false)
+                    } else {
+                        throw ConnectionTokenException("Failed to create connection token.", e)
+                    }
+                }
+                else -> {
+                    throw ConnectionTokenException("Failed to create connection token.", e)
+                }
             }
         }
     }
