@@ -33,3 +33,18 @@ Run the example app on a Stripe WisePOS E or S700 DevKit device.
 
 <img width="435" alt="Screenshot 2023-06-13 at 11 00 32 AM" src="https://github.com/stripe/terminal-apps-on-devices-example/assets/45020849/9c0472f4-2355-4094-a2fd-ce3498409d07">
 
+## Get support
+If you found a bug or want to suggest a new [feature/use case/sample], please [file an issue](../../issues).
+
+If you have questions, comments, or need help with code, we're here to help:
+- on [Discord](https://stripe.com/go/developer-chat)
+- on Twitter at [@StripeDev](https://twitter.com/StripeDev)
+- on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
+- by [email](mailto:support+github@stripe.com)
+
+Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
+
+## Author(s)
+- [ericlin-bbpos](https://github.com/ericlin-bbpos)
+- [ianlin-bbpos](https://github.com/ianlin-bbpos)
+- [mshafrir-stripe](https://github.com/mshafrir-stripe)
