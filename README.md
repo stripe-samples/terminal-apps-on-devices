@@ -2,6 +2,10 @@
 
 This repository will contain example app(s) for Terminal's custom 3rd party apps on devices feature.
 
+## Prerequisites
+Before proceeding with the integration, ensure you have the following
+- Stripe S700 DevKit smart reader
+
 ## Setup
 
 ### Clone the repo
