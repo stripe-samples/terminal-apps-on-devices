@@ -1,10 +1,16 @@
-# Apps on Devices example
+# Apps on Devices integration
 
-This repository will contain example app(s) for Terminal's custom 3rd party apps on devices feature.
+This repository contains a sample app that demonstrates best practices for writing an [Apps on Devices](https://stripe.com/docs/terminal/features/apps-on-devices/overview) integration.
+
+The app demonstrates the following
+- How to discover and connect the handoff reader
+- How to collect and confirm a payment
+- How to deep link to the device's admin settings
 
 ## Prerequisites
 Before proceeding with the integration, ensure you have the following
 - Stripe S700 DevKit smart reader
+- [Android Studio Flamingo](https://developer.android.com/studio/releases) or greater
 
 ## Setup
 
