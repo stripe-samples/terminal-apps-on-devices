@@ -43,6 +43,11 @@ Run the example app on a Stripe WisePOS E or S700 DevKit device.
 
 <img width="435" alt="Screenshot 2023-06-13 at 11 00 32 AM" src="https://github.com/stripe/terminal-apps-on-devices-example/assets/45020849/9c0472f4-2355-4094-a2fd-ce3498409d07">
 
+## Next steps
+
+- [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) to learn how to upload and deploy your app 
+- Read [troubleshooting apps on devices](https://stripe.com/docs/terminal/features/apps-on-devices/troubleshooting) for resolutions to common issues
+
 ## Get support
 If you found a bug or want to suggest a new [feature/use case/sample], please [file an issue](../../issues).
 
