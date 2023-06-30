@@ -9,7 +9,6 @@ The app demonstrates the following
 
 <img src="https://raw.githubusercontent.com/stripe-samples/terminal-apps-on-devices/master/demo.gif" width="400" height="711" />
 
-
 ## Prerequisites
 Before proceeding with the integration, ensure you have the following
 - Stripe S700 DevKit smart reader
@@ -44,7 +43,7 @@ BACKEND_URL=https://my-backend-123.onrender.com
 
 Run the example app on a Stripe WisePOS E or S700 DevKit device.
 
-<img width="435" alt="Screenshot 2023-06-13 at 11 00 32 AM" src="https://github.com/stripe/terminal-apps-on-devices-example/assets/45020849/9c0472f4-2355-4094-a2fd-ce3498409d07">
+<img width="451" alt="Screenshot 2023-06-30 at 12 16 54 PM" src="https://github.com/stripe-samples/terminal-apps-on-devices/assets/45020849/9ec2eaf3-55c6-4115-8abf-d074e1e9a342">
 
 ## Next steps
 
