@@ -4,17 +4,24 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stripe.aod.sampleapp.Config
+import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.DiscoveryListener
 import com.stripe.stripeterminal.external.callable.ReaderCallback
-import com.stripe.stripeterminal.external.models.*
+import com.stripe.stripeterminal.external.models.ConnectionConfiguration
+import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
+import com.stripe.stripeterminal.external.models.PaymentStatus
+import com.stripe.stripeterminal.external.models.Reader
+import com.stripe.stripeterminal.external.models.TerminalException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     val tokenProvider = TokenProvider(viewModelScope)
@@ -29,7 +36,7 @@ class MainViewModel : ViewModel() {
     val readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
-    private val config = DiscoveryConfiguration(0, DiscoveryMethod.HANDOFF, false)
+    private val config = DiscoveryConfiguration.HandoffDiscoveryConfiguration()
 
     private val _userMessage: MutableStateFlow<String> = MutableStateFlow("")
     val userMessage: StateFlow<String> = _userMessage.asStateFlow()
@@ -60,12 +67,34 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    init {
+        viewModelScope.launch {
+            launch {
+                TerminalEventListener.onConnectionStatusChange.collect(::updateConnectStatus)
+            }
+
+            launch {
+                TerminalEventListener.onPaymentStatusChange.collect(::updatePaymentStatus)
+            }
+
+            launch {
+                TerminalEventListener.onUnexpectedReaderDisconnect.collect {
+                    connectReader()
+                }
+            }
+        }
+    }
+
     fun discoveryReaders() {
-        discoveryTask = Terminal.getInstance().discoverReaders(
-            config,
-            discoveryListener,
-            discoveryCallback
-        )
+        try {
+            discoveryTask = Terminal.getInstance().discoverReaders(
+                config,
+                discoveryListener,
+                discoveryCallback
+            )
+        } catch (e: SecurityException) {
+            Log.e(Config.TAG, "Failed to discover readers", e)
+        }
     }
 
     fun connectReader() {
