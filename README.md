@@ -7,6 +7,9 @@ The app demonstrates the following
 - How to collect and confirm a payment
 - How to deep link to the device's admin settings
 
+<img src="https://raw.githubusercontent.com/stripe-samples/terminal-apps-on-devices/master/demo.gif" width="400" height="711" />
+
+
 ## Prerequisites
 Before proceeding with the integration, ensure you have the following
 - Stripe S700 DevKit smart reader
