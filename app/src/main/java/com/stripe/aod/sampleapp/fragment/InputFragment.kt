@@ -91,7 +91,7 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
                 }?.let {
                     findNavController().navigate(
                         InputFragmentDirections.actionInputFragmentToReceiptFragment(
-                            paymentIntentID = it.id,
+                            paymentIntentID = it.id.orEmpty(),
                             amount = it.amount.toInt()
                         ),
                         navOptions()

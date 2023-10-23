@@ -97,7 +97,7 @@ class CheckoutViewModel : ViewModel() {
 
     private suspend fun processPayment(paymentIntent: PaymentIntent): PaymentIntent {
         return suspendCoroutine { continuation ->
-            Terminal.getInstance().processPayment(
+            Terminal.getInstance().confirmPaymentIntent(
                 paymentIntent,
                 object : PaymentIntentCallback {
                     override fun onSuccess(paymentIntent: PaymentIntent) {
@@ -144,5 +144,5 @@ class CheckoutViewModel : ViewModel() {
             }
 
     private suspend fun capturePaymentIntent(paymentIntent: PaymentIntent) =
-        ApiClient.capturePaymentIntent(paymentIntent.id)
+        ApiClient.capturePaymentIntent(paymentIntent.id.orEmpty())
 }
