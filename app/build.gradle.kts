@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.stripe.aod.sampleapp"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.stripe.aod.sampleapp"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
