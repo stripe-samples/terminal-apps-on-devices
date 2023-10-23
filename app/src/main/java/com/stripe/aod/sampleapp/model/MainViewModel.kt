@@ -85,16 +85,13 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    @Suppress("MissingPermission")
     fun discoveryReaders() {
-        try {
-            discoveryTask = Terminal.getInstance().discoverReaders(
-                config,
-                discoveryListener,
-                discoveryCallback
-            )
-        } catch (e: SecurityException) {
-            Log.e(Config.TAG, "Failed to discover readers", e)
-        }
+        discoveryTask = Terminal.getInstance().discoverReaders(
+            config,
+            discoveryListener,
+            discoveryCallback
+        )
     }
 
     fun connectReader() {
@@ -136,11 +133,11 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    fun updateConnectStatus(status: ConnectionStatus) {
+    private fun updateConnectStatus(status: ConnectionStatus) {
         _readerConnectStatus.update { status }
     }
 
-    fun updatePaymentStatus(status: PaymentStatus) {
+    private fun updatePaymentStatus(status: PaymentStatus) {
         _readerPaymentStatus.update { status }
     }
 
