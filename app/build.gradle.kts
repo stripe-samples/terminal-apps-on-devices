@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.stripe.aod.sampleapp"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.stripe.aod.sampleapp"
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -26,13 +26,11 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    kotlin {
+        jvmToolchain(JavaLanguageVersion.of(17).asInt())
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
         allWarningsAsErrors = true
     }
 
