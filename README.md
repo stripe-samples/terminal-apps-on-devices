@@ -41,9 +41,10 @@ BACKEND_URL=https://my-backend-123.onrender.com
 
 ## Run
 
-Run the example app on a Stripe WisePOS E or S700 DevKit device.
+Run the example app on a Stripe S700 DevKit smart reader.
 
-<img width="451" alt="Screenshot 2023-06-30 at 12 16 54 PM" src="https://github.com/stripe-samples/terminal-apps-on-devices/assets/45020849/9ec2eaf3-55c6-4115-8abf-d074e1e9a342">
+![Screenshot 2024-07-23 at 9 38 59 AM](https://github.com/user-attachments/assets/0a58ef35-69d4-4b8c-9876-df74e393d04f)
+
 
 ## Next steps
 
