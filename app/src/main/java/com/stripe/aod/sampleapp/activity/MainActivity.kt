@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         ::onPermissionResult
     )
 
-    public override fun onCreate(savedInstanseBundle: Bundle?) {
-        super.onCreate(savedInstanseBundle)
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         requestPermissionsIfNecessary()
