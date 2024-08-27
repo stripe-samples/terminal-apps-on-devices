@@ -1,0 +1,11 @@
+{
+  "name": "terminal-apps-on-devices",
+  "configureDotEnv": true,
+  "integrations": [
+    {
+     "name": "main",
+      "clients": ["android-kotlin"],
+      "servers": []
+    }
+  ]
+}
