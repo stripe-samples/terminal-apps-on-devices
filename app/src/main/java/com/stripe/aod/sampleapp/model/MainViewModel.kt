@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stripe.aod.sampleapp.Config
+import com.stripe.aod.sampleapp.BuildConfig
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
@@ -36,7 +37,7 @@ class MainViewModel : ViewModel() {
     val readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
-    private val config = DiscoveryConfiguration.HandoffDiscoveryConfiguration()
+    private val config = DiscoveryConfiguration.InternetDiscoveryConfiguration()
 
     private val _userMessage: MutableStateFlow<String> = MutableStateFlow("")
     val userMessage: StateFlow<String> = _userMessage.asStateFlow()
@@ -45,7 +46,8 @@ class MainViewModel : ViewModel() {
 
     private val discoveryListener: DiscoveryListener = object : DiscoveryListener {
         override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
-            val reader = readers.firstOrNull { it.networkStatus == Reader.NetworkStatus.ONLINE }
+            // val reader = readers.firstOrNull { it.networkStatus == Reader.NetworkStatus.ONLINE }
+            val reader = readers.find { it.serialNumber == BuildConfig.TERMINAL_SERIAL_NUMBER }
             if (reader != null) {
                 targetReader = reader
                 connectReader()

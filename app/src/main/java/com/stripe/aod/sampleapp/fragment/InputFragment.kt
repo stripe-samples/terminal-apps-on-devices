@@ -107,7 +107,7 @@ class InputFragment : Fragment(R.layout.fragment_input), OnTouchListener {
         checkoutViewModel.createPaymentIntent(
             CreatePaymentParams(
                 amount = inputViewModel.amount.value.toInt(),
-                currency = "usd",
+                currency = "eur",
                 description = "Apps on Devices sample app transaction",
             )
         ) { failureMessage ->
