@@ -10,12 +10,15 @@ import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.DiscoveryListener
+import com.stripe.stripeterminal.external.callable.HandoffReaderListener
 import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
 import com.stripe.stripeterminal.external.models.ConnectionStatus
+import com.stripe.stripeterminal.external.models.DisconnectReason
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
 import com.stripe.stripeterminal.external.models.PaymentStatus
 import com.stripe.stripeterminal.external.models.Reader
+import com.stripe.stripeterminal.external.models.ReaderEvent
 import com.stripe.stripeterminal.external.models.TerminalException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -76,12 +79,6 @@ class MainViewModel : ViewModel() {
             launch {
                 TerminalEventListener.onPaymentStatusChange.collect(::updatePaymentStatus)
             }
-
-            launch {
-                TerminalEventListener.onUnexpectedReaderDisconnect.collect {
-                    connectReader()
-                }
-            }
         }
     }
 
@@ -125,10 +122,21 @@ class MainViewModel : ViewModel() {
             }
         }
 
-        Terminal.getInstance().connectHandoffReader(
+        Terminal.getInstance().connectReader(
             targetReader,
-            ConnectionConfiguration.HandoffConnectionConfiguration(),
-            null,
+            ConnectionConfiguration.HandoffConnectionConfiguration(
+                object : HandoffReaderListener {
+                    override fun onDisconnect(reason: DisconnectReason) {
+                        super.onDisconnect(reason)
+                        Log.i(Config.TAG, "onDisconnect: $reason")
+                    }
+
+                    override fun onReportReaderEvent(event: ReaderEvent) {
+                        super.onReportReaderEvent(event)
+                        Log.i(Config.TAG, "onReportReaderEvent: $event")
+                    }
+                }
+            ),
             readerCallback
         )
     }
