@@ -52,6 +52,7 @@ object ApiClient {
                         throw ConnectionTokenException("Failed to create connection token.", e)
                     }
                 }
+
                 else -> {
                     throw ConnectionTokenException("Failed to create connection token.", e)
                 }
