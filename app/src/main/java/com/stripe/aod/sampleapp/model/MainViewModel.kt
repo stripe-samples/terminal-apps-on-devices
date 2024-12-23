@@ -127,12 +127,10 @@ class MainViewModel : ViewModel() {
             ConnectionConfiguration.HandoffConnectionConfiguration(
                 object : HandoffReaderListener {
                     override fun onDisconnect(reason: DisconnectReason) {
-                        super.onDisconnect(reason)
                         Log.i(Config.TAG, "onDisconnect: $reason")
                     }
 
                     override fun onReportReaderEvent(event: ReaderEvent) {
-                        super.onReportReaderEvent(event)
                         Log.i(Config.TAG, "onReportReaderEvent: $event")
                     }
                 }
