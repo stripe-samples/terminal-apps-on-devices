@@ -98,11 +98,12 @@ class MainActivity : AppCompatActivity() {
     private fun initialize() {
         // Initialize the Terminal as soon as possible
         try {
-            Terminal.initTerminal(
-                applicationContext,
-                LogLevel.VERBOSE,
-                viewModel.tokenProvider,
-                TerminalEventListener,
+            Terminal.init(
+                context = applicationContext,
+                logLevel = LogLevel.VERBOSE,
+                tokenProvider = viewModel.tokenProvider,
+                listener = TerminalEventListener,
+                offlineListener = null,
             )
 
             viewModel.discoveryReaders()
