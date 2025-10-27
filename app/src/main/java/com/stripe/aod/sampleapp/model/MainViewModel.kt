@@ -7,10 +7,10 @@ import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.callable.AppsOnDevicesListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
 import com.stripe.stripeterminal.external.callable.DiscoveryListener
-import com.stripe.stripeterminal.external.callable.HandoffReaderListener
 import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
 import com.stripe.stripeterminal.external.models.ConnectionStatus
@@ -39,7 +39,7 @@ class MainViewModel : ViewModel() {
     val readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
-    private val config = DiscoveryConfiguration.HandoffDiscoveryConfiguration()
+    private val config = DiscoveryConfiguration.AppsOnDevicesDiscoveryConfiguration()
 
     private val _userMessage: MutableStateFlow<String> = MutableStateFlow("")
     val userMessage: StateFlow<String> = _userMessage.asStateFlow()
@@ -124,8 +124,8 @@ class MainViewModel : ViewModel() {
 
         Terminal.getInstance().connectReader(
             targetReader,
-            ConnectionConfiguration.HandoffConnectionConfiguration(
-                object : HandoffReaderListener {
+            ConnectionConfiguration.AppsOnDevicesConnectionConfiguration (
+                object : AppsOnDevicesListener {
                     override fun onDisconnect(reason: DisconnectReason) {
                         Log.i(Config.TAG, "onDisconnect: $reason")
                     }
