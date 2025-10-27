@@ -64,7 +64,8 @@ dependencies {
 
     // Stripe Terminal library
     implementation(libs.stripe.terminal.core)
-    implementation(libs.stripe.terminal.handoffclient)
+    implementation(libs.stripe.terminal.appsondevices)
+    implementation(libs.stripe.terminal.ktx)
 
     // navigation
     implementation(libs.androidx.navigation.fragment.ktx)
