@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 offlineListener = null,
             )
 
-            viewModel.discoveryReaders()
+            viewModel.easyConnect()
         } catch (e: TerminalException) {
             throw RuntimeException(
                 "Location services are required in order to initialize the Terminal.",
