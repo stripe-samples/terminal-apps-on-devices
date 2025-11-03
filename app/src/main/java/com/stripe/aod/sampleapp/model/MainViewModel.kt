@@ -7,15 +7,15 @@ import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.callable.AppsOnDevicesListener
 import com.stripe.stripeterminal.external.callable.Callback
 import com.stripe.stripeterminal.external.callable.Cancelable
-import com.stripe.stripeterminal.external.callable.DiscoveryListener
-import com.stripe.stripeterminal.external.callable.HandoffReaderListener
 import com.stripe.stripeterminal.external.callable.ReaderCallback
 import com.stripe.stripeterminal.external.models.ConnectionConfiguration
 import com.stripe.stripeterminal.external.models.ConnectionStatus
 import com.stripe.stripeterminal.external.models.DisconnectReason
 import com.stripe.stripeterminal.external.models.DiscoveryConfiguration
+import com.stripe.stripeterminal.external.models.EasyConnectConfiguration
 import com.stripe.stripeterminal.external.models.PaymentStatus
 import com.stripe.stripeterminal.external.models.Reader
 import com.stripe.stripeterminal.external.models.ReaderEvent
@@ -39,36 +39,21 @@ class MainViewModel : ViewModel() {
     val readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
-    private val config = DiscoveryConfiguration.HandoffDiscoveryConfiguration()
+    private val discoveryConfig = DiscoveryConfiguration.AppsOnDevicesDiscoveryConfiguration()
+    private val connectionConfig = ConnectionConfiguration.AppsOnDevicesConnectionConfiguration(
+        object : AppsOnDevicesListener {
+            override fun onDisconnect(reason: DisconnectReason) {
+                Log.i(Config.TAG, "onDisconnect: $reason")
+            }
+
+            override fun onReportReaderEvent(event: ReaderEvent) {
+                Log.i(Config.TAG, "onReportReaderEvent: $event")
+            }
+        }
+    )
 
     private val _userMessage: MutableStateFlow<String> = MutableStateFlow("")
     val userMessage: StateFlow<String> = _userMessage.asStateFlow()
-
-    private lateinit var targetReader: Reader
-
-    private val discoveryListener: DiscoveryListener = object : DiscoveryListener {
-        override fun onUpdateDiscoveredReaders(readers: List<Reader>) {
-            val reader = readers.firstOrNull { it.networkStatus == Reader.NetworkStatus.ONLINE }
-            if (reader != null) {
-                targetReader = reader
-                connectReader()
-            } else {
-                _userMessage.update {
-                    "Register a reader using the device settings to start accepting payments"
-                }
-            }
-        }
-    }
-
-    private val discoveryCallback: Callback = object : Callback {
-        override fun onSuccess() {
-            Log.d(Config.TAG, "discoveryCallback onSuccess")
-        }
-
-        override fun onFailure(e: TerminalException) {
-            Log.e(Config.TAG, "discoveryCallback onFailure", e)
-        }
-    }
 
     init {
         viewModelScope.launch {
@@ -82,39 +67,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    @Suppress("MissingPermission")
-    fun discoveryReaders() {
-        discoveryTask = Terminal.getInstance().discoverReaders(
-            config,
-            discoveryListener,
-            discoveryCallback
-        )
-    }
-
-    fun connectReader() {
-        getCurrentReader()?.let { reader ->
-            // same one , skip
-            if (targetReader.id == reader.id) {
-                return
-            }
-
-            // different reader , disconnect old first then connect new one again
-            val currentReader: Reader = reader
-            Terminal.getInstance().disconnectReader(object : Callback {
-                override fun onSuccess() {
-                    Log.d(Config.TAG, "Current Reader [ ${currentReader.id} ] disconnect success ")
-                }
-
-                override fun onFailure(e: TerminalException) {
-                    Log.e(Config.TAG, "Current Reader [ ${currentReader.id} ] disconnect fail ")
-                }
-            })
-        }
-
-        Log.i(Config.TAG, "Connecting to new Reader [ ${targetReader.id} ] .... ")
+    fun easyConnect() {
         val readerCallback: ReaderCallback = object : ReaderCallback {
             override fun onSuccess(reader: Reader) {
-                Log.i(Config.TAG, "Reader [ ${targetReader.id} ] Connected ")
+                Log.i(Config.TAG, "Reader [ ${reader.id} ] Connected ")
             }
 
             override fun onFailure(e: TerminalException) {
@@ -122,20 +78,12 @@ class MainViewModel : ViewModel() {
             }
         }
 
-        Terminal.getInstance().connectReader(
-            targetReader,
-            ConnectionConfiguration.HandoffConnectionConfiguration(
-                object : HandoffReaderListener {
-                    override fun onDisconnect(reason: DisconnectReason) {
-                        Log.i(Config.TAG, "onDisconnect: $reason")
-                    }
-
-                    override fun onReportReaderEvent(event: ReaderEvent) {
-                        Log.i(Config.TAG, "onReportReaderEvent: $event")
-                    }
-                }
+        discoveryTask = Terminal.getInstance().easyConnect(
+            config = EasyConnectConfiguration.AppsOnDevicesEasyConnectionConfiguration(
+                discoveryConfiguration = discoveryConfig,
+                connectionConfiguration = connectionConfig,
             ),
-            readerCallback
+            readerCallback,
         )
     }
 

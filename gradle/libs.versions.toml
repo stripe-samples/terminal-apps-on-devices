@@ -2,7 +2,7 @@
 lifecycle-version = "2.8.7"
 navigation-version = "2.8.8"
 retrofit-version = "2.11.0"
-stripeterminal-version = "4.7.4"
+stripeterminal-version = "5.0.0"
 
 [libraries]
 androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
@@ -28,6 +28,7 @@ retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter
 
 secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version = "2.0.1" }
 stripe-terminal-core = { group = "com.stripe", name = "stripeterminal-core", version.ref = "stripeterminal-version" }
-stripe-terminal-handoffclient = { group = "com.stripe", name = "stripeterminal-handoffclient", version.ref = "stripeterminal-version" }
+stripe-terminal-appsondevices = { group = "com.stripe", name = "stripeterminal-appsondevices", version.ref = "stripeterminal-version" }
+stripe-terminal-ktx = { group = "com.stripe", name = "stripeterminal-ktx", version.ref = "stripeterminal-version" }
 
 [plugins]

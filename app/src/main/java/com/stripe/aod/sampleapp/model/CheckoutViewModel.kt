@@ -1,24 +1,21 @@
 package com.stripe.aod.sampleapp.model
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.data.CreatePaymentParams
 import com.stripe.aod.sampleapp.data.EmailReceiptParams
 import com.stripe.aod.sampleapp.data.toMap
 import com.stripe.aod.sampleapp.network.ApiClient
 import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.callable.PaymentIntentCallback
-import com.stripe.stripeterminal.external.models.CollectConfiguration
+import com.stripe.stripeterminal.external.models.CollectPaymentIntentConfiguration
 import com.stripe.stripeterminal.external.models.PaymentIntent
 import com.stripe.stripeterminal.external.models.TerminalException
+import com.stripe.stripeterminal.ktx.processPaymentIntent
+import com.stripe.stripeterminal.ktx.retrievePaymentIntent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 class CheckoutViewModel : ViewModel() {
     private val _currentPaymentIntent = MutableStateFlow<PaymentIntent?>(null)
@@ -52,66 +49,18 @@ class CheckoutViewModel : ViewModel() {
         return ApiClient.createPaymentIntent(createPaymentIntentParams)
             .mapCatching { response ->
                 val secret = response.secret
-                val paymentIntent = retrievePaymentIntent(secret)
-                val paymentIntentAfterCollect = collectPaymentInfo(paymentIntent)
-                processPayment(paymentIntentAfterCollect)
+
+                val terminal = Terminal.getInstance()
+                val paymentIntent = terminal.retrievePaymentIntent(secret)
+
+                // We're using the processPaymentIntent as it combines both collect and confirm
+                // calls. Separate collect and confirm calls are still available if you need to
+                // inspect the payment intent or payment method before confirming your payment.
+                terminal.processPaymentIntent(
+                    collectConfig = CollectPaymentIntentConfiguration.Builder().skipTipping(false).build(),
+                    intent = paymentIntent
+                )
             }
-    }
-
-    private suspend fun retrievePaymentIntent(
-        secret: String
-    ): PaymentIntent = suspendCoroutine { continuation ->
-        Terminal.getInstance().retrievePaymentIntent(
-            secret,
-            object : PaymentIntentCallback {
-                override fun onSuccess(paymentIntent: PaymentIntent) {
-                    continuation.resume(paymentIntent)
-                }
-
-                override fun onFailure(e: TerminalException) {
-                    Log.e(Config.TAG, "retrievePaymentIntent failure", e)
-                    continuation.resumeWith(Result.failure(e))
-                }
-            }
-        )
-    }
-
-    private suspend fun collectPaymentInfo(
-        paymentIntent: PaymentIntent
-    ): PaymentIntent = suspendCoroutine { continuation ->
-        Terminal.getInstance().collectPaymentMethod(
-            paymentIntent,
-            object : PaymentIntentCallback {
-                override fun onSuccess(paymentIntent: PaymentIntent) {
-                    continuation.resume(paymentIntent)
-                }
-
-                override fun onFailure(e: TerminalException) {
-                    Log.e(Config.TAG, "collectPaymentMethod failure", e)
-                    continuation.resumeWith(Result.failure(e))
-                }
-            },
-            CollectConfiguration.Builder().skipTipping(false).build()
-        )
-    }
-
-    private suspend fun processPayment(paymentIntent: PaymentIntent): PaymentIntent {
-        return suspendCoroutine { continuation ->
-            Terminal.getInstance().confirmPaymentIntent(
-                paymentIntent,
-                object : PaymentIntentCallback {
-                    override fun onSuccess(paymentIntent: PaymentIntent) {
-                        Log.d(Config.TAG, "processPaymentCallback onSuccess ")
-                        continuation.resume(paymentIntent)
-                    }
-
-                    override fun onFailure(e: TerminalException) {
-                        Log.e(Config.TAG, "processPayment failure", e)
-                        continuation.resumeWith(Result.failure(e))
-                    }
-                }
-            )
-        }
     }
 
     fun updateReceiptEmailPaymentIntent(
@@ -139,7 +88,7 @@ class CheckoutViewModel : ViewModel() {
         ApiClient.updatePaymentIntent(createPaymentIntentParams)
             .mapCatching { response ->
                 val secret = response.secret
-                val paymentIntent = retrievePaymentIntent(secret)
+                val paymentIntent = Terminal.getInstance().retrievePaymentIntent(secret)
                 capturePaymentIntent(paymentIntent).isSuccess
             }
 
