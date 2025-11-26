@@ -27,6 +27,7 @@ retrofit2-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", vers
 retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
 
 secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version = "2.0.1" }
+stripe-terminal = { group = "com.stripe", name = "stripeterminal", version.ref = "stripeterminal-version" }
 stripe-terminal-core = { group = "com.stripe", name = "stripeterminal-core", version.ref = "stripeterminal-version" }
 stripe-terminal-appsondevices = { group = "com.stripe", name = "stripeterminal-appsondevices", version.ref = "stripeterminal-version" }
 stripe-terminal-ktx = { group = "com.stripe", name = "stripeterminal-ktx", version.ref = "stripeterminal-version" }

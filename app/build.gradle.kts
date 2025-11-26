@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.retrofit2.converter.gson)
 
     // Stripe Terminal library
-    implementation(libs.stripe.terminal.core)
+    implementation(libs.stripe.terminal)
     implementation(libs.stripe.terminal.appsondevices)
     implementation(libs.stripe.terminal.ktx)
 
