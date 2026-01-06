@@ -19,6 +19,8 @@ import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.appsondevices.AppsOnDevicesConnectionTokenProvider
+import com.stripe.stripeterminal.external.ConnectionTokenProviderForAppsOnDevices
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
 
@@ -95,13 +97,14 @@ class MainActivity : AppCompatActivity() {
     /**
      * Initialize the [Terminal]
      */
+    @OptIn(ConnectionTokenProviderForAppsOnDevices::class)
     private fun initialize() {
         // Initialize the Terminal as soon as possible
         try {
             Terminal.init(
                 context = applicationContext,
                 logLevel = LogLevel.VERBOSE,
-                tokenProvider = viewModel.tokenProvider,
+                tokenProvider = AppsOnDevicesConnectionTokenProvider(),
                 listener = TerminalEventListener,
                 offlineListener = null,
             )
