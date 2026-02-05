@@ -43,12 +43,68 @@ BACKEND_URL=https://my-backend-123.onrender.com
 
 Run the example app on a Stripe S700 DevKit smart reader.
 
-![Screenshot 2024-07-23 at 9 38 59 AM](https://github.com/user-attachments/assets/0a58ef35-69d4-4b8c-9876-df74e393d04f)
+![Screenshot 2024-07-23 at 9 38 59 AM](https://github.com/user-attachments/assets/0a58ef35-69d4-4b8c-9876-df74e393d04f)
 
+## Building an APK
+
+To generate an APK you can upload to the S700:
+
+### Debug APK (quickest for testing)
+
+From the project root, run:
+
+```bash
+./gradlew assembleDebug
+```
+
+The APK will be at:
+
+```
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+### Release APK (for production)
+
+1. Create a keystore if you don't have one:
+
+```bash
+keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-key-alias
+```
+
+2. Add signing config to `local.properties`:
+
+```
+RELEASE_STORE_FILE=my-release-key.jks
+RELEASE_STORE_PASSWORD=your-store-password
+RELEASE_KEY_ALIAS=my-key-alias
+RELEASE_KEY_PASSWORD=your-key-password
+```
+
+3. Build the release APK:
+
+```bash
+./gradlew assembleRelease
+```
+
+The APK will be at:
+
+```
+app/build/outputs/apk/release/app-release.apk
+```
+
+### Using Android Studio
+
+1. Open the project in Android Studio
+2. Go to **Build > Build Bundle(s) / APK(s) > Build APK(s)**
+3. When the build finishes, click **locate** in the notification to find the APK
+
+### Uploading to S700
+
+Once you have the APK, follow the [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) guide to upload it via the Stripe Dashboard under **Terminal > Devices > Apps**.
 
 ## Next steps
 
-- [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) to learn how to upload and deploy your app 
+- [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) to learn how to upload and deploy your app
 - Read [troubleshooting apps on devices](https://stripe.com/docs/terminal/features/apps-on-devices/troubleshooting) for resolutions to common issues
 
 ## Get support
