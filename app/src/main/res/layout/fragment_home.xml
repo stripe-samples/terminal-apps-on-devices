@@ -55,13 +55,27 @@
             app:layout_constraintTop_toBottomOf="@id/sample_tip"/>
 
         <TextView
-            android:id="@+id/new_payment"
+            android:id="@+id/browse_products"
             style="@style/button"
+            android:layout_width="320dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/browse_products"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@id/new_payment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/new_payment"
             android:layout_width="320dp"
             android:layout_height="48dp"
             android:layout_marginBottom="24dp"
             android:text="@string/new_payment"
             android:textSize="17sp"
+            android:textColor="@color/selector_btn_secondary_text"
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/selector_secondary_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

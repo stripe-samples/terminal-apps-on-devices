@@ -1,10 +1,13 @@
 package com.stripe.aod.sampleapp.network
 
 import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
+import com.stripe.aod.sampleapp.data.ProductListResponse
 import com.stripe.aod.sampleapp.model.ConnectionToken
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -17,6 +20,15 @@ interface BackendService {
      */
     @POST("connection_token")
     suspend fun getConnectionToken(): ConnectionToken
+
+    /**
+     * Fetch terminal-enabled products from the backend
+     */
+    @GET("products")
+    suspend fun getProducts(): ProductListResponse
+
+    @POST("create_payment_intent")
+    suspend fun createPaymentIntentJson(@Body params: Map<String, String>): PaymentIntentCreationResponse?
 
     @FormUrlEncoded
     @POST("create_payment_intent")

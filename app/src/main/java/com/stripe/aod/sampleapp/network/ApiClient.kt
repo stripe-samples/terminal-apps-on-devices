@@ -4,6 +4,7 @@ import android.util.Log
 import com.stripe.aod.sampleapp.BuildConfig
 import com.stripe.aod.sampleapp.Config
 import com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse
+import com.stripe.aod.sampleapp.data.Product
 import com.stripe.stripeterminal.external.models.ConnectionTokenException
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -59,6 +60,17 @@ object ApiClient {
             }
         }
     }
+
+    suspend fun fetchProducts(): Result<List<Product>> =
+        runCatching {
+            service.getProducts().products
+        }
+
+    suspend fun createPaymentIntentJson(params: Map<String, String>): Result<PaymentIntentCreationResponse> =
+        runCatching {
+            val response = service.createPaymentIntentJson(params)
+            response ?: error("Failed to create PaymentIntent")
+        }
 
     suspend fun createPaymentIntent(createPaymentIntentParams: Map<String, String>): Result<PaymentIntentCreationResponse> =
         runCatching {

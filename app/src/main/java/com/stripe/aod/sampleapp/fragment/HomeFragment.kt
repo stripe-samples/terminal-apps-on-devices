@@ -42,7 +42,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         launchAndRepeatWithViewLifecycle {
             viewModel.readerPaymentStatus.collect {
-                viewBinding.newPayment.isEnabled = (it == PaymentStatus.READY)
+                val isReady = it == PaymentStatus.READY
+                viewBinding.newPayment.isEnabled = isReady
+                viewBinding.browseProducts.isEnabled = isReady
             }
         }
 
@@ -52,6 +54,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }.collect { message ->
                 Snackbar.make(viewBinding.newPayment, message, Snackbar.LENGTH_SHORT).show()
             }
+        }
+
+        viewBinding.browseProducts.setThrottleClickListener {
+            findNavController().navigate(
+                R.id.action_homeFragment_to_productCatalogFragment,
+                null,
+                navOptions()
+            )
         }
 
         viewBinding.newPayment.setThrottleClickListener {

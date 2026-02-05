@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_homeFragment_to_inputFragment"
             app:destination="@id/inputFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productCatalogFragment"
+            app:destination="@id/productCatalogFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
@@ -55,5 +58,30 @@
         <argument
             android:name="paymentIntentID"
             app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/productCatalogFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.ProductCatalogFragment"
+        android:label="ProductCatalogFragment">
+        <action
+            android:id="@+id/action_productCatalogFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.CartFragment"
+        android:label="CartFragment">
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.CheckoutFragment"
+        android:label="CheckoutFragment">
+        <argument
+            android:name="amount"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

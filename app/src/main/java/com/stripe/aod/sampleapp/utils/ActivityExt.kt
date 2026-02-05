@@ -47,7 +47,7 @@ fun Fragment.backToHome() {
         R.id.homeFragment,
         null,
         NavOptions.Builder()
-            .setPopUpTo(R.id.inputFragment, true)
+            .setPopUpTo(R.id.homeFragment, true)
             .build()
     )
 }
