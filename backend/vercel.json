@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    { "source": "/connection_token", "destination": "/api/connection_token" },
+    { "source": "/products", "destination": "/api/products" },
+    { "source": "/create_payment_intent", "destination": "/api/create_payment_intent" },
+    { "source": "/update_payment_intent", "destination": "/api/update_payment_intent" },
+    { "source": "/capture_payment_intent", "destination": "/api/capture_payment_intent" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
+    }
+  ]
+}
