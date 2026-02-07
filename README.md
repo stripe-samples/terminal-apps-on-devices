@@ -49,7 +49,7 @@ Run the example app on a Stripe S700 DevKit smart reader.
 
 To generate an APK you can upload to the S700:
 
-### Debug APK (quickest for testing)
+### Debug APK
 
 From the project root, run:
 
@@ -63,30 +63,25 @@ The APK will be at:
 app/build/outputs/apk/debug/app-debug.apk
 ```
 
-### Release APK (for production)
+> **Note:** Debug APKs have `android:debuggable` enabled and cannot be used with Stripe Terminal asset versions. Use a release APK instead.
 
-1. Create a keystore if you don't have one:
+### Release APK (required for Apps on Devices)
+
+Stripe Terminal Apps on Devices requires an APK with `android:debuggable` disabled. The project includes a signing config so `assembleRelease` produces a signed APK out of the box.
+
+1. Generate the release keystore (if it doesn't already exist in the project root):
 
 ```bash
-keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-key-alias
+keytool -genkey -v -keystore release-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias release -storepass android -keypass android
 ```
 
-2. Add signing config to `local.properties`:
-
-```
-RELEASE_STORE_FILE=my-release-key.jks
-RELEASE_STORE_PASSWORD=your-store-password
-RELEASE_KEY_ALIAS=my-key-alias
-RELEASE_KEY_PASSWORD=your-key-password
-```
-
-3. Build the release APK:
+2. Build the release APK:
 
 ```bash
 ./gradlew assembleRelease
 ```
 
-The APK will be at:
+The signed APK will be at:
 
 ```
 app/build/outputs/apk/release/app-release.apk
