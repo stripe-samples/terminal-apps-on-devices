@@ -1,26 +1,22 @@
-package com.stripe.aod.sampleapp.adapter
+package com.example.fridgeapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.stripe.aod.sampleapp.data.CartItem
-import com.stripe.aod.sampleapp.databinding.ItemCartBinding
-import com.stripe.aod.sampleapp.utils.formatCentsToString
-import com.stripe.aod.sampleapp.utils.setThrottleClickListener
+import com.example.fridgeapp.data.CartItem
+import com.example.fridgeapp.databinding.ItemCartBinding
+import com.example.fridgeapp.utils.formatCentsToString
+import com.example.fridgeapp.utils.setThrottleClickListener
 
 class CartAdapter(
-    private val onQuantityChanged: (String, Int) -> Unit,
-    private val onRemove: (String) -> Unit
+        private val onQuantityChanged: (String, Int) -> Unit,
+        private val onRemove: (String) -> Unit
 ) : ListAdapter<CartItem, CartAdapter.CartViewHolder>(CartDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val binding = ItemCartBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CartViewHolder(binding)
     }
 
@@ -28,9 +24,8 @@ class CartAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class CartViewHolder(
-        private val binding: ItemCartBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    inner class CartViewHolder(private val binding: ItemCartBinding) :
+            RecyclerView.ViewHolder(binding.root) {
 
         fun bind(cartItem: CartItem) {
             binding.itemName.text = cartItem.product.name
@@ -46,9 +41,7 @@ class CartAdapter(
                 onQuantityChanged(cartItem.product.id, cartItem.quantity + 1)
             }
 
-            binding.btnRemove.setThrottleClickListener {
-                onRemove(cartItem.product.id)
-            }
+            binding.btnRemove.setThrottleClickListener { onRemove(cartItem.product.id) }
         }
     }
 

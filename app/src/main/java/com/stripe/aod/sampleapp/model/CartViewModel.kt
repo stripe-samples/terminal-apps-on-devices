@@ -1,8 +1,8 @@
-package com.stripe.aod.sampleapp.model
+package com.example.fridgeapp.model
 
 import androidx.lifecycle.ViewModel
-import com.stripe.aod.sampleapp.data.CartItem
-import com.stripe.aod.sampleapp.data.Product
+import com.example.fridgeapp.data.CartItem
+import com.example.fridgeapp.data.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,17 +39,13 @@ class CartViewModel : ViewModel() {
             return
         }
         _cartItems.update { current ->
-            current.map {
-                if (it.product.id == productId) it.copy(quantity = quantity) else it
-            }
+            current.map { if (it.product.id == productId) it.copy(quantity = quantity) else it }
         }
         recalculate()
     }
 
     fun removeProduct(productId: String) {
-        _cartItems.update { current ->
-            current.filter { it.product.id != productId }
-        }
+        _cartItems.update { current -> current.filter { it.product.id != productId } }
         recalculate()
     }
 

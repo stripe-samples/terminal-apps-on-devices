@@ -1,9 +1,9 @@
-package com.stripe.aod.sampleapp.model
+package com.example.fridgeapp.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stripe.aod.sampleapp.data.Product
-import com.stripe.aod.sampleapp.network.ApiClient
+import com.example.fridgeapp.data.Product
+import com.example.fridgeapp.network.ApiClient
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,16 +27,16 @@ class ProductViewModel : ViewModel() {
 
         viewModelScope.launch {
             ApiClient.fetchProducts()
-                .fold(
-                    onSuccess = { productList ->
-                        _products.update { productList }
-                        _isLoading.update { false }
-                    },
-                    onFailure = { error ->
-                        _errorMessage.update { error.message ?: "Failed to load products" }
-                        _isLoading.update { false }
-                    }
-                )
+                    .fold(
+                            onSuccess = { productList ->
+                                _products.update { productList }
+                                _isLoading.update { false }
+                            },
+                            onFailure = { error ->
+                                _errorMessage.update { error.message ?: "Failed to load products" }
+                                _isLoading.update { false }
+                            }
+                    )
         }
     }
 }

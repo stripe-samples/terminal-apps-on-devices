@@ -1,6 +1,4 @@
-package com.stripe.aod.sampleapp.model
+package com.example.fridgeapp.model
 
-/**
- * Data class used to handle the connection token response from our backend
- */
+/** Data class used to handle the connection token response from our backend */
 data class ConnectionToken(val secret: String)

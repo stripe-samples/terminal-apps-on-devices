@@ -1,4 +1,4 @@
-package com.stripe.aod.sampleapp
+package com.example.fridgeapp
 
 class Config {
     companion object {

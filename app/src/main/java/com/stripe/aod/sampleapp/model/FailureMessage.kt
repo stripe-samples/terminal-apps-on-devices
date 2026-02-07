@@ -1,4 +1,3 @@
-package com.stripe.aod.sampleapp.model
+package com.example.fridgeapp.model
 
-@JvmInline
-value class FailureMessage(val value: String)
+@JvmInline value class FailureMessage(val value: String)

@@ -1,4 +1,4 @@
-package com.stripe.aod.sampleapp.model
+package com.example.fridgeapp.model
 
 import androidx.lifecycle.ViewModel
 import java.util.regex.Pattern
@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.update
 
 class InputViewModel : ViewModel() {
     enum class Action {
-        Add, Delete, Clear
+        Add,
+        Delete,
+        Clear
     }
 
     private val pattern = Pattern.compile("0*")
@@ -22,8 +24,9 @@ class InputViewModel : ViewModel() {
 
     private fun addAmountCharacter(w: Char?): String {
         _amount.update { currentAmount ->
-            if (w == null || currentAmount.length >= 8 ||
-                (w == '0' && pattern.matcher(currentAmount).matches())
+            if (w == null ||
+                            currentAmount.length >= 8 ||
+                            (w == '0' && pattern.matcher(currentAmount).matches())
             ) {
                 currentAmount
             } else {
@@ -50,17 +53,18 @@ class InputViewModel : ViewModel() {
     }
 
     fun displayAmount(amt: Char? = null, action: Action = Action.Add) {
-        val amountValue = when (action) {
-            Action.Add -> {
-                addAmountCharacter(amt)
-            }
-            Action.Delete -> {
-                deleteAmountCharacter()
-            }
-            Action.Clear -> {
-                clearAmount()
-            }
-        }
+        val amountValue =
+                when (action) {
+                    Action.Add -> {
+                        addAmountCharacter(amt)
+                    }
+                    Action.Delete -> {
+                        deleteAmountCharacter()
+                    }
+                    Action.Clear -> {
+                        clearAmount()
+                    }
+                }
         _amount.update { amountValue }
         _showModifierKeys.update { _amount.value.isNotBlank() }
     }

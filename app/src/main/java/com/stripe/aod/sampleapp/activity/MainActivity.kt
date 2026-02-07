@@ -1,4 +1,4 @@
-package com.stripe.aod.sampleapp.activity
+package com.example.fridgeapp.activity
 
 import android.Manifest
 import android.content.Context
@@ -15,9 +15,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.stripe.aod.sampleapp.R
-import com.stripe.aod.sampleapp.listener.TerminalEventListener
-import com.stripe.aod.sampleapp.model.MainViewModel
+import com.example.fridgeapp.R
+import com.example.fridgeapp.listener.TerminalEventListener
+import com.example.fridgeapp.model.MainViewModel
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
@@ -25,10 +25,11 @@ import com.stripe.stripeterminal.log.LogLevel
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions(),
-        ::onPermissionResult
-    )
+    private val requestPermissionLauncher =
+            registerForActivityResult(
+                    ActivityResultContracts.RequestMultiplePermissions(),
+                    ::onPermissionResult
+            )
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +47,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isGranted(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(this, permission) ==
+                PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestPermissionsIfNecessarySdkBelow31() {
@@ -65,13 +64,14 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     private fun requestPermissionsIfNecessarySdk31() {
         // Check for location and bluetooth permissions
-        val deniedPermissions = listOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.BLUETOOTH_CONNECT,
-            Manifest.permission.BLUETOOTH_SCAN
-        )
-            .filterNot(::isGranted)
-            .toTypedArray()
+        val deniedPermissions =
+                listOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.BLUETOOTH_CONNECT,
+                                Manifest.permission.BLUETOOTH_SCAN
+                        )
+                        .filterNot(::isGranted)
+                        .toTypedArray()
 
         if (deniedPermissions.isNotEmpty()) {
             // If we don't have them yet, request them before doing anything else
@@ -82,9 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onPermissionResult(result: Map<String, Boolean>) {
-        val deniedPermissions: List<String> = result
-            .filter { !it.value }
-            .map { it.key }
+        val deniedPermissions: List<String> = result.filter { !it.value }.map { it.key }
 
         // If we receive a response to our permission check, initialize
         if (deniedPermissions.isEmpty() && !Terminal.isInitialized() && verifyGpsEnabled()) {
@@ -92,52 +90,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Initialize the [Terminal]
-     */
+    /** Initialize the [Terminal] */
     private fun initialize() {
         // Initialize the Terminal as soon as possible
         try {
             Terminal.init(
-                context = applicationContext,
-                logLevel = LogLevel.VERBOSE,
-                tokenProvider = viewModel.tokenProvider,
-                listener = TerminalEventListener,
-                offlineListener = null,
+                    context = applicationContext,
+                    logLevel = LogLevel.VERBOSE,
+                    tokenProvider = viewModel.tokenProvider,
+                    listener = TerminalEventListener,
+                    offlineListener = null,
             )
 
             viewModel.easyConnect()
         } catch (e: TerminalException) {
             throw RuntimeException(
-                "Location services are required in order to initialize the Terminal.",
-                e
+                    "Location services are required in order to initialize the Terminal.",
+                    e
             )
         }
     }
 
     private fun verifyGpsEnabled(): Boolean {
         val locationManager: LocationManager? =
-            applicationContext.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+                applicationContext.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
 
-        val gpsEnabled = runCatching {
-            locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
-        }.getOrDefault(false)
+        val gpsEnabled =
+                runCatching {
+                            locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                                    ?: false
+                        }
+                        .getOrDefault(false)
 
         if (!gpsEnabled) {
             // notify user
             AlertDialog.Builder(
-                ContextThemeWrapper(
-                    this,
-                    com.google.android.material.R.style.Theme_MaterialComponents_DayNight_DarkActionBar
-                )
-            )
-                .setMessage("Please enable location services")
-                .setCancelable(false)
-                .setPositiveButton("Open location settings") { _, _ ->
-                    this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                }
-                .create()
-                .show()
+                            ContextThemeWrapper(
+                                    this,
+                                    com.google
+                                            .android
+                                            .material
+                                            .R
+                                            .style
+                                            .Theme_MaterialComponents_DayNight_DarkActionBar
+                            )
+                    )
+                    .setMessage("Please enable location services")
+                    .setCancelable(false)
+                    .setPositiveButton("Open location settings") { _, _ ->
+                        this.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    }
+                    .create()
+                    .show()
         }
 
         return gpsEnabled

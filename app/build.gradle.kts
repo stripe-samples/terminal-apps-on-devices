@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    namespace = "com.stripe.aod.sampleapp"
+    namespace = "com.example.fridgeapp"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.fridgeapp"
         minSdk = 28
         targetSdk = 35
-        versionCode = 100
-        versionName = "2.0"
+        versionCode = 113
+        versionName = "3.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

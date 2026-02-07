@@ -1,25 +1,20 @@
-package com.stripe.aod.sampleapp.adapter
+package com.example.fridgeapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.stripe.aod.sampleapp.data.Product
-import com.stripe.aod.sampleapp.databinding.ItemProductBinding
-import com.stripe.aod.sampleapp.utils.formatCentsToString
-import com.stripe.aod.sampleapp.utils.setThrottleClickListener
+import com.example.fridgeapp.data.Product
+import com.example.fridgeapp.databinding.ItemProductBinding
+import com.example.fridgeapp.utils.formatCentsToString
+import com.example.fridgeapp.utils.setThrottleClickListener
 
-class ProductAdapter(
-    private val onAddToCart: (Product) -> Unit
-) : ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
+class ProductAdapter(private val onAddToCart: (Product) -> Unit) :
+        ListAdapter<Product, ProductAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-        val binding = ItemProductBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ProductViewHolder(binding)
     }
 
@@ -27,17 +22,14 @@ class ProductAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class ProductViewHolder(
-        private val binding: ItemProductBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    inner class ProductViewHolder(private val binding: ItemProductBinding) :
+            RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
             binding.productName.text = product.name
             binding.productDescription.text = product.description
             binding.productPrice.text = formatCentsToString(product.unitAmount.toInt())
-            binding.addToCartButton.setThrottleClickListener {
-                onAddToCart(product)
-            }
+            binding.addToCartButton.setThrottleClickListener { onAddToCart(product) }
         }
     }
 
