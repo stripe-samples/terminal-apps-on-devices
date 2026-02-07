@@ -6,15 +6,18 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.stripe.aod.sampleapp.fragment.HomeFragment"
+        android:name="com.example.fridgeapp.fragment.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_inputFragment"
             app:destination="@id/inputFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productCatalogFragment"
+            app:destination="@id/productCatalogFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
-        android:name="com.stripe.aod.sampleapp.fragment.ReceiptFragment"
+        android:name="com.example.fridgeapp.fragment.ReceiptFragment"
         android:label="ReceiptFragment" >
         <action
             android:id="@+id/action_receiptFragment_to_emailFragment"
@@ -29,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/inputFragment"
-        android:name="com.stripe.aod.sampleapp.fragment.InputFragment"
+        android:name="com.example.fridgeapp.fragment.InputFragment"
         android:label="InputFragment">
         <action
             android:id="@+id/action_inputFragment_to_homeFragment"
@@ -47,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/emailFragment"
-        android:name="com.stripe.aod.sampleapp.fragment.EmailFragment"
+        android:name="com.example.fridgeapp.fragment.EmailFragment"
         android:label="EmailFragment" >
         <action
             android:id="@+id/action_emailFragment_to_receiptFragment"
@@ -55,5 +58,30 @@
         <argument
             android:name="paymentIntentID"
             app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/productCatalogFragment"
+        android:name="com.example.fridgeapp.fragment.ProductCatalogFragment"
+        android:label="ProductCatalogFragment">
+        <action
+            android:id="@+id/action_productCatalogFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.fridgeapp.fragment.CartFragment"
+        android:label="CartFragment">
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.fridgeapp.fragment.CheckoutFragment"
+        android:label="CheckoutFragment">
+        <argument
+            android:name="amount"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

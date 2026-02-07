@@ -1,4 +1,4 @@
-package com.stripe.aod.sampleapp
+package com.example.fridgeapp
 
 import android.app.Application
 import com.stripe.stripeterminal.TerminalApplicationDelegate

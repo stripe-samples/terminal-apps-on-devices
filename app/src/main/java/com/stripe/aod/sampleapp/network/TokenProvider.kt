@@ -1,4 +1,4 @@
-package com.stripe.aod.sampleapp.network
+package com.example.fridgeapp.network
 
 import com.stripe.stripeterminal.external.callable.ConnectionTokenCallback
 import com.stripe.stripeterminal.external.callable.ConnectionTokenProvider
@@ -7,8 +7,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /**
- * A simple implementation of the [ConnectionTokenProvider] interface. We just request a
- * new token from our backend simulator and forward any exceptions along to the SDK.
+ * A simple implementation of the [ConnectionTokenProvider] interface. We just request a new token
+ * from our backend simulator and forward any exceptions along to the SDK.
  */
 class TokenProvider(private val coroutineScope: CoroutineScope) : ConnectionTokenProvider {
     override fun fetchConnectionToken(callback: ConnectionTokenCallback) {

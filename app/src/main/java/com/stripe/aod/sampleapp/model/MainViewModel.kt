@@ -1,11 +1,11 @@
-package com.stripe.aod.sampleapp.model
+package com.example.fridgeapp.model
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.stripe.aod.sampleapp.Config
-import com.stripe.aod.sampleapp.listener.TerminalEventListener
-import com.stripe.aod.sampleapp.network.TokenProvider
+import com.example.fridgeapp.Config
+import com.example.fridgeapp.listener.TerminalEventListener
+import com.example.fridgeapp.network.TokenProvider
 import com.stripe.stripeterminal.Terminal
 import com.stripe.stripeterminal.external.callable.AppsOnDevicesListener
 import com.stripe.stripeterminal.external.callable.Callback
@@ -29,62 +29,62 @@ import kotlinx.coroutines.launch
 class MainViewModel : ViewModel() {
     val tokenProvider = TokenProvider(viewModelScope)
 
-    private val _readerConnectStatus: MutableStateFlow<ConnectionStatus> = MutableStateFlow(
-        ConnectionStatus.NOT_CONNECTED
-    )
+    private val _readerConnectStatus: MutableStateFlow<ConnectionStatus> =
+            MutableStateFlow(ConnectionStatus.NOT_CONNECTED)
     val readerConnectStatus: StateFlow<ConnectionStatus> = _readerConnectStatus.asStateFlow()
-    private val _readerPaymentStatus: MutableStateFlow<PaymentStatus> = MutableStateFlow(
-        PaymentStatus.NOT_READY
-    )
+    private val _readerPaymentStatus: MutableStateFlow<PaymentStatus> =
+            MutableStateFlow(PaymentStatus.NOT_READY)
     val readerPaymentStatus: StateFlow<PaymentStatus> = _readerPaymentStatus.asStateFlow()
 
     private var discoveryTask: Cancelable? = null
     private val discoveryConfig = DiscoveryConfiguration.AppsOnDevicesDiscoveryConfiguration()
-    private val connectionConfig = ConnectionConfiguration.AppsOnDevicesConnectionConfiguration(
-        object : AppsOnDevicesListener {
-            override fun onDisconnect(reason: DisconnectReason) {
-                Log.i(Config.TAG, "onDisconnect: $reason")
-            }
+    private val connectionConfig =
+            ConnectionConfiguration.AppsOnDevicesConnectionConfiguration(
+                    object : AppsOnDevicesListener {
+                        override fun onDisconnect(reason: DisconnectReason) {
+                            Log.i(Config.TAG, "onDisconnect: $reason")
+                        }
 
-            override fun onReportReaderEvent(event: ReaderEvent) {
-                Log.i(Config.TAG, "onReportReaderEvent: $event")
-            }
-        }
-    )
+                        override fun onReportReaderEvent(event: ReaderEvent) {
+                            Log.i(Config.TAG, "onReportReaderEvent: $event")
+                        }
+                    }
+            )
 
     private val _userMessage: MutableStateFlow<String> = MutableStateFlow("")
     val userMessage: StateFlow<String> = _userMessage.asStateFlow()
 
     init {
         viewModelScope.launch {
-            launch {
-                TerminalEventListener.onConnectionStatusChange.collect(::updateConnectStatus)
-            }
+            launch { TerminalEventListener.onConnectionStatusChange.collect(::updateConnectStatus) }
 
-            launch {
-                TerminalEventListener.onPaymentStatusChange.collect(::updatePaymentStatus)
-            }
+            launch { TerminalEventListener.onPaymentStatusChange.collect(::updatePaymentStatus) }
         }
     }
 
     fun easyConnect() {
-        val readerCallback: ReaderCallback = object : ReaderCallback {
-            override fun onSuccess(reader: Reader) {
-                Log.i(Config.TAG, "Reader [ ${reader.id} ] Connected ")
-            }
+        val readerCallback: ReaderCallback =
+                object : ReaderCallback {
+                    override fun onSuccess(reader: Reader) {
+                        Log.i(Config.TAG, "Reader [ ${reader.id} ] Connected ")
+                    }
 
-            override fun onFailure(e: TerminalException) {
-                _userMessage.update { e.errorMessage }
-            }
-        }
+                    override fun onFailure(e: TerminalException) {
+                        _userMessage.update { e.errorMessage }
+                    }
+                }
 
-        discoveryTask = Terminal.getInstance().easyConnect(
-            config = EasyConnectConfiguration.AppsOnDevicesEasyConnectionConfiguration(
-                discoveryConfiguration = discoveryConfig,
-                connectionConfiguration = connectionConfig,
-            ),
-            readerCallback,
-        )
+        discoveryTask =
+                Terminal.getInstance()
+                        .easyConnect(
+                                config =
+                                        EasyConnectConfiguration
+                                                .AppsOnDevicesEasyConnectionConfiguration(
+                                                        discoveryConfiguration = discoveryConfig,
+                                                        connectionConfiguration = connectionConfig,
+                                                ),
+                                readerCallback,
+                        )
     }
 
     private fun updateConnectStatus(status: ConnectionStatus) {
@@ -100,23 +100,26 @@ class MainViewModel : ViewModel() {
     }
 
     private fun stopDiscovery() {
-        discoveryTask?.cancel(object : Callback {
-            override fun onSuccess() {
-                discoveryTask = null
-            }
+        discoveryTask?.cancel(
+                object : Callback {
+                    override fun onSuccess() {
+                        discoveryTask = null
+                    }
 
-            override fun onFailure(e: TerminalException) {
-                discoveryTask = null
-            }
-        })
+                    override fun onFailure(e: TerminalException) {
+                        discoveryTask = null
+                    }
+                }
+        )
 
-        Terminal.getInstance().disconnectReader(object : Callback {
-            override fun onFailure(e: TerminalException) {
-            }
+        Terminal.getInstance()
+                .disconnectReader(
+                        object : Callback {
+                            override fun onFailure(e: TerminalException) {}
 
-            override fun onSuccess() {
-            }
-        })
+                            override fun onSuccess() {}
+                        }
+                )
     }
 
     override fun onCleared() {

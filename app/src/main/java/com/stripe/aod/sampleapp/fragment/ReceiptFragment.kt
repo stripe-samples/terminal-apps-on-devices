@@ -1,16 +1,16 @@
-package com.stripe.aod.sampleapp.fragment
+package com.example.fridgeapp.fragment
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.stripe.aod.sampleapp.R
-import com.stripe.aod.sampleapp.databinding.FragmentReceiptBinding
-import com.stripe.aod.sampleapp.utils.backToHome
-import com.stripe.aod.sampleapp.utils.formatCentsToString
-import com.stripe.aod.sampleapp.utils.navOptions
-import com.stripe.aod.sampleapp.utils.setThrottleClickListener
+import com.example.fridgeapp.R
+import com.example.fridgeapp.databinding.FragmentReceiptBinding
+import com.example.fridgeapp.utils.backToHome
+import com.example.fridgeapp.utils.formatCentsToString
+import com.example.fridgeapp.utils.navOptions
+import com.example.fridgeapp.utils.setThrottleClickListener
 
 class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
     private val args: ReceiptFragmentArgs by navArgs()
@@ -23,16 +23,15 @@ class ReceiptFragment : Fragment(R.layout.fragment_receipt) {
         viewBinding.receiptPrint.isEnabled = false
         viewBinding.receiptSms.isEnabled = false
         viewBinding.receiptEmail.setThrottleClickListener {
-            findNavController().navigate(
-                ReceiptFragmentDirections.actionReceiptFragmentToEmailFragment(
-                    args.paymentIntentID
-                ),
-                navOptions()
-            )
+            findNavController()
+                    .navigate(
+                            ReceiptFragmentDirections.actionReceiptFragmentToEmailFragment(
+                                    args.paymentIntentID
+                            ),
+                            navOptions()
+                    )
         }
 
-        viewBinding.receiptSkip.setOnClickListener {
-            backToHome()
-        }
+        viewBinding.receiptSkip.setOnClickListener { backToHome() }
     }
 }

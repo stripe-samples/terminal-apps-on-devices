@@ -43,12 +43,63 @@ BACKEND_URL=https://my-backend-123.onrender.com
 
 Run the example app on a Stripe S700 DevKit smart reader.
 
-![Screenshot 2024-07-23 at 9 38 59 AM](https://github.com/user-attachments/assets/0a58ef35-69d4-4b8c-9876-df74e393d04f)
+![Screenshot 2024-07-23 at 9 38 59 AM](https://github.com/user-attachments/assets/0a58ef35-69d4-4b8c-9876-df74e393d04f)
 
+## Building an APK
+
+To generate an APK you can upload to the S700:
+
+### Debug APK
+
+From the project root, run:
+
+```bash
+./gradlew assembleDebug
+```
+
+The APK will be at:
+
+```
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+> **Note:** Debug APKs have `android:debuggable` enabled and cannot be used with Stripe Terminal asset versions. Use a release APK instead.
+
+### Release APK (required for Apps on Devices)
+
+Stripe Terminal Apps on Devices requires an APK with `android:debuggable` disabled. The project includes a signing config so `assembleRelease` produces a signed APK out of the box.
+
+1. Generate the release keystore (if it doesn't already exist in the project root):
+
+```bash
+keytool -genkey -v -keystore release-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias release -storepass android -keypass android
+```
+
+2. Build the release APK:
+
+```bash
+./gradlew assembleRelease
+```
+
+The signed APK will be at:
+
+```
+app/build/outputs/apk/release/app-release.apk
+```
+
+### Using Android Studio
+
+1. Open the project in Android Studio
+2. Go to **Build > Build Bundle(s) / APK(s) > Build APK(s)**
+3. When the build finishes, click **locate** in the notification to find the APK
+
+### Uploading to S700
+
+Once you have the APK, follow the [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) guide to upload it via the Stripe Dashboard under **Terminal > Devices > Apps**.
 
 ## Next steps
 
-- [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) to learn how to upload and deploy your app 
+- [Deploy the sample app](https://stripe.com/docs/terminal/features/apps-on-devices/deploy) to learn how to upload and deploy your app
 - Read [troubleshooting apps on devices](https://stripe.com/docs/terminal/features/apps-on-devices/troubleshooting) for resolutions to common issues
 
 ## Get support

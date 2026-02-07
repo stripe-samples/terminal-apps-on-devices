@@ -2,8 +2,9 @@
 <resources>
     <string name="app_name">Apps on Devices Sample App</string>
 
-    <string name="terminal_sample_app">Terminal sample app</string>
-    <string name="new_payment">New payment</string>
+    <string name="terminal_sample_app">Terminal checkout app</string>
+    <string name="new_payment">Custom amount</string>
+    <string name="browse_products">Browse products</string>
 
     <string name="please_select_reader">Please select a reader first!</string>
 
@@ -44,4 +45,31 @@
     <string name="no_receipt">No receipt</string>
     <string name="send">Send</string>
     <string name="invalid_email">"Invalid email"</string>
+
+    <!-- Product catalog -->
+    <string name="products_title">Products</string>
+    <string name="no_products">No terminal products found</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="added_to_cart">%s added to cart</string>
+    <string name="view_cart">View cart</string>
+    <string name="cart_summary">%1$d items \u00B7 %2$s</string>
+
+    <!-- Cart -->
+    <string name="cart_title">Cart</string>
+    <string name="empty_cart">Your cart is empty</string>
+    <string name="total">Total</string>
+    <string name="clear">Clear</string>
+    <string name="remove">Remove</string>
+    <string name="minus">\u2212</string>
+    <string name="plus">+</string>
+
+    <!-- Checkout -->
+    <string name="processing_payment">Processing payment</string>
+    <string name="present_card">Please present your card</string>
+    <string name="payment_successful">Payment successful</string>
+    <string name="payment_approved">Payment has been approved</string>
+    <string name="payment_failed">Payment failed</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="try_again">Go back</string>
 </resources>
