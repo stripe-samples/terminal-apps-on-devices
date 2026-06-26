@@ -19,6 +19,7 @@ import com.stripe.aod.sampleapp.R
 import com.stripe.aod.sampleapp.listener.TerminalEventListener
 import com.stripe.aod.sampleapp.model.MainViewModel
 import com.stripe.stripeterminal.Terminal
+import com.stripe.stripeterminal.external.models.LocaleConfig
 import com.stripe.stripeterminal.external.models.TerminalException
 import com.stripe.stripeterminal.log.LogLevel
 
@@ -104,6 +105,8 @@ class MainActivity : AppCompatActivity() {
                 tokenProvider = viewModel.tokenProvider,
                 listener = TerminalEventListener,
                 offlineListener = null,
+                // Opt into translated errors back from the server.
+                localeConfig = LocaleConfig.CardLanguagePreferenceIfAvailable
             )
 
             viewModel.easyConnect()
