@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="app_padding_top">16dp</dimen>
+    <dimen name="settings_item_padding_vertical">18dp</dimen>
+    <dimen name="settings_item_padding_horizontal">16dp</dimen>
+    <dimen name="settings_item_text_size">20sp</dimen>
 </resources>

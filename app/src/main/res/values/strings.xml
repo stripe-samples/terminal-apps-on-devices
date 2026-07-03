@@ -30,9 +30,15 @@
     <string name="checkout">Checkout</string>
     <string name="amount_entered">Amount entered</string>
     <string name="settings">Settings</string>
+    <string name="settings_regulatory">Regulatory</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_advanced">Advanced Settings</string>
+    <string name="settings_network">Network</string>
     <string name="stripe">Stripe</string>
     <string name="back">Back</string>
 
+    <string name="error_settings_unavailable">stripe:// deeplinks are only available on Stripe readers</string>
     <string name="error_fail_to_send_email_receipt">Failed to send receipt email</string>
     <string name="error_fail_to_create_payment_intent">Failed to create PaymentIntent</string>
     <string name="error_fail_to_capture_payment_intent">Failed to capture PaymentIntent</string>

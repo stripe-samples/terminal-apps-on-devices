@@ -11,6 +11,10 @@
         <action
             android:id="@+id/action_homeFragment_to_inputFragment"
             app:destination="@id/inputFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/receiptFragment"
@@ -56,4 +60,8 @@
             android:name="paymentIntentID"
             app:argType="string"/>
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.stripe.aod.sampleapp.fragment.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>
