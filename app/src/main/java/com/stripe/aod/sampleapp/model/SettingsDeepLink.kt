@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 
 /**
  * See https://docs.stripe.com/terminal/features/apps-on-devices/build for the most up-to-date
+ * documentation about deeplinks.
  *
  */
 enum class AdminPinConfiguration {
@@ -46,18 +47,14 @@ enum class SettingsDeepLink(
         "stripe://settings/network/".toUri(),
         AdminPinConfiguration.ADMIN_PIN_ALWAYS_REQUIRED,
     ),
-
     REGULATORY(
         "stripe://settings/regulatory/".toUri(),
         AdminPinConfiguration.ADMIN_PIN_NEVER_REQUIRED,
     ),
-
-
     APPEARANCE(
         "stripe://settings/appearance/".toUri(),
         AdminPinConfiguration.ADMIN_PIN_CONFIGURABLE,
     ),
-
     LANGUAGE(
         "stripe://settings/language/".toUri(),
         AdminPinConfiguration.ADMIN_PIN_CONFIGURABLE,
