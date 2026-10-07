@@ -2,6 +2,8 @@
 
 This repository contains a sample app that demonstrates best practices for writing an [Apps on Devices](https://stripe.com/docs/terminal/features/apps-on-devices/overview) integration.
 
+The sample uses Stripe Terminal Android SDK 6.0.0 with `easyConnect` and KTX coroutine payment processing. The backend must create PaymentIntents with manual capture so the app can collect payment, update the receipt email, and capture through the backend.
+
 The app demonstrates the following
 - How to discover and connect the handoff reader
 - How to collect and confirm a payment
@@ -12,7 +14,7 @@ The app demonstrates the following
 ## Prerequisites
 Before proceeding with the integration, ensure you have the following
 - Stripe S700 DevKit smart reader
-- [Android Studio Flamingo](https://developer.android.com/studio/releases) or greater
+- [Android Studio](https://developer.android.com/studio/releases) with support for Android Gradle Plugin 8.13.2, Kotlin 2.3.21, and Android SDK 35
 
 ## Setup
 

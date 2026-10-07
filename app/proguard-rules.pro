@@ -1,4 +1,8 @@
 # Add project specific ProGuard rules here.
+# Gson reads backend response fields by name through reflection.
+-keep class com.stripe.aod.sampleapp.model.ConnectionToken { *; }
+-keep class com.stripe.aod.sampleapp.data.PaymentIntentCreationResponse { *; }
+
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.kts.
 #
