@@ -28,10 +28,9 @@ android {
 
     kotlin {
         jvmToolchain(JavaLanguageVersion.of(17).asInt())
-    }
-
-    kotlinOptions {
-        allWarningsAsErrors = true
+        compilerOptions {
+            allWarningsAsErrors.set(true)
+        }
     }
 
     buildFeatures {
